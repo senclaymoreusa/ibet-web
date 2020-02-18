@@ -679,7 +679,6 @@ export const messages = {
         'select-verification-method':
             'Please select a verification method (invalid verification methods are grayed out)',
             'safety-question':'Safety Question',
-            
     },
     zh: {
         'sports-label': '体育',
@@ -957,6 +956,7 @@ export const messages = {
         '24-hours': '24小时全年无休',
         'send-email': '发送邮件',
         'click-online-service': '点击在线客服',
+        'fill-username': '请填写您需要找回的帐号',
         'enter-code': '请输入验证码',
         'new-phone-number': '新手机号',
         'set-new-phone': '设置新手机号',
@@ -1504,6 +1504,7 @@ export const messages = {
         '24-hours': 'ตลอด 24 ชั่วโมง',
         'send-email': 'ส่งอีเมล',
         'click-online-service': 'คลิกเพื่อติดต่อเจ้าหน้าที่',
+        'fill-username': 'กรุณากรอกบัญชีไอดี',
         'enter-code': 'กรอกรหัส',
         'new-phone-number': 'เบอร์โทรใหม่',
         'set-new-phone': 'กรอกเบอร์โทรใหม่',
@@ -2031,6 +2032,7 @@ export const messages = {
         '24-hours': '24/24',
         'send-email': 'Gửi Email',
         'click-online-service': 'Kết nối chăm sóc khách hàng',
+        'fill-username': 'Vui lòng nhập ID tài khoản',
         'enter-code': 'Nhập mã xác minh',
         'new-phone-number': 'Số điện thoại mới',
         'set-new-phone': 'Thay đổi số điện thoại mới',

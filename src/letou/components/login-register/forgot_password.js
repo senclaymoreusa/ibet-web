@@ -15,6 +15,10 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import { Grid } from '@material-ui/core';
 import PermIdentity from '@material-ui/icons/PermIdentity';
+import CheckCircle from '@material-ui/icons/CheckCircle';
+import Email from '@material-ui/icons/Email';
+import PhoneIphone from '@material-ui/icons/PhoneIphone';
+
 import Clear from '@material-ui/icons/Clear';
 import clsx from 'clsx';
 
@@ -165,7 +169,7 @@ const styles = () => ({
         color: '#212121',
     },
     orange:{
-        color: '#F1941A',
+        fill: '#F1941A',
     },
     retrieveMethods: {
         display: 'flex',
@@ -234,7 +238,7 @@ export class ForgotPassword extends React.Component {
     }
 
     submitUsername() {
-        let apiURL = `users/api/retrievepasswordmethod?ref_no=${this.state.username}`;
+        let apiURL = `users/api/retrievepasswordmethod?username=${this.state.username}`;
 
         axios
             .get(API_URL + apiURL, config)
@@ -246,7 +250,6 @@ export class ForgotPassword extends React.Component {
                         emailVerified: res.data.email,
                         activeStep: 1
                     });
-
                 }
             })
             .catch(err => {
@@ -310,7 +313,7 @@ export class ForgotPassword extends React.Component {
             })
     }
 
-    usernameCahnged(event) {
+    usernameChanged(event) {
         if (event.target.value && this.state.password) {
             this.setState({ loginDisabled: false })
         } else {
@@ -385,6 +388,28 @@ export class ForgotPassword extends React.Component {
                 //axios.post(API_URL + 'system/api/logstreamtos3/', { "line": err, "source": "Ibetweb" }, config).then(() => { });
 
             });
+    }
+
+    handleRetrieveMethod(step) {
+        let apiURL = `users/api/confirmretrievemethod?username=${this.state.username}`;
+
+        axios
+            .get(API_URL + apiURL, config)
+            .then(res => {
+                if (res.status === 200) {
+                    console.log(res.data);
+                    this.setState({
+                        hasQuestion: res.data.question,
+                        phoneVerified: res.data.phone,
+                        emailVerified: res.data.email,
+                        activeStep: step
+                    });
+                }
+            })
+            .catch(err => {
+                sendingLog(err);
+            });
+        this.setState({activeStep: step});
     }
 
     getLabel(labelId) {
@@ -468,50 +493,197 @@ export class ForgotPassword extends React.Component {
                     </Grid>
                     <Grid item xs={12} className={classes.retrieveMethods}>
                         <Button className={classes.retrieveOption}
-                            onClick={this.handleClick}
+                            onClick={() => {this.handleRetrieveMethod(2)}}
                             disabled={!this.state.hasQuestion}
                         >
                             <div className={classes.column}>
-                                <img
+                                <CheckCircle className={clsx({
+                                        [classes.orange]: this.state.hasQuestion
+                                    })}/>
+                                {/* <img
                                     src={images.src + 'check_circle-24px.svg'}
                                     alt='letou'
                                     className={clsx({
                                         [classes.orange]: this.state.hasQuestion
                                     })}
-                                />
-                                <span className={classes.optionLabel}> {this.getLabel('safety-question')}</span>
+                                /> */}
+                                <span className={classes.optionLabel}> {this.getLabel('security-question')}</span>
                             </div>
                         </Button>
                         <Button className={classes.retrieveOption}
-                            onClick={this.handleClick}
+                            onClick={() => {this.handleRetrieveMethod(3)}}
                             disabled={!this.state.emailVerified}
                         >
                             <div className={classes.column}>
-                                <img
+                                <Email className={clsx({
+                                        [classes.orange]: this.state.emailVerified
+                                    })}/>
+                                {/* <img
                                     src={images.src + 'email-24px.svg'}
                                     alt='letou'
                                     className={clsx({
                                         [classes.orange]: this.state.emailVerified
                                     })}
-                                />
+                                /> */}
                                 <span className={classes.optionLabel}> {this.getLabel('email-label')}</span>
                             </div>
                         </Button>
                         <Button className={classes.retrieveOption}
-                            onClick={this.submitUsername}
+                            onClick={() => {this.handleRetrieveMethod(4)}}
                             disabled={!this.state.phoneVerified}
                         >
                             <div className={classes.column}>
-                                <img
+                                <PhoneIphone className={clsx({
+                                        [classes.orange]: this.state.phoneVerified
+                                    })}/>
+                                {/* <img
                                     src={images.src + 'phone_iphone-24px.svg'}
                                     alt='letou'
                                     className={clsx({
                                         [classes.orange]: this.state.phoneVerified
                                     })}
-                                />
+                                /> */}
                                 <span className={classes.optionLabel}> {this.getLabel('phone-label')}</span>
                             </div>
                         </Button>
+                    </Grid>
+                    <Grid item xs={12} style={{ paddingTop: 10 }}>
+                        <span className={classes.loginQuestionText}>{this.getLabel('login-question-text')}</span>
+                    </Grid>
+                </Grid>}
+                {activeStep == 2 && <Grid container>
+                    <Grid item xs={2} >
+                    </Grid>
+                    <Grid item xs={8} className={classes.titleRow}>
+                        <span className={classes.title}>
+                            {this.getLabel('security-question')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={2} className={classes.closeCell}>
+                        <IconButton className={classes.closeButton} onClick={() => {
+                            this.props.hide_letou_forgot_password()
+                        }}>
+                            <Clear />
+                        </IconButton>
+                    </Grid>
+                    <Grid item xs={12} className={classes.row} >
+                        <span className={classes.loginText}>
+                            {this.state.hasQuestion}
+                        </span>
+                    </Grid>
+                    <Grid item xs={12} style={{ paddingBottom: 20, paddingTop: 20 }}>
+                        <TextField
+                            className={classes.usernameText}
+                            placeholder={this.getLabel('Your answer')}
+                            onChange={(event) => {
+                                this.setState({ username: event.target.value });
+                            }}
+                            InputProps={{
+                                inputProps: { maxLength: 24 },
+                                disableUnderline: true,
+                                startAdornment: <InputAdornment position="start">
+                                    <PermIdentity />
+                                </InputAdornment>,
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} >
+                        <Button className={classes.loginButton}
+                            onClick={() => {}}
+                            disabled={username.length == 0}
+                        >{this.getLabel('retrieve-password')}</Button>
+                    </Grid>
+                    <Grid item xs={12} style={{ paddingTop: 10 }}>
+                        <span className={classes.loginQuestionText}>{this.getLabel('login-question-text')}</span>
+                    </Grid>
+                </Grid>}
+                {activeStep == 3 && <Grid container>
+                    <Grid item xs={2} >
+                    </Grid>
+                    <Grid item xs={8} className={classes.titleRow}>
+                        <span className={classes.title}>
+                            {this.getLabel('email-label')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={2} className={classes.closeCell}>
+                        <IconButton className={classes.closeButton} onClick={() => {
+                            this.props.hide_letou_forgot_password()
+                        }}>
+                            <Clear />
+                        </IconButton>
+                    </Grid>
+                    <Grid item xs={12} className={classes.row} >
+                        <span className={classes.loginText}>
+                            {this.state.emailVerified}
+                        </span>
+                    </Grid>
+                    <Grid item xs={12} style={{ paddingBottom: 20, paddingTop: 20 }}>
+                        <TextField
+                            className={classes.usernameText}
+                            placeholder={this.getLabel('Your answer')}
+                            onChange={(event) => {
+                                this.setState({ username: event.target.value });
+                            }}
+                            InputProps={{
+                                inputProps: { maxLength: 24 },
+                                disableUnderline: true,
+                                startAdornment: <InputAdornment position="start">
+                                    <PermIdentity />
+                                </InputAdornment>,
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} >
+                        <Button className={classes.loginButton}
+                            onClick={() => {}}
+                            disabled={username.length == 0}
+                        >{this.getLabel('retrieve-password')}</Button>
+                    </Grid>
+                    <Grid item xs={12} style={{ paddingTop: 10 }}>
+                        <span className={classes.loginQuestionText}>{this.getLabel('login-question-text')}</span>
+                    </Grid>
+                </Grid>}
+                {activeStep == 4 && <Grid container>
+                    <Grid item xs={2} >
+                    </Grid>
+                    <Grid item xs={8} className={classes.titleRow}>
+                        <span className={classes.title}>
+                            {this.getLabel('phone-number')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={2} className={classes.closeCell}>
+                        <IconButton className={classes.closeButton} onClick={() => {
+                            this.props.hide_letou_forgot_password()
+                        }}>
+                            <Clear />
+                        </IconButton>
+                    </Grid>
+                    <Grid item xs={12} className={classes.row} >
+                        <span className={classes.loginText}>
+                            {this.state.phoneVerified}
+                        </span>
+                    </Grid>
+                    <Grid item xs={12} style={{ paddingBottom: 20, paddingTop: 20 }}>
+                        <TextField
+                            className={classes.usernameText}
+                            placeholder={this.getLabel('Your answer')}
+                            onChange={(event) => {
+                                this.setState({ username: event.target.value });
+                            }}
+                            InputProps={{
+                                inputProps: { maxLength: 24 },
+                                disableUnderline: true,
+                                startAdornment: <InputAdornment position="start">
+                                    <PermIdentity />
+                                </InputAdornment>,
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} >
+                        <Button className={classes.loginButton}
+                            onClick={() => {}}
+                            disabled={username.length == 0}
+                        >{this.getLabel('retrieve-password')}</Button>
                     </Grid>
                     <Grid item xs={12} style={{ paddingTop: 10 }}>
                         <span className={classes.loginQuestionText}>{this.getLabel('login-question-text')}</span>
