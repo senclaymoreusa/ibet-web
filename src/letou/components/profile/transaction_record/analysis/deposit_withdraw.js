@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState } from '../../../../../actions';
+import { authCheckState, sendingLog } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -14,6 +14,13 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import moment from 'moment';
+import getSymbolFromCurrency from 'currency-symbol-map';
+import { config } from '../../../../../util_config';
+import axios from 'axios';
+import queryString from 'query-string';
+
+const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -30,14 +37,6 @@ const StyledTableCell = withStyles(theme => ({
         paddingTop: 8
     }
 }))(TableCell);
-
-const StyledTableRow = withStyles(theme => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.background.default
-        }
-    }
-}))(TableRow);
 
 const styles = theme => ({
     root: {
@@ -80,8 +79,11 @@ const styles = theme => ({
         }
     },
     paper: {
+        backgroundColor: '#fff',
         overflowX: 'scroll',
-        width: '100%'
+        width: '100%',
+        paddingLeft: 10,
+        paddingRight: 10
     },
     link: {
         cursor: 'pointer',
@@ -100,6 +102,7 @@ const styles = theme => ({
         lineHeight: 'normal',
         color: '#bebebe'
     },
+
     label: {
         fontSize: 14,
         fontWeight: 'normal',
@@ -107,25 +110,43 @@ const styles = theme => ({
         fontStretch: 'normal',
         lineHeight: 'normal',
         color: '#212121'
+    },
+    typeLabel: {
+        fontSize: 14,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        lineHeight: 'normal',
+        color: '#0091ff'
+    },
+    tableRow: {
+        cursor: 'pointer'
     }
 });
 
 export class DepositWithdraw extends Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.state = {
-            paperWidth: 0
+            paperWidth: 0,
+            items: []
         };
     }
 
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+        this._isMounted = true;
+
+        this.getTransactions();
     }
 
     componentWillUnmount() {
+        this._isMounted = false;
         window.removeEventListener('resize', this.updateWindowDimensions);
     }
 
@@ -138,9 +159,59 @@ export class DepositWithdraw extends Component {
         return formatMessage({ id: labelId });
     }
 
+    getTransactions() {
+        if (!this._isMounted) return;
+
+        const { user } = this.props;
+        const token = localStorage.getItem('token');
+        config.headers['Authorization'] = `Token ${token}`;
+
+        let requestURL = `accounting/api/transactions/get_transactions?user_id=${user.userId}`;
+
+        let startStr = `&time_from=${moment()
+            .startOf('month')
+            .format('l')}`;
+        let endStr = `&time_to=${moment()
+            .endOf('month')
+            .format('l')}`;
+
+        const values = queryString.parse(this.props.location.search);
+
+        if (values.date) {
+            startStr = `&time_from=${moment(values.date, 'MM-YYYY')
+                .startOf('month')
+                .format('l')}`;
+            endStr = `&time_to=${moment(values.date, 'MM-YYYY')
+                .endOf('month')
+                .format('l')}`;
+        }
+
+        axios
+            .get(API_URL + requestURL + startStr + endStr)
+            .then(res => {
+                if (res.status === 200) {
+                    this.setState({
+                        items: res.data.results.filter(
+                            item =>
+                                item.transaction_type.toLowerCase() ===
+                                    'withdrawal' ||
+                                item.transaction_type.toLowerCase() ===
+                                    'deposit'
+                        )
+                    });
+                } else {
+                    this.setState({ items: [] });
+                }
+            })
+            .catch(err => {
+                this.setState({ items: [] });
+                sendingLog(err);
+            });
+    }
+
     render() {
-        const { classes } = this.props;
-        const { paperWidth } = this.state;
+        const { classes, user } = this.props;
+        const { paperWidth, items } = this.state;
 
         return (
             <div className={classes.root}>
@@ -153,7 +224,9 @@ export class DepositWithdraw extends Component {
                         <Button
                             className={classes.prevButton}
                             onClick={() => {
-                                this.props.callbackFromParent('main');
+                                this.props.history.push(
+                                    `/p/transaction-records/analysis/`
+                                );
                             }}
                         >
                             <img src={images.src + 'letou/close.svg'} alt="" />
@@ -207,40 +280,61 @@ export class DepositWithdraw extends Component {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <StyledTableRow
-                                        key={Math.random()}
-                                        onClick={() => {
-                                            this.props.callbackFromParent(
-                                                'deposit-withdraw-detail'
-                                            );
-                                        }}
-                                    >
-                                        <StyledTableCell>
-                                            <span className={classes.label}>
-                                                15 Jul
-                                            </span>
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            <span className={classes.label}>
-                                                15:00
-                                            </span>
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            <span className={classes.label}>
-                                                Deposit
-                                            </span>
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            <span className={classes.label}>
-                                                ¥200
-                                            </span>
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            <span className={classes.label}>
-                                                ¥1,425
-                                            </span>
-                                        </StyledTableCell>
-                                    </StyledTableRow>
+                                    {items.map(row => (
+                                        <TableRow
+                                            key={row.transaction_id}
+                                            onClick={() => {
+                                                this.props.history.push(
+                                                    `/p/transaction-records/analysis/transaction-detail?id=${row.transaction_id}`
+                                                );
+                                            }}
+                                            className={classes.tableRow}
+                                        >
+                                            <StyledTableCell>
+                                                <span className={classes.label}>
+                                                    {moment(
+                                                        row.request_time
+                                                    ).format('DD MMM')}
+                                                </span>
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <span className={classes.label}>
+                                                    {moment(
+                                                        row.request_time
+                                                    ).format('HH:mm')}
+                                                </span>
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <span
+                                                    className={
+                                                        classes.typeLabel
+                                                    }
+                                                >
+                                                    {row.transaction_type}
+                                                </span>
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <span className={classes.label}>
+                                                    {getSymbolFromCurrency(
+                                                        user.currency
+                                                    )}
+                                                    {Number(row.amount).toFixed(
+                                                        2
+                                                    )}
+                                                </span>
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <span className={classes.label}>
+                                                    {getSymbolFromCurrency(
+                                                        user.currency
+                                                    )}
+                                                    {Number(
+                                                        row.balance
+                                                    ).toFixed(2)}
+                                                </span>
+                                            </StyledTableCell>
+                                        </TableRow>
+                                    ))}
                                 </TableBody>
                             </Table>
                         </Paper>
@@ -252,15 +346,18 @@ export class DepositWithdraw extends Component {
 }
 
 const mapStateToProps = state => {
+    const { token, user } = state.auth;
     return {
-        lang: state.language.lang
+        isAuthenticated: token !== null && token !== undefined,
+        user: user
     };
 };
-
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(mapStateToProps, { authCheckState })(DepositWithdraw)
+            connect(mapStateToProps, { authCheckState, sendingLog })(
+                DepositWithdraw
+            )
         )
     )
 );

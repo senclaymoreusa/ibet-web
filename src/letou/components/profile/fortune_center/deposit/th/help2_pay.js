@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
-import { config, images } from '../../../../../../util_config';
+import { images } from '../../../../../../util_config';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
@@ -10,7 +10,8 @@ import Grid from '@material-ui/core/Grid';
 import {
     authCheckState,
     sendingLog,
-    AUTH_RESULT_FAIL
+    AUTH_RESULT_FAIL,
+    authUserUpdate
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -103,10 +104,15 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 30
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430
+        width: '100%',
+        maxWidth: 430
     },
     contentRow: {
         paddingLeft: 263,
@@ -449,46 +455,22 @@ class Help2pay extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/');
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
-                    this.setState({
-                        currency: getSymbolFromCurrency(res.data.currency)
-                    });
-                    this.setState({ currencyCode: res.data.currency });
-                    this.setState({
-                        isFavorite:
-                            res.data.favorite_payment_method === 'help2pay'
-                    });
-                });
-            }
-        });
-    }
-
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
             } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
+                if (this.props.user) {
                     this.setState({
-                        currency: getSymbolFromCurrency(res.data.currency)
-                    });
-                    this.setState({ currencyCode: res.data.currency });
-                    this.setState({
+                        currency: getSymbolFromCurrency(
+                            this.props.user.currency
+                        ),
+                        currencyCode: this.props.user.currency,
                         isFavorite:
-                            res.data.favorite_payment_method === 'help2pay'
+                            this.props.user.favoriteDepositMethod ===
+                            'help2pay'
                     });
-                });
+                }
             }
         });
     }
@@ -528,12 +510,12 @@ class Help2pay extends Component {
 
         var postData = {
             amount: this.state.amount,
-            user_id: this.state.data.pk,
+            user_id: this.props.user.userId,
             currency: '2',
             bank: this.state.selectedBankOption,
             language: 'en-Us'
         };
-        //console.log(orderid)
+        
         var formBody = [];
         for (var pd in postData) {
             var encodedKey = encodeURIComponent(pd);
@@ -553,7 +535,7 @@ class Help2pay extends Component {
             },
             body: formBody
         })
-            .then(function(res) {
+            .then(function (res) {
                 if (res.ok) {
                     return res.text();
                 }
@@ -563,10 +545,13 @@ class Help2pay extends Component {
                     '渠道维护中'
                 );
 
-                //alert("渠道维护中");
                 throw new Error('Something went wrong.');
             })
-            .catch(function(err) {
+            .then(function (data) {
+                let newwin = window.open('');
+                newwin.document.write(data);
+            })
+            .catch(function (err) {
                 console.log('Request failed', err);
                 currentComponent.props.callbackFromParent('error', err.message);
                 sendingLog(err);
@@ -581,14 +566,14 @@ class Help2pay extends Component {
     setAsFavourite(event) {
         axios
             .post(API_URL + `users/api/favorite-payment-setting/`, {
-                user_id: this.state.data.pk,
+                user_id: this.props.user.userId,
                 payment: event.target.checked ? 'help2pay' : null
             })
-            .then(res => {
+            .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 sendingLog(err);
             });
     }
@@ -606,7 +591,6 @@ class Help2pay extends Component {
         const { classes } = this.props;
         const { selectedBankOption, isFavorite, amount, currency } = this.state;
 
-        // const filteredOptions = bank_options.filter((o) => o.code === this.state.currencyCode.toUpperCase())
         const filteredOptions = bank_options.filter(o => o.code === 2);
         return (
             <div className={classes.root}>
@@ -653,7 +637,7 @@ class Help2pay extends Component {
                             }
                             helperText={
                                 this.state.amountInvalid &&
-                                this.state.amountFocused
+                                    this.state.amountFocused
                                     ? this.getLabel('valid-amount')
                                     : ' '
                             }
@@ -717,13 +701,19 @@ class Help2pay extends Component {
 }
 
 const mapStateToProps = state => {
+    const { user } = state.auth;
+
     return {
-        language: state.language.lang
+        user: user
     };
 };
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(Help2pay))
+        injectIntl(
+            connect(mapStateToProps, { authCheckState, authUserUpdate })(
+                Help2pay
+            )
+        )
     )
 );

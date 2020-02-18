@@ -27,8 +27,6 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import axios from 'axios';
-import { config } from '../../../../util_config';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {
     MuiPickersUtilsProvider,
@@ -53,7 +51,6 @@ const styles = theme => ({
     rootMobile: {
         minHeight: '100vh',
         display: 'flex',
-        backgroundColor: '#f2f3f5',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'

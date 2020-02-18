@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import axios from 'axios';
@@ -17,7 +18,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {
     authCheckState,
     sendingLog,
-    AUTH_RESULT_FAIL
+    AUTH_RESULT_FAIL,
+    authUserUpdate
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -31,16 +33,20 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 30
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430
+        width: '100%',
+        maxWidth: 430
     },
     contentRow: {
         paddingTop: 50,
         paddingBottom: 50
     },
-
     buttonCell: {
         display: 'flex',
         flexDirection: 'column',
@@ -201,11 +207,17 @@ const styles = theme => ({
     }
 });
 
-const bank_options = [
+const vn_bank_options = [
     {
         value: 'ACB',
         label: 'Asia Commercial Bank',
         img: 'letou/acb.png',
+        code: 'VND'
+    },
+    {
+        value: 'AGB',
+        label: 'Agribank',
+        img: 'letou/Agribank-logo-big.png',
         code: 'VND'
     },
     {
@@ -228,9 +240,21 @@ const bank_options = [
         code: 'VND'
     },
     {
+        value: 'SCMB',
+        label: 'SAIGON Bank',
+        img: 'letou/saigonbank.png',
+        code: 'VND'
+    },
+    {
         value: 'TCB',
         label: 'Techcom Bank',
         img: 'letou/techcombank.png',
+        code: 'VND'
+    },
+    {
+        value: 'VIB',
+        label: 'Vietnam International Bank',
+        img: 'letou/VIB-Logo.png',
         code: 'VND'
     },
     {
@@ -339,46 +363,21 @@ class VietnamLocalBank extends Component {
         };
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/');
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
-                    this.setState({
-                        currency: getSymbolFromCurrency(res.data.currency)
-                    });
-                    this.setState({
-                        isFavorite:
-                            res.data.favorite_payment_method ===
-                            'vietnamlocalbank'
-                    });
-                });
-            }
-        });
-    }
-
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
             } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
+                if (this.props.user) {
                     this.setState({
-                        currency: getSymbolFromCurrency(res.data.currency)
-                    });
-                    this.setState({
+                        currency: getSymbolFromCurrency(
+                            this.props.user.currency
+                        ),
                         isFavorite:
-                            res.data.favorite_payment_method ===
-                            'vietnamlocalbank'
+                            this.props.user.favoriteDepositMethod ===
+                            'vnlocalbank'
                     });
-                });
+                }
             }
         });
     }
@@ -416,7 +415,6 @@ class VietnamLocalBank extends Component {
     }
 
     handleClick() {
-        // let currentComponent = this;
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -425,7 +423,7 @@ class VietnamLocalBank extends Component {
             this.props.history.push('/');
         }
         config.headers['Authorization'] = `Token ${token}`;
-        let userid = this.state.data.pk;
+        let userid = this.props.user.userId;
         var postData = {
             amount: this.state.amount,
             userid: userid,
@@ -442,7 +440,7 @@ class VietnamLocalBank extends Component {
                 postData,
                 config
             )
-            .then((res, err) => {
+            .then(res => {
                 console.log(res);
             });
     }
@@ -455,12 +453,12 @@ class VietnamLocalBank extends Component {
     setAsFavorite(event) {
         axios
             .post(API_URL + `users/api/favorite-payment-setting/`, {
-                user_id: this.state.data.pk,
-                payment: event.target.checked ? 'vietnamlocalbank' : null
+                user_id: this.props.user.userId,
+                payment: event.target.checked ? 'vnlocalbank' : null
             })
             .then(() => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
             })
             .catch(function(err) {
                 sendingLog(err);
@@ -571,7 +569,7 @@ class VietnamLocalBank extends Component {
                             <MenuItem key="none" value="none" disabled>
                                 <span>{this.getLabel('choose-bank')}</span>
                             </MenuItem>
-                            {bank_options.map(bank => (
+                            {vn_bank_options.map(bank => (
                                 <MenuItem key={bank.label} value={bank.value}>
                                     <div style={{ width: 100 }}>
                                         <img
@@ -669,15 +667,19 @@ class VietnamLocalBank extends Component {
 }
 
 const mapStateToProps = state => {
+    const { user } = state.auth;
+
     return {
-        language: state.language.lang
+        user: user
     };
 };
 
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(mapStateToProps, { authCheckState })(VietnamLocalBank)
+            connect(mapStateToProps, { authCheckState, authUserUpdate })(
+                VietnamLocalBank
+            )
         )
     )
 );

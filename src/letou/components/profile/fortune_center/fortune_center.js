@@ -45,7 +45,6 @@ const styles = theme => ({
         width: '100%',
         minHeight: '100vh',
         display: 'flex',
-        backgroundColor: '#f2f3f5',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'
@@ -202,9 +201,11 @@ export class FortuneCenter extends Component {
                 axios
                     .get(API_URL + 'users/api/user/', config)
                     .then(res => {
-                        this.setState({ username: res.data.username });
-                        this.setState({ mainWallet: res.data.main_wallet });
-                        this.setState({ currency: res.data.currency });
+                        this.setState({
+                            username: res.data.username,
+                            mainWallet: res.data.main_wallet,
+                            currency: res.data.currency
+                        });
                     })
                     .catch(function (err) {
                         sendingLog(err);
@@ -212,7 +213,7 @@ export class FortuneCenter extends Component {
             }
         })
 
-        
+
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -245,7 +246,7 @@ export class FortuneCenter extends Component {
             }
         })
 
-        
+
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -293,7 +294,7 @@ export class FortuneCenter extends Component {
     getMobileContent() {
         const { subProp } = this.props;
         const { classes } = this.props;
-        
+
         switch (subProp) {
             case 'deposit':
                 return <DepositMain />;

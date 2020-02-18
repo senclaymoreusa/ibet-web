@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import Footer from './footer';
 import TopNavbar from './top_navbar';
+import { injectIntl } from 'react-intl';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   authCheckState,
@@ -10,11 +12,14 @@ import {
 } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import { Slide } from 'react-slideshow-image';
-import { images, config } from '../../util_config';
+import { images } from '../../util_config';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+//import axios from 'axios';
 
 document.body.style = 'background: #f1f1f1;';
+
+//const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
   root: {
@@ -120,22 +125,49 @@ export class Home extends Component {
   componentWillReceiveProps(props) {
     window.addEventListener("resize", this.handleResize);
   }
+  componentWillMount(){
+    // var bbData = window.IGLOO.getBlackbox();
+    
+    // if (bbData.finished) {
+    //   // clearTimeout(timeoutId);
+    //   var blackBoxString = bbData.blackbox;
+    //   axios
+    //       .get(
+    //           API_URL + 'users/api/login-device-info?bb=' + blackBoxString
+    //       ).then(
+    //         res => {
+    //           //console.log(res.data);
+    //           const ip = res.data.details.realIp.address;
+    //           const countryCode = res.data.details.realIp.ipLocation.countryCode;
+              
+    //           localStorage.setItem('ip', ip);
+    //           localStorage.setItem('countryCode', countryCode);
+    //           if(countryCode === ('US' || 'CN' || 'TH' || 'VN')){
 
+    //           }
+    //           // var user_ip = localStorage.getItem('ip');
+    //           // console.log(user_ip);
+
+    //         }
+    //       );
+    // }
+  }
   componentDidMount() {
     this.setState({ width: window.innerWidth });
 
     window.addEventListener("resize", this.handleResize);
+
   }
 
   render() {
     const { classes } = this.props;
-    const { width } = this.state;
 
     const bannerImages = [
       images.src + 'letou/banner1.jpg',
       images.src + 'letou/banner2.jpg',
       images.src + 'letou/banner3.jpg',
-      images.src + 'letou/banner4.jpg'
+      images.src + 'letou/banner4.jpg',
+      images.src + 'letou/banner5.jpg',
     ];
 
     const bannerProperties = {
@@ -367,9 +399,13 @@ const mapStateToProps = state => {
 };
 
 export default withStyles(styles)(
-  connect(mapStateToProps, {
-    authCheckState,
-    handle_referid,
-    hide_landing_page
-  })(Home)
+  injectIntl(
+    withRouter(
+      connect(mapStateToProps, {
+        authCheckState,
+        handle_referid,
+        hide_landing_page
+      })(Home)
+    )
+  )
 );

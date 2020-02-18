@@ -313,7 +313,7 @@ export class MobileRegister extends Component {
         this.setState({
             password: event.target.value,
             passwordInvalid: !(
-                testedResult.score == 3 || testedResult.score == 4
+                testedResult.score === 3 || testedResult.score === 4
             ),
             confirmPasswordInvalid:
                 this.state.confirmPassword !== event.target.value
@@ -330,7 +330,7 @@ export class MobileRegister extends Component {
     emailChanged(event) {
         this.setState({ email: event.target.value });
 
-        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!event.target.value.match(re)) {
             this.setState({ emailInvalid: true });
         } else {
@@ -487,6 +487,9 @@ export class MobileRegister extends Component {
                                         : ' '
                                 }
                                 InputProps={{
+                                    inputProps: {
+                                        maxLength: 16
+                                    },
                                     disableUnderline: true,
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -695,7 +698,6 @@ export class MobileRegister extends Component {
                                     ))}
                                 </Select>
                             </FormControl>
-
                             <TextField
                                 value={this.state.phone}
                                 className={classes.phoneField}
@@ -717,6 +719,9 @@ export class MobileRegister extends Component {
                                         : ' '
                                 }
                                 InputProps={{
+                                    inputProps: {
+                                        maxLength: 11
+                                    },
                                     disableUnderline: true,
                                     startAdornment: (
                                         <InputAdornment position="start">

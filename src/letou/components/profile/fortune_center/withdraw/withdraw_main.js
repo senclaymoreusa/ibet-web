@@ -1,20 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    authCheckState,
-    AUTH_RESULT_FAIL,
-    sendingLog
+    authCheckState
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
-import { images } from '../../../../../util_config';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import clsx from 'clsx';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
-import { config } from '../../../../../util_config';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
@@ -25,11 +19,12 @@ import WithdrawError from './withdraw_error';
 import VietnamLocalBank from './vn/local_bank';
 import ThaiLocalBank from './th/local_bank';
 import Help2Pay from './th/help2pay';
-import SetWithdrawalPassword from '../../account_management/set_withdrawal_password';
 import MoneyPay from './vn/money_pay';
+import ChinaLocalBank from './zh/local_bank';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
+
 
 const styles = theme => ({
     root: {
@@ -216,7 +211,7 @@ export class WithdrawMain extends Component {
 
     componentDidMount() {
         const { user, operationProp } = this.props;
-        console.log('operationProp: ' + operationProp);
+
         if (!operationProp) {
             switch (user.country.toLowerCase()) {
                 case 'thailand':
@@ -229,6 +224,46 @@ export class WithdrawMain extends Component {
                         '/p/fortune-center/withdraw/vnlocalbank'
                     );
                     break;
+                case 'china':
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/zhlocalbank'
+                    );
+                    break;
+                default:
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/zhlocalbank'
+                    );
+                    break;
+
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        const { user, operationProp } = this.props;
+
+        if (!operationProp) {
+            switch (user.country.toLowerCase()) {
+                case 'thailand':
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/thlocalbank'
+                    );
+                    break;
+                case 'vietnam':
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/vnlocalbank'
+                    );
+                    break;
+                case 'china':
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/zhlocalbank'
+                    );
+                    break;
+                default:
+                    this.props.history.push(
+                        '/p/fortune-center/withdraw/zhlocalbank'
+                    );
+                    break;
             }
         }
     }
@@ -237,7 +272,6 @@ export class WithdrawMain extends Component {
         if (msg) this.setState({ withdrawMessage: msg });
 
         this.setState({ contentValue: page });
-        // this.setState({ tabValue: page });
     };
 
     withdrawWith(paymentMethod) {
@@ -252,14 +286,18 @@ export class WithdrawMain extends Component {
     getAvailablePaymentMethods() {
         const { classes, user, operationProp } = this.props;
         const { width } = this.props;
-        console.log('width: ' + width);
-        switch (user.country.toLowerCase()) {
+
+        var country = "";
+        if (user && user.country) {
+            country = user.country;
+        }
+        switch (country.toLowerCase()) {
             case 'china':
                 return <div></div>;
             case 'thailand':
                 return (
                     <StyledTabs
-                        variant={width == 'xs' ? 'fullWidth' : 'standard'}
+                        variant={width === 'xs' ? 'fullWidth' : 'standard'}
                         className={classes.mainTab}
                         value={operationProp ? operationProp : 'none'}
                     >
@@ -367,10 +405,12 @@ export class WithdrawMain extends Component {
             return <VietnamLocalBank callbackFromParent={this.setPage} />;
         else if (operationProp === 'moneypay')
             return <MoneyPay callbackFromParent={this.setPage} />;
+        else if (operationProp === 'zhlocalbank')
+            return <ChinaLocalBank callbackFromParent={this.setPage} />;
     }
 
     render() {
-        const { classes, user } = this.props;
+        const { classes } = this.props;
 
         return (
             <div className={classes.root}>
@@ -408,14 +448,16 @@ export class WithdrawMain extends Component {
                         </Toolbar>
                     </AppBar>
                 </div>
-                {user.hasWithdrawPassword
+                {this.getAvailablePaymentMethods()}
+                {this.getPaymentMethodContent()}
+                {/* {user && user.hasWithdrawPassword
                     ? this.getAvailablePaymentMethods()
                     : null}
-                {user.hasWithdrawPassword ? (
+                {user && user.hasWithdrawPassword ? (
                     this.getPaymentMethodContent()
                 ) : (
-                    <SetWithdrawalPassword />
-                )}
+                        <SetWithdrawalPassword />
+                    )} */}
             </div>
         );
     }

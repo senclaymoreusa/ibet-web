@@ -46,7 +46,8 @@ const store = createStore(
 store.subscribe(
     throttle(() => {
         saveState({
-            auth: store.getState().auth
+            auth: store.getState().auth,
+            general: store.getState().general
         });
     }, 1000)
 );
@@ -55,11 +56,11 @@ if (
     window.location
         .toString()
         .toLowerCase()
-        .indexOf('asia') != -1 ||
+        .indexOf('asia') !== -1 ||
     window.location
         .toString()
         .toLowerCase()
-        .indexOf('localhost') != -1
+        .indexOf('localhost') !== -1
 ) {
     ReactDOM.render(
         <Provider store={store}>

@@ -12,7 +12,8 @@ import InputMask from 'react-input-mask';
 import {
     authCheckState,
     AUTH_RESULT_FAIL,
-    sendingLog
+    sendingLog,
+    authUserUpdate
 } from '../../../../../../actions';
 import NumberFormat from 'react-number-format';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -30,11 +31,15 @@ const styles = theme => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            padding: 30
+            paddingTop: 20,
+            [theme.breakpoints.down('md')]: {
+                paddingLeft: 15,
+                paddingRight: 15
+            }
         },
         contentGrid: {
-            width: 430,
-            minWidth: 430
+            width: '100%',
+            maxWidth: 430
         },
         cardTypeCell: {
             borderTop: '1px solid #d8d8d8',
@@ -276,7 +281,7 @@ NumberFormatCustom.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-class Astropay_CH extends Component {
+class AstropayCH extends Component {
     constructor(props) {
         super(props);
 
@@ -304,44 +309,21 @@ class Astropay_CH extends Component {
         };
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/');
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
-                    this.setState({
-                        currency: getSymbolFromCurrency(res.data.currency)
-                    });
-                    this.setState({
-                        isFavorite:
-                            res.data.favorite_payment_method === 'astropay_ch'
-                    });
-                });
-            }
-        });
-    }
-
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
             } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({ data: res.data });
+                if (this.props.user) {
                     this.setState({
-                        currency: getSymbolFromCurrency(res.data.currency)
-                    });
-                    this.setState({
+                        currency: getSymbolFromCurrency(
+                            this.props.user.currency
+                        ),
                         isFavorite:
-                            res.data.favorite_payment_method === 'astropay_ch'
+                            this.props.user.favoriteDepositMethod ===
+                            'astropay_ch'
                     });
-                });
+                }
             }
         });
     }
@@ -426,14 +408,10 @@ class Astropay_CH extends Component {
         const token = localStorage.getItem('token');
 
         if (!token) {
-            console.log('no token -- user is not logged in');
-            alert('Please log in');
             this.props.history.push('/');
         }
         config.headers['Authorization'] = `Token ${token}`;
 
-        // console.log('amount: ' + this.state.amount);
-        // console.log(this.state.data);
         let postData = {
             card_num: this.state.number.replace(/\s+/g, ''),
             card_code: this.state.cvv,
@@ -447,8 +425,7 @@ class Astropay_CH extends Component {
             postData,
             config
         );
-        console.log('result of deposit: ');
-        console.log(res);
+        
         if (res.data.response_msg.slice(0, 5) === '1|1|1') {
             const body = JSON.stringify({
                 type: 'add',
@@ -466,10 +443,11 @@ class Astropay_CH extends Component {
                             'Cannot withdraw this amount'
                         );
                     } else {
+                        currentComponent.props.authUserUpdate();    
                         currentComponent.props.callbackFromParent('success');
                     }
                 })
-                .catch(function(err) {
+                .catch(function (err) {
                     currentComponent.props.callbackFromParent(
                         'error',
                         'Something is wrong.'
@@ -493,14 +471,14 @@ class Astropay_CH extends Component {
     setAsFavourite(event) {
         axios
             .post(API_URL + `users/api/favorite-payment-setting/`, {
-                user_id: this.state.data.pk,
+                user_id: this.props.user.userId,
                 payment: event.target.checked ? 'astropay_ch' : null
             })
             .then(res => {
+                this.props.authUserUpdate();
                 this.setState({ isFavorite: !this.state.isFavorite });
-                this.props.checkFavoriteMethod();
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 sendingLog(err);
             });
     }
@@ -539,7 +517,7 @@ class Astropay_CH extends Component {
                                     }
                                     helperText={
                                         this.state.numberInvalid &&
-                                        this.state.numberFocused
+                                            this.state.numberFocused
                                             ? this.getLabel('16-digit-number')
                                             : ' '
                                     }
@@ -569,7 +547,7 @@ class Astropay_CH extends Component {
                                     }
                                     helperText={
                                         this.state.expireDateInvalid &&
-                                        this.state.expireDateFocused
+                                            this.state.expireDateFocused
                                             ? this.getLabel('date-invalid')
                                             : ' '
                                     }
@@ -599,7 +577,7 @@ class Astropay_CH extends Component {
                                     }
                                     helperText={
                                         this.state.cvvInvalid &&
-                                        this.state.cvvFocused
+                                            this.state.cvvFocused
                                             ? this.getLabel('cvv-invalid')
                                             : ' '
                                     }
@@ -622,7 +600,7 @@ class Astropay_CH extends Component {
                             }
                             helperText={
                                 this.state.amountInvalid &&
-                                this.state.amountFocused
+                                    this.state.amountFocused
                                     ? this.getLabel('valid-amount')
                                     : ' '
                             }
@@ -673,8 +651,6 @@ class Astropay_CH extends Component {
                         </Button>
                     </Grid>
                     <Grid item xs={12} className={classes.buttonCell}>
-                        {/*<Button variant="contained" className={classes.cancelButton}
-                         */}
                         <Button
                             className={classes.actionButton}
                             onClick={this.cancelClicked.bind(this)}
@@ -689,13 +665,15 @@ class Astropay_CH extends Component {
 }
 
 const mapStateToProps = state => {
+    const { user } = state.auth;
+
     return {
-        language: state.language.lang
+        user: user
     };
 };
 
 export default withStyles(styles)(
     withRouter(
-        injectIntl(connect(mapStateToProps, { authCheckState })(Astropay_CH))
+        injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate })(AstropayCH))
     )
 );

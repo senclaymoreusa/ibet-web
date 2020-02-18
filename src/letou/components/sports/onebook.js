@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 import { config} from '../../../util_config';
 import axios from 'axios';
 import Iframe from 'react-iframe'
-
+import { isMobile, isTablet} from 'react-device-detect';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
 
@@ -21,13 +21,22 @@ document.body.style = 'background: #f1f1f1;';
 
 const styles = theme => ({
   root: {
+    width: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-    
-    alignItems: 'center',
-    backgroundColor: theme.palette.background.paper,
-
+    flexDirection: 'column'
+  },
+  rootDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+        display: 'flex',
+        flexDirection: 'column'
+    }
+  },
+  rootMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+        display: 'none'
+    }
   },
   grow: {
     flexGrow: 1,
@@ -99,7 +108,8 @@ const styles = theme => ({
   },
   PgHallBtnLeft:{
     float: "left",
-  }
+  },
+  
 
 
 });
@@ -151,9 +161,16 @@ handleOnebookClick() {
     let currentComponent = this;
     let token = localStorage.getItem('token');
     if(!token){
-        Game_URL = 'https://mkt.claymoreasia.com/NewIndex?lang=' + language;
-        //console.log(Game_URL)
-        currentComponent.setState({url : Game_URL});
+        if(isMobile || isTablet){
+          Game_URL = 'https://ismart.claymoreasia.com/DepositLogin/bfindex?lang=' + language + '&homeUrl=https://ibet-web-apdev.claymoreasia.com&signupUrl=https://ibet-web-apdev.claymoreasia.com/register&LoginUrl=https://ibet-web-apdev.claymoreasia.com';
+          window.open(Game_URL,"_self")
+        }else{
+          Game_URL = 'https://mkt.claymoreasia.com/NewIndex?lang=' + language;
+          currentComponent.setState({url : Game_URL});
+        }
+        
+        
+        
         // window.open(url, "onebook_url");
     }else{
         
@@ -183,10 +200,18 @@ handleOnebookClick() {
                 return res.json();
             }).then(function(data){
                 //console.log(data);
-                Game_URL = data.login_url;
-                console.log(Game_URL)
+                if(isMobile || isTablet){
+                  
+                  Game_URL = data.mobile_login;
+                  window.open(Game_URL,"_self")
+                }else{
+                  Game_URL = data.login_url;
+                  currentComponent.setState({url : Game_URL});
+                }
+                
+                // console.log(Game_URL)
                 // window.open(url, "onebook_url")
-                currentComponent.setState({url : Game_URL});
+                
             });
         });
     }   
@@ -198,21 +223,31 @@ handleOnebookClick() {
 
     return (
       <div className={classes.root}>
-        <TopNavbar />
         
-        <Iframe url={this.state.url}
-            width='100%'
-            height="1500px"
-            id="myId"
-            className="myClassname"
-            display="initial"
-            position="relative"
-            scrolling="auto"
-            loading='auto' />
+        <div className={classes.grow} >
+          <div className={classes.rootDesktop}>
+            <TopNavbar />
+            <Iframe url={this.state.url}
+                width='100%'
+                height="1500px"
+                id="myId"
+                className="myClassname"
+                display="initial"
+                position="relative"
+                scrolling="auto"
+                loading='auto' />
 
+            <Footer />
+          </div>
+          {/* <div className={classes.rootMobile}>
+              {window.open(this.state.url,"_self")}
+
+          </div> */}
+        </div>
+       
         
-        
-        <Footer />
+
+       
       </div>
       
     );

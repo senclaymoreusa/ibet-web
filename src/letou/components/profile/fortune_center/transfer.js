@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { config, images } from '../../../../util_config';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog, AUTH_RESULT_FAIL } from '../../../../actions';
+import { authCheckState, sendingLog, AUTH_RESULT_FAIL, authUserUpdate, setWalletColors } from '../../../../actions';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -35,7 +35,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TransferSuccess from './transfer_success';
-
 import getSymbolFromCurrency from 'currency-symbol-map';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
@@ -56,7 +55,6 @@ const styles = theme => ({
     rootMobile: {
         minHeight: '100vh',
         display: 'flex',
-        backgroundColor: '#f2f3f5',
         flexDirection: 'column',
         [theme.breakpoints.up('md')]: {
             display: 'none'
@@ -358,7 +356,7 @@ const variantIcon = {
 
 function LetouWallet(props) {
     const classes = walletStyles();
-    const { className, wallet, currency, isMain, onClick, closeClick, ...other } = props;
+    const { className, wallet, currency, colorObj, isMain, onClick, closeClick, ...other } = props;
 
     return (
         <Paper onClick={onClick}
@@ -374,7 +372,7 @@ function LetouWallet(props) {
                 </Typography>
                 <Typography className={classes.name}>
 
-                    {wallet.isMain == 'true' ?
+                    {wallet.isMain === 'true' ?
                         <FormattedMessage id="main-wallet" defaultMessage="Main Wallet" />
                         :
                         wallet.code}
@@ -387,7 +385,7 @@ function LetouWallet(props) {
             <div className={classes.grow} />
             <div style={{
                 height: 6,
-                backgroundColor: wallet.color,
+                backgroundColor: colorObj ? colorObj.color : '#d9d9d9',
                 borderBottomLeftRadius: 3,
                 borderBottomRightRadius: 3
             }}>
@@ -401,7 +399,8 @@ LetouWallet.propTypes = {
     onClick: PropTypes.func,
     closeClick: PropTypes.func,
     wallet: PropTypes.object,
-    currency: PropTypes.string
+    currency: PropTypes.string,
+    colorObj: PropTypes.object
 };
 
 const snackStyles = makeStyles(theme => ({
@@ -501,8 +500,10 @@ class Transfer extends Component {
                     const { user } = this.props;
 
                     if (this._isMounted) {
-                        this.setState({ loading: true });
-                        this.setState({ currency: getSymbolFromCurrency(user.currency) });
+                        this.setState({
+                            loading: true,
+                            currency: getSymbolFromCurrency(user.currency)
+                        });
                         this.getWalletsByUsername(user.userId);
                     }
                 }
@@ -514,48 +515,42 @@ class Transfer extends Component {
     }
 
     getWalletsByUsername(userId) {
-        var randomColor = require('randomcolor');
-
-        let currentComponent = this;
-
         axios.get(API_URL + 'users/api/get-each-wallet-amount/?user_id=' + userId, config)
             .then(res => {
                 if (res.status === 200) {
-                    this.setState({ walletObjs: res.data });
+                   let total = res.data.reduce((totalBalance, wallet) => totalBalance + parseFloat(wallet.amount), 0);
 
-                    let total = res.data.reduce((totalBalance, wallet) => totalBalance + parseFloat(wallet.amount), 0);
+                    this.setState({
+                        walletObjs: res.data,
+                        totalBalance: total
+                    });
 
-                    this.setState({ totalBalance: total });
+                    if (this.props.walletColors.length == 0)
+                        this.props.setWalletColors(res.data);
 
-                    this.setState(prevState => ({
-                        walletObjs: prevState.walletObjs.map(
-                            obj => (parseFloat(obj.amount) !== 0.00
-                                ?
-                                Object.assign(obj, { color: randomColor({ luminosity: 'bright', hue: 'random' }) })
-                                :
-                                Object.assign(obj, { color: '#d9d9d9' }))
-                        )
-                    }));
                 }
-                currentComponent.setState({ loading: false });
+                this.setState({ loading: false });
             }).catch(function (err) {
-                currentComponent.setState({ loading: false });
+                this.setState({ loading: false });
                 sendingLog(err);
             });
     }
 
     sendClicked() {
         if (parseInt(this.state.from.amount) < parseInt(this.state.amount)) {
-            this.setState({ snackType: 'error' });
-            this.setState({ snackMessage: this.getLabel('balance-not-enough') });
-            this.setState({ showSnackbar: true });
+            this.setState({
+                snackType: 'error',
+                snackMessage: this.getLabel('balance-not-enough'),
+                showSnackbar: true
+            });
             return;
         }
 
         this.setState({ loading: true });
 
         const { user } = this.props;
-        
+        let currentComponent = this;
+
         axios.post(API_URL + 'users/api/transfer/',
             {
                 'user_id': user.userId,
@@ -565,37 +560,37 @@ class Transfer extends Component {
             }, config)
             .then(res => {
                 if (res.data.status_code === 1) {
-                    // this.setState({ snackType: 'success' });
-                    // this.setState({ snackMessage: this.getLabel('transfer-successful') });
-                    // this.setState({ showSnackbar: true });
-
                     this.setState({ activeContent: 1 });
                 } else if (res.data.status_code === 107) {
-                    this.setState({ snackType: 'error' });
-                    this.setState({ snackMessage: res.data.error_message });
-                    this.setState({ showSnackbar: true });
+                    this.setState({
+                        snackType: 'error',
+                        snackMessage: res.data.error_message,
+                        showSnackbar: true
+                    });
                 }
 
                 this.getWalletsByUsername(this.props.user.userId);
 
                 this.setState({ loading: false });
+                currentComponent.props.authUserUpdate();
             }).catch(err => {
                 sendingLog(err);
-                this.setState({ loading: false });
-                this.setState({ snackType: 'error' });
-                this.setState({ snackMessage: err.message });
-                this.setState({ showSnackbar: true });
+                this.setState({
+                    loading: false,
+                    snackType: 'error',
+                    snackMessage: err.message,
+                    showSnackbar: true
+                });
             })
     }
 
     sendAllToMainWallet() {
-        this.setState({ from: null });
-        this.setState({ to: null });
+        this.setState({ from: null, to: null });
 
         let currentComponent = this;
 
-        let mainWalletObj = this.state.walletObjs.filter(item => item.isMain == true)[0];
-        let walletsWithAmount = this.state.walletObjs.filter(item => item.isMain == false && parseFloat(item.amount) > 10.00);
+        let mainWalletObj = this.state.walletObjs.filter(item => item.isMain === true)[0];
+        let walletsWithAmount = this.state.walletObjs.filter(item => item.isMain === false && parseFloat(item.amount) > 10.00);
 
         walletsWithAmount.forEach(wallet => {
 
@@ -612,10 +607,11 @@ class Transfer extends Component {
                             currentComponent.getWalletsByUsername(currentComponent.props.user.userId);
                         }
                     } else if (res.data.status_code === 107) {
-                        this.setState({ snackType: 'error' });
-                        this.setState({ snackMessage: res.data.error_message });
-                        this.setState({ showSnackbar: true });
-                        return true;
+                        this.setState({
+                            snackType: 'error',
+                            snackMessage: res.data.error_message,
+                            showSnackbar: true
+                        });
                     }
                 }).catch(err => {
                     sendingLog(err);
@@ -633,10 +629,12 @@ class Transfer extends Component {
 
             if (re.test(event.target.value)) {
                 if (this.state.from !== null && this.state.from.value < event.target.value) {
-                    this.setState({ snackType: 'error' });
-                    this.setState({ snackMessage: this.getLabel('invalid-transfer-value') });
-                    this.setState({ showSnackbar: true });
-                    this.setState({ amountInvalid: true });
+                    this.setState({
+                        snackType: 'error',
+                        snackMessage: this.getLabel('invalid-transfer-value'),
+                        showSnackbar: true,
+                        amountInvalid: true
+                    });
                 } else {
                     this.setState({ amount: event.target.value, amountInvalid: false });
                 }
@@ -661,19 +659,23 @@ class Transfer extends Component {
         let wallet = this.state.walletObjs.filter(item => item.code === id)[0];
 
         if (this.state.from === null && this.state.to === null) {
-            if (wallet.amount == 0) {
-                this.setState({ snackType: 'warning' });
-                this.setState({ snackMessage: this.getLabel('empty-wallet-message') });
-                this.setState({ showSnackbar: true });
+            if (wallet.amount === 0) {
+                this.setState({
+                    snackType: 'warning',
+                    snackMessage: this.getLabel('empty-wallet-message'),
+                    showSnackbar: true
+                });
                 return;
             }
 
             this.setState({ from: wallet });
         } else if (this.state.from === null && this.state.to.code !== wallet.code) {
-            if (wallet.amount == 0) {
-                this.setState({ snackType: 'warning' });
-                this.setState({ snackMessage: this.getLabel('empty-wallet-message') });
-                this.setState({ showSnackbar: true });
+            if (wallet.amount === 0) {
+                this.setState({
+                    snackType: 'warning',
+                    snackMessage: this.getLabel('empty-wallet-message'),
+                    showSnackbar: true
+                });
                 return;
             }
 
@@ -691,7 +693,7 @@ class Transfer extends Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, walletColors } = this.props;
         const { from, to, amount, walletObjs, currency, showConfirmationDialog, loading, totalBalance, activeContent } = this.state;
         let mainWallet = null;
         let fromWallet = null;
@@ -699,13 +701,20 @@ class Transfer extends Component {
         let otherWalletObjs = [];
 
         if (activeContent === 0) {
-            let mainWalletObj = walletObjs.filter(item => item.isMain == true)[0];
+            let mainWalletObj = walletObjs.filter(item => item.isMain === true)[0];
 
-            otherWalletObjs = walletObjs.filter(item => item.isMain == false);
+            otherWalletObjs = walletObjs.filter(item => item.isMain === false);
 
-             mainWallet = (
+            mainWallet = (
                 mainWalletObj ?
-                    <LetouWallet wallet={mainWalletObj} currency={currency} onClick={() => { this.handleWalletClick(mainWalletObj.code) }} />
+                    <LetouWallet wallet={mainWalletObj}
+                        colorObj={walletColors.filter(wc => {
+                            return (
+                                wc.code ===
+                                mainWalletObj.code
+                            );
+                        })[0]}
+                        currency={currency} onClick={() => { this.handleWalletClick(mainWalletObj.code) }} />
                     :
                     null
             );
@@ -735,8 +744,8 @@ class Transfer extends Component {
                         : { pointerEvents: 'all' }
                 }>
                     {activeContent === 1
-                        ? < TransferSuccess 
-                         from={from.code} to={to.code} amount={currency+''+amount} 
+                        ? < TransferSuccess
+                            from={from.code} to={to.code} amount={currency + '' + amount}
                         />
                         : <Grid container>
                             <Grid item xs={12} className={classes.titleRow}>
@@ -755,11 +764,7 @@ class Transfer extends Component {
                                         {mainWallet}
                                     </Grid>
                                     <Grid item xs={12} style={{ borderTop: '1px solid #979797', paddingTop: 5 }}>
-                                        <Button className={classes.allButton}
-                                        // onClick={() => {
-                                        //     this.setState({ showConfirmationDialog: true });
-                                        // }}
-                                        >
+                                        <Button className={classes.allButton}>
                                             {this.getLabel('transfer-to-main')}
                                         </Button>
                                     </Grid>
@@ -767,7 +772,15 @@ class Transfer extends Component {
                                         <Grid container spacing={2}>
                                             {otherWalletObjs.map(walletObj => (
                                                 <Grid item xs={4} key={walletObj.code}>
-                                                    <LetouWallet wallet={walletObj} currency={currency}
+                                                    <LetouWallet
+                                                        wallet={walletObj}
+                                                        currency={currency}
+                                                        colorObj={walletColors.filter(wc => {
+                                                            return (
+                                                                wc.code ===
+                                                                walletObj.code
+                                                            );
+                                                        })[0]}
                                                         onClick={() => { this.handleWalletClick(walletObj.code) }} />
                                                 </Grid>
                                             ))}
@@ -1023,11 +1036,13 @@ class Transfer extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { token, user } = state.auth;
+    const { user } = state.auth;
+    const { walletColors } = state.general;
+
     return {
-        isAuthenticated: token !== null && token !== undefined,
-        user: user
+        user: user,
+        walletColors: walletColors
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(Transfer))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, authUserUpdate, setWalletColors })(Transfer))));
