@@ -9,6 +9,7 @@ import {
     sendingLog
 } from '../../../actions';
 import { config } from '../../../util_config';
+import getSymbolFromCurrency from 'currency-symbol-map';
 
 import { injectIntl, FormattedNumber } from 'react-intl';
 import { withRouter } from 'react-router-dom';
@@ -129,17 +130,13 @@ const styles = theme => ({
 });
 
 export class MobileMainProfile extends Component {
-    _isMounted = false;
-
     constructor(props) {
         super(props);
 
         this.state = {
             urlPath: '',
             tabValue: '',
-            content: '',
-            mainWallet: 0,
-            currency: 'CNY'
+            content: ''
         };
 
         this.handleTabChange = this.handleTabChange.bind(this);
@@ -163,35 +160,11 @@ export class MobileMainProfile extends Component {
     }
 
     componentDidMount() {
-        this._isMounted = true;
-
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-
-                axios
-                    .get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        if (this._isMounted) {
-                            this.setState({ username: res.data.username });
-                            this.setState({ mainWallet: res.data.main_wallet });
-                            this.setState({ currency: res.data.currency });
-                        }
-                    })
-                    .catch(function (err) {
-                        sendingLog(err);
-                    });
             }
         });
-        
-    }
-
-
-    componentWillUnmount() {
-        this._isMounted = false;
     }
 
     getLabel(labelId) {
@@ -200,7 +173,7 @@ export class MobileMainProfile extends Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, user } = this.props;
 
         return (
             <div className={classes.root}>
@@ -236,21 +209,19 @@ export class MobileMainProfile extends Component {
                     >
                         <div className={classes.masterAccount}>
                             <span>
-                                {this.getLabel('master-account')} {' | '}
+                                {this.getLabel('master-account')} {' | '} { getSymbolFromCurrency(user.currency) }{Number(user.mainWallet).toFixed(2)}
                             </span>
-                            <FormattedNumber
-                                maximumFractionDigits={2}
-                                value={this.state.mainWallet}
-                                style={`currency`}
-                                currency={this.state.currency}
-                            />
                         </div>
                     </Grid>
                     <Grid item xs={4} style={{ textAlign: 'center' }}>
-                        <Button className={classes.mobileTabTitleButton}
-                        onClick={() => {
-                            this.props.history.push('/p/fortune-center/deposit');
-                       }}>
+                        <Button
+                            className={classes.mobileTabTitleButton}
+                            onClick={() => {
+                                this.props.history.push(
+                                    '/p/fortune-center/deposit'
+                                );
+                            }}
+                        >
                             <div className={classes.column}>
                                 <img
                                     src={images.src + 'letou/deposit-icon.png'}
@@ -262,10 +233,14 @@ export class MobileMainProfile extends Component {
                         </Button>
                     </Grid>
                     <Grid item xs={4} style={{ textAlign: 'center' }}>
-                        <Button className={classes.mobileTabTitleButton}
-                        onClick={() => {
-                            this.props.history.push('/p/fortune-center/withdraw');
-                       }}>
+                        <Button
+                            className={classes.mobileTabTitleButton}
+                            onClick={() => {
+                                this.props.history.push(
+                                    '/p/fortune-center/withdraw'
+                                );
+                            }}
+                        >
                             <div className={classes.column}>
                                 <img
                                     src={
@@ -279,10 +254,14 @@ export class MobileMainProfile extends Component {
                         </Button>
                     </Grid>
                     <Grid item xs={4} style={{ textAlign: 'center' }}>
-                        <Button className={classes.mobileTabTitleButton}
-                        onClick={() => {
-                             this.props.history.push('/p/fortune-center/transfer');
-                        }}>
+                        <Button
+                            className={classes.mobileTabTitleButton}
+                            onClick={() => {
+                                this.props.history.push(
+                                    '/p/fortune-center/transfer'
+                                );
+                            }}
+                        >
                             <div className={classes.column}>
                                 <img
                                     src={
@@ -462,8 +441,7 @@ export class MobileMainProfile extends Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        // this.props.history.push('/');
-                                        // this.props.hide_letou_mobile_menu();
+                                        this.props.history.push('/p/setup');
                                     }}
                                 >
                                     <ListItemAvatar>
@@ -490,8 +468,11 @@ export class MobileMainProfile extends Component {
 
 const mapStateToProps = state => {
     const { token } = state.auth;
+    const { user } = state.auth;
+
     return {
         isAuthenticated: token !== null && token !== undefined,
+        user: user,
         error: state.auth.error,
         lang: state.language.lang
     };

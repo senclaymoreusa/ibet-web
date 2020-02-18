@@ -563,6 +563,7 @@ export const messages = {
         'customer-service': 'Customer Service',
         'help-center': 'Help Center',
         'set-up': 'Set Up',
+        'language-label':'Language',
         'master-account': 'Master Account',
         'manage-bank-cards': 'Manage Bank Cards',
         'compelete-dentity-info': 'Complete Identity Information',

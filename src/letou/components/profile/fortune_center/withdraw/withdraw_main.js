@@ -337,7 +337,9 @@ export class WithdrawMain extends Component {
                 );
             case 'vietnam':
                 return (
-                    <StyledTabs value={operationProp ? operationProp : 'none'}>
+                    <StyledTabs 
+                    variant={width === 'xs' ? 'fullWidth' : 'standard'}
+                     value={operationProp ? operationProp : 'none'}>
                         <StyledTab
                             style={{
                                 width: 0,

@@ -96,10 +96,15 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 30
+        paddingTop: 20,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 15,
+            paddingRight: 15
+        }
     },
     contentGrid: {
-        width: 430
+        width: '100%',
+        maxWidth: 430
     },
     contentRow: {
         paddingLeft: 263,
@@ -461,7 +466,6 @@ class MoneyPay extends Component {
             activeStep: 0,
             currency: 'VND',
             currencyCode: 'VND',
-            isFavorite: false
         };
     }
 
@@ -469,19 +473,6 @@ class MoneyPay extends Component {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
-                    this.setState({
-                        data: res.data,
-                        // currency: getSymbolFromCurrency(res.data.currency),
-                        // currencyCode: res.data.currency,
-                        isFavorite:
-                            res.data.favorite_payment_method ===
-                            'vietnamhelp2pay'
-                    });
-                });
             }
         });
     }
