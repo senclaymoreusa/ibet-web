@@ -392,9 +392,6 @@ class MomoPay extends Component {
         event.preventDefault();
 
         let currentComponent = this;
-
-        const { data: userData } = this.state;
-        const { amount } = this.state;
         const token = localStorage.getItem('token');
 
         if (!token) {

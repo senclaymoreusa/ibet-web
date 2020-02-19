@@ -545,11 +545,12 @@ class TopNavbar extends React.Component {
                     <AppBar position="static" className={classes.firstRow}>
                         <Toolbar className={classes.firstBar}>
                             {LangDropdown}
+                           
                             <Button
                                 size="small"
                                 className={classes.topLinkButton}
                                 target="_blank"
-                                href={'/' + this.props.lang + '/about_us'}
+                                href= {this.props.lang === 'en' ? '/zh/about_us' : '/' + this.props.lang + '/about_us'}
                             >
                                 {this.getLabel('about-letou')}
                             </Button>

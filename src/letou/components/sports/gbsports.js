@@ -3,7 +3,7 @@ import Footer from "./../footer";
 import TopNavbar from "./../top_navbar";
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { authCheckState, handle_referid, hide_landing_page } from '../../../actions';
+import { authCheckState, handle_referid, hide_landing_page,authUserUpdate } from '../../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import '../../css/banner.css';
 import { withRouter } from 'react-router-dom';
@@ -11,6 +11,7 @@ import { config} from '../../../util_config';
 import axios from 'axios';
 import Iframe from 'react-iframe';
 import { isMobile, isTablet} from 'react-device-detect';
+// import ReactDOM from 'react-dom';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -109,6 +110,22 @@ const styles = theme => ({
   },
   PgHallBtnLeft:{
     float: "left",
+  },
+  iframeContainer:{
+    position:"relative",
+    float:"left"
+  },
+  iframeOverlay:{
+    top:0,
+    left:0,
+    width:"100%",
+    height:"100%",
+    position:"absolute",
+    zIndex: 2,
+  },
+  iframe:{
+    zIndex: 1000,
+
   }
 
 
@@ -117,9 +134,9 @@ const styles = theme => ({
 export class gbsports extends React.Component {
   constructor(props) {
     super(props);
-
+    //this.iframeRef = React.createRef();
     this.state = {
-    //   url : ""
+      
 
     };
 
@@ -127,13 +144,43 @@ export class gbsports extends React.Component {
   }
   componentDidMount() {
     this.game_url("GB Sports");
+    
+    //window.addEventListener('blur', this.handleIframeClick);
+    
+      var iframe = document.getElementById('gb-iframe')
+      
+      
+      console.log(iframe);
+      var innerDoc = (iframe.contentDocument)?iframe.contentDocument:iframe.contentWindow.document;
+      console.log(innerDoc.body);
+      var innerButton = innerDoc.getElementById('a_betsContinueBet');
+      console.log(innerButton);
+      var innerButton1 = innerDoc.getElementById('a_betslipContent_bet');
+      console.log(innerButton1);
+
 }
+
   componentDidUpdate(prevProps){
-    if (this.props.lang !== prevProps.lang && this.props.lang) {
+    if ((this.props.lang !== prevProps.lang && this.props.lang) || this.props.user !== prevProps.user) {
       this.game_url("GB Sports");
+      //this.nv.addEventListener('nv-enter', this.handleIframeClick);
+    }
+    
+  }
+
+  componentWillUnmount() {
+    //window.removeEventListener('blur', this.handleIframeClick);
+  }
+
+  handleIframeClick(){
+    //console.log('auth');
+    alert("iframe");
+    if(document.activeElement === document.getElementById('gb-iframe')) {
+      console.log("auth");
+
+      this.props.authUserUpdate();
     }
   }
-  
   game_url(gamename){
     var URL = "";
     var token = localStorage.getItem('token')  
@@ -196,7 +243,11 @@ export class gbsports extends React.Component {
         })
     }
 }
-  
+hideIframe(){
+  this.setState({loading: false});
+}
+
+
 
   render() {
 
@@ -208,15 +259,24 @@ export class gbsports extends React.Component {
         <div className={classes.grow} >
           <div className={classes.rootDesktop}>
             <TopNavbar />
-            <Iframe url={this.state.url}
-              width='100%'
-              height="1500px"
-              id="myId"
-              className="myClassname"
-              display="initial"
-              position="relative"
-              scrolling="auto"
-              loading='auto' />
+            <div className={classes.iframeContainer} >
+              <Iframe url={this.state.url}
+                width='100%'
+                height="1500px"
+                id="gb-iframe"
+                className={classes.iframe}
+                display="initial"
+                position="relative"
+                scrolling="auto"
+                loading='auto'
+                
+              />
+               <div className={classes.iframeOverlay} onClick={this.handleIframeClick}>
+
+               </div>
+            </div>
+            
+            
             <Footer />
           </div>
           {/* <div className={classes.rootMobile}>
@@ -248,4 +308,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page })(gbsports))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page, authUserUpdate })(gbsports))));
