@@ -514,25 +514,28 @@ class Transfer extends Component {
     }
 
     getWalletsByUsername(userId) {
+        let currentComponent = this;
+
         axios.get(API_URL + 'users/api/get-each-wallet-amount/?user_id=' + userId, config)
-            .then(res => {
-                if (res.status === 200) {
-                   let total = res.data.reduce((totalBalance, wallet) => totalBalance + parseFloat(wallet.amount), 0);
-
-                    this.setState({
-                        walletObjs: res.data,
-                        totalBalance: total
-                    });
-
-                    if (this.props.walletColors.length === 0)
-                        this.props.setWalletColors(res.data);
-
-                }
-                this.setState({ loading: false });
-            }).catch(function (err) {
-                this.setState({ loading: false });
-                sendingLog(err);
-            });
+             .then(res => {
+                 if (res.status === 200) {
+                     let total = res.data.reduce((totalBalance, wallet) => totalBalance + parseFloat(wallet.amount), 0);
+  
+                     this._isMounted  && this.setState({
+                          walletObjs: res.data,
+                          totalBalance: total
+                      });
+  
+                      if (this.props.walletColors.length === 0)
+                          this.props.setWalletColors(res.data);
+  
+                  }
+ 
+                  this._isMounted  && this.setState({ loading: false });
+             }).catch(function (err) {
+                 currentComponent._isMounted  && currentComponent.setState({ loading: false });
+                 sendingLog(err);
+             });
     }
 
     sendClicked() {

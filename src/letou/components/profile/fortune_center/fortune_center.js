@@ -191,10 +191,10 @@ export class FortuneCenter extends Component {
     }
 
     componentDidMount() {
-        const { activeContent } = this.props;
+        // const { activeContent } = this.props;
 
-        if (activeContent)
-            this.setState({ contentValue: activeContent });
+        // if (activeContent)
+        //     this.setState({ contentValue: activeContent });
 
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -215,8 +215,6 @@ export class FortuneCenter extends Component {
                     });
             }
         })
-
-
 
         this.setState({ urlPath: this.props.history.location.pathname });
 
@@ -239,7 +237,6 @@ export class FortuneCenter extends Component {
             this.setState({ desktopTabValue: 'total-assets' })
         }
     }
-
 
     setContent = (page, msg) => {
         this.setState({ desktopContent: page });
@@ -265,6 +262,7 @@ export class FortuneCenter extends Component {
         const { subProp } = this.props;
         const { classes } = this.props;
 
+        console.log(subProp)
         switch (subProp) {
             case 'deposit':
                 return <DepositMain />;

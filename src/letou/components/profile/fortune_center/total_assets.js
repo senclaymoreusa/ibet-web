@@ -384,6 +384,8 @@ export class TotalAssets extends Component {
     }
 
     async getWalletsByUsername(userId) {
+        let currentComponent = this;
+
        axios.get(API_URL + 'users/api/get-each-wallet-amount/?user_id=' + userId, config)
             .then(res => {
                 if (res.status === 200) {
@@ -401,7 +403,7 @@ export class TotalAssets extends Component {
 
                  this._isMounted  && this.setState({ loading: false });
             }).catch(function (err) {
-                this._isMounted  && this.setState({ loading: false });
+                currentComponent._isMounted  && currentComponent.setState({ loading: false });
                 sendingLog(err);
             });
     }
