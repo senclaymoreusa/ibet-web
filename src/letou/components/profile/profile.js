@@ -288,7 +288,6 @@ export class Profile extends Component {
         super(props);
         this.rateRef = React.createRef();
         this.state = {
-            desktopTabValue: 'none',
             desktopContent: '',
             mobileContent: '',
             anchorEl: null,
@@ -330,9 +329,6 @@ export class Profile extends Component {
             let path = parts[2];
             this.setState({ mobileContent: parts[parts.length - 1] });
 
-            if (path.length > 0) {
-                this.setState({ desktopTabValue: parts[2] });
-            }
         }
     }
 
