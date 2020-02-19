@@ -413,9 +413,9 @@ class CirclePay extends Component {
         const { user: userData } = this.props;
         const { amount } = this.state;
         const token = localStorage.getItem('token');
-        console.log('STATE');
-        console.log(this.state);
-        console.log(this.props.user);
+        // console.log('STATE');
+        // console.log(this.state);
+        // console.log(this.props.user);
         // return;
         if (!token) {
             console.log('no token -- user is not logged in');

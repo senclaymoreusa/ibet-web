@@ -10,7 +10,9 @@ import Grid from '@material-ui/core/Grid';
 import {
     authCheckState,
     sendingLog,
-    AUTH_RESULT_FAIL
+    AUTH_RESULT_FAIL,
+    logout,
+    authUserUpdate
 } from '../../../../../../actions';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -436,44 +438,18 @@ class VietnamHelp2pay extends Component {
         };
     }
 
-    // componentWillReceiveProps(props) {
-    //     this.props.authCheckState().then(res => {
-    //         if (res === AUTH_RESULT_FAIL) {
-    //             this.props.history.push('/');
-    //         } else {
-    //             const token = localStorage.getItem('token');
-    //             config.headers['Authorization'] = `Token ${token}`;
-    //             axios.get(API_URL + 'users/api/user/', config).then(res => {
-    //                 this.setState({
-    //                     data: res.data,
-    //                     currency: getSymbolFromCurrency(res.data.currency),
-    //                     currencyCode: res.data.currency,
-    //                     isFavorite:
-    //                         res.data.favorite_payment_method ===
-    //                         'vietnamhelp2pay'
-    //                 });
-    //             });
-    //         }
-    //     });
-    // }
-
     componentDidMount() {
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
                 this.props.history.push('/');
             } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-                axios.get(API_URL + 'users/api/user/', config).then(res => {
+                if (this.props.user) {
                     this.setState({
-                        data: res.data,
-                        currency: getSymbolFromCurrency(res.data.currency),
-                        currencyCode: res.data.currency,
                         isFavorite:
-                            res.data.favorite_payment_method ===
+                            this.props.user.favoriteDepositMethod ===
                             'vietnamhelp2pay'
                     });
-                });
+                }
             }
         });
     }
@@ -697,7 +673,10 @@ class VietnamHelp2pay extends Component {
 }
 
 const mapStateToProps = state => {
+    const { user } = state.auth;
+
     return {
+        user: user,
         language: state.language.lang
     };
 };
@@ -705,7 +684,11 @@ const mapStateToProps = state => {
 export default withStyles(styles)(
     withRouter(
         injectIntl(
-            connect(mapStateToProps, { authCheckState })(VietnamHelp2pay)
+            connect(mapStateToProps, {
+                authCheckState,
+                logout,
+                authUserUpdate
+            })(VietnamHelp2pay)
         )
     )
 );
