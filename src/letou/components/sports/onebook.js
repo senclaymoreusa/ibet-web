@@ -162,10 +162,10 @@ handleOnebookClick() {
     let token = localStorage.getItem('token');
     if(!token){
         if(isMobile || isTablet){
-          Game_URL = 'https://ismart.claymoreasia.com/DepositLogin/bfindex?lang=' + language + '&homeUrl=https://ibet-web-apdev.claymoreasia.com&signupUrl=https://ibet-web-apdev.claymoreasia.com/register&LoginUrl=https://ibet-web-apdev.claymoreasia.com';
+          Game_URL = 'https://ismart.claymoreasia.com/DepositLogin/bfindex?skincolor=bl001&lang=' + language + '&homeUrl=https://ibet-web-apdev.claymoreasia.com&signupUrl=https://ibet-web-apdev.claymoreasia.com/register&LoginUrl=https://ibet-web-apdev.claymoreasia.com';
           window.open(Game_URL,"_self")
         }else{
-          Game_URL = 'https://mkt.claymoreasia.com/NewIndex?lang=' + language;
+          Game_URL = 'https://mkt.claymoreasia.com/NewIndex?skincolor=bl001&lang=' + language;
           currentComponent.setState({url : Game_URL});
         }
         

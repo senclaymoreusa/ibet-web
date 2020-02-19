@@ -394,7 +394,7 @@ export class TotalAssets extends Component {
                          totalBalance: total
                      });
  
-                     if (this.props.walletColors.length == 0)
+                     if (this.props.walletColors.length === 0)
                          this.props.setWalletColors(res.data);
  
                  }

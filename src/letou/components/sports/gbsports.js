@@ -117,7 +117,7 @@ const styles = theme => ({
 export class gbsports extends React.Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
     //   url : ""
 
@@ -127,11 +127,21 @@ export class gbsports extends React.Component {
   }
   componentDidMount() {
     this.game_url("GB Sports");
+    window.addEventListener('load', (event) => {
+      var iframe = document.getElementById('gb-iframe')
+      console.log(iframe);
+      var innerDoc = (iframe.contentDocument)?iframe.contentDocument:iframe.contentWindow.document;
+      console.log(innerDoc.body);
+      var innerButton = innerDoc.getElementById('sec_betslipContent_bet');
+      console.log(innerButton);
+     }
+    );
 }
   componentDidUpdate(prevProps){
     if (this.props.lang !== prevProps.lang && this.props.lang) {
       this.game_url("GB Sports");
     }
+    
   }
   
   game_url(gamename){
@@ -196,7 +206,9 @@ export class gbsports extends React.Component {
         })
     }
 }
-  
+
+
+
 
   render() {
 
@@ -211,12 +223,14 @@ export class gbsports extends React.Component {
             <Iframe url={this.state.url}
               width='100%'
               height="1500px"
-              id="myId"
+              id="gb-iframe"
               className="myClassname"
               display="initial"
               position="relative"
               scrolling="auto"
-              loading='auto' />
+              loading='auto' 
+             
+            />
             <Footer />
           </div>
           {/* <div className={classes.rootMobile}>

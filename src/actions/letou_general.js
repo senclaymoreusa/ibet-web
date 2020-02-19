@@ -107,6 +107,7 @@ export const setWalletColors = wallets => {
                       code: wallet.code,
                       color: '#d9d9d9'
                   });
+            return null;
         });
 
         dispatch(saveWalletColors(colors));
