@@ -46,7 +46,8 @@ const store = createStore(
 store.subscribe(
     throttle(() => {
         saveState({
-            auth: store.getState().auth
+            auth: store.getState().auth,
+            general: store.getState().general
         });
     }, 1000)
 );

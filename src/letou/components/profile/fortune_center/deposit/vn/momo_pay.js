@@ -392,9 +392,6 @@ class MomoPay extends Component {
         event.preventDefault();
 
         let currentComponent = this;
-
-        const { data: userData } = this.state;
-        const { amount } = this.state;
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -480,7 +477,7 @@ class MomoPay extends Component {
                     </Grid> */}
                     <Grid item xs={12} className={classes.infoRow}>
                         <span className={classes.info}>
-                            {this.getLabel('momo-pay')}
+                            {this.getLabel('momopay')}
                         </span>
                         <span className={classes.fee}>
                             {this.getLabel('momo-fee')}

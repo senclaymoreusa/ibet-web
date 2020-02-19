@@ -268,7 +268,6 @@ export class Login extends React.Component {
                             sendingLog(err);
                         });
                 });
-            // Your code to handle blackBoxString
         }
     }
 

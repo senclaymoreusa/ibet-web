@@ -283,9 +283,9 @@ class QuickPay extends Component {
         let currentComponent = this;
 
         currentComponent.setState({ showLinearProgressBar: true });
-        let userid = currentComponent.state.data.pk;
+        let userid = this.props.user.userId;
         let amount = currentComponent.state.amount;
-        let user = currentComponent.state.data.pk;
+        let user = this.props.user.userId;
         
         let postData = {
             amount: amount,
