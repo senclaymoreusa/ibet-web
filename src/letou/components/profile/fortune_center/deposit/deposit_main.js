@@ -307,6 +307,7 @@ export class DepositMain extends Component {
     };
 
     depositWith(paymentMethod) {
+        this.setState({contentValue:''});
         this.props.history.push('/p/fortune-center/deposit/' + paymentMethod)
     }
 
