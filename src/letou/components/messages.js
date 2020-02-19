@@ -676,12 +676,16 @@ export const messages = {
             'The current game account balance is less than 10, please transfer money to ensure smooth game play.',
         'transfer-redirect': 'Go to transfer page',
         'password-label': 'Password',
-        'confirm-password': 'Confirm Password'
+
+        'confirm-password': 'Confirm Password',
+        'help-prob': 'Meet problems?',
+        'help-serv': 'We are here for help.'
+
     },
     zh: {
         'sports-label': '体育',
         'gaming-label': '电竞',
-        'help-letou': '我们在此竭诚服务',
+        // 'help-letou': '我们在此竭诚服务',
         'live-casino': '真人娱乐场',
         'APP-Download': 'APP下载',
         'help-title': '我们在此竭诚服务',
@@ -1227,12 +1231,13 @@ export const messages = {
         'games-description': '游戏种类多样丰富，独家英雄老虎机容易上手',
         'lottery-description': '独家支持任何倍投追号功能，盈利不再复杂',
         'promotion-description': '各种红利流水为您撑腰，投注不怕没靠山',
-        'help-problem': '遇到问题吗？',
-        'help-service': '我们随时随刻为您服务',
         'transfer-title': '申请转账',
-        'dont-have-enough-balance':
-            '目前此游戏账户余额低于10，请转帐以保证游戏顺畅。',
-        'transfer-redirect': '跳转到转账页'
+
+        'dont-have-enough-balance': '目前此游戏账户余额低于10，请转帐以保证游戏顺畅。',
+        'transfer-redirect': '跳转到转账页',
+        'help-prob': '遇到问题吗',
+        'help-serv': '我们随时随刻为您服务'
+
     },
     th: {
         'sports-label': 'พลศึกษา',
