@@ -3,7 +3,7 @@ import Footer from "./../footer";
 import TopNavbar from "./../top_navbar";
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { authCheckState, handle_referid, hide_landing_page } from '../../../actions';
+import { authCheckState, handle_referid, hide_landing_page,authUserUpdate } from '../../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import '../../css/banner.css';
 import { withRouter } from 'react-router-dom';
@@ -119,7 +119,7 @@ export class gbsports extends React.Component {
     super(props);
     
     this.state = {
-    //   url : ""
+      
 
     };
 
@@ -127,23 +127,42 @@ export class gbsports extends React.Component {
   }
   componentDidMount() {
     this.game_url("GB Sports");
-    window.addEventListener('load', (event) => {
-      var iframe = document.getElementById('gb-iframe')
-      console.log(iframe);
-      var innerDoc = (iframe.contentDocument)?iframe.contentDocument:iframe.contentWindow.document;
-      console.log(innerDoc.body);
-      var innerButton = innerDoc.getElementById('sec_betslipContent_bet');
-      console.log(innerButton);
-     }
-    );
+    
+    window.addEventListener('blur', this.handleIframeClick);
+    
+      //var iframe = document.getElementById('gb-iframe')
+      
+      
+      // console.log(iframe);
+      // var innerDoc = (iframe.contentDocument)?iframe.contentDocument:iframe.contentWindow.document;
+      // console.log(innerDoc.body);
+      // var innerButton = innerDoc.getElementById('sec_betslipContent_bet');
+      // console.log(innerButton);
+
 }
+
   componentDidUpdate(prevProps){
     if (this.props.lang !== prevProps.lang && this.props.lang) {
       this.game_url("GB Sports");
     }
     
   }
-  
+
+  componentWillUnmount() {
+    clearInterval(this.state.reminderIntervalId);
+
+    window.removeEventListener(
+        'blur',
+        this.handleIframeClick
+    );
+  }
+
+  handleIframeClick = event =>{
+    if(document.activeElement === document.getElementById('gb-iframe')) {
+      //console.log("auth");
+      this.props.authUserUpdate();
+    }
+  }
   game_url(gamename){
     var URL = "";
     var token = localStorage.getItem('token')  
@@ -206,7 +225,9 @@ export class gbsports extends React.Component {
         })
     }
 }
-
+hideIframe(){
+  this.setState({loading: false});
+}
 
 
 
@@ -220,6 +241,7 @@ export class gbsports extends React.Component {
         <div className={classes.grow} >
           <div className={classes.rootDesktop}>
             <TopNavbar />
+            
             <Iframe url={this.state.url}
               width='100%'
               height="1500px"
@@ -228,9 +250,10 @@ export class gbsports extends React.Component {
               display="initial"
               position="relative"
               scrolling="auto"
-              loading='auto' 
-             
+              loading='auto'
+            
             />
+            
             <Footer />
           </div>
           {/* <div className={classes.rootMobile}>
@@ -262,4 +285,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page })(gbsports))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page, authUserUpdate })(gbsports))));

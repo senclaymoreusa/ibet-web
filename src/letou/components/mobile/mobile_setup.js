@@ -12,8 +12,7 @@ import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
-import moment from 'moment';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 

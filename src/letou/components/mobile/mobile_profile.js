@@ -6,17 +6,16 @@ import {
     AUTH_RESULT_FAIL,
     logout,
     postLogout,
-    sendingLog
 } from '../../../actions';
-import { config } from '../../../util_config';
+
 import getSymbolFromCurrency from 'currency-symbol-map';
 
-import { injectIntl, FormattedNumber } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { images } from '../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
-import axios from 'axios';
+
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -33,7 +32,7 @@ import HeadsetMic from '@material-ui/icons/HeadsetMic';
 import LiveHelp from '@material-ui/icons/LiveHelp';
 import SettingsApplications from '@material-ui/icons/SettingsApplications';
 
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
+// const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {

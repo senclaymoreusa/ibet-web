@@ -985,7 +985,7 @@ class ThaiLocalBank extends Component {
                                                 });
                                             }}>
                                             {images.src + bank_options.filter(b => {
-                                                        return b.value == card.bank_code;
+                                                        return b.value === card.bank_code;
                                                     }).length > 0 &&
                                                     <img
                                                 src={
