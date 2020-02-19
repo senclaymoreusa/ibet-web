@@ -142,7 +142,7 @@ export class gbsports extends React.Component {
 }
 
   componentDidUpdate(prevProps){
-    if (this.props.lang !== prevProps.lang && this.props.lang) {
+    if (this.props.lang !== prevProps.lang && this.props.lang || this.props.user !== prevProps.user) {
       this.game_url("GB Sports");
     }
     
