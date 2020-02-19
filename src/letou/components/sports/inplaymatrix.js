@@ -125,7 +125,7 @@ export class gbesports extends React.Component {
                 let userName = res.data.username;
                 axios.post(URL, {"username": "Bobby"}, config)
                 .then(res => {
-                    // console.log(res);
+                    console.log(res);
                     if(res.status == 200) {
                         if(res.data.StatusCode === 0 && res.data.StatusDesc === "Success") {
                             // let launchUrl = "https://imes.claymoreasia.com/?token=" + String(token);
