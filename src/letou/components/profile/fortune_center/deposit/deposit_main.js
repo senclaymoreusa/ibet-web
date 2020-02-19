@@ -281,7 +281,7 @@ export class DepositMain extends Component {
                 let path = `accounting/api/payments/get_available_psps?txn_type=${txn_type}&market_code=${marketCode}`
                 fetch(API_URL + path)
                 .then( function(res) {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         return res.json();
                     } else {
                         this.props.callbackFromParent("error", "Could not retrieve payment options");
@@ -717,9 +717,9 @@ export class DepositMain extends Component {
                                 <Grid item xs={12} className={classes.row}>
                                     {this.renderLocalbank(classes, user, operationProp, 'vnlocalbank')}
                                     {psps && psps.channels ? psps.channels.map( c => {
-                                        console.log(c);
-                                        console.log(c === ("momopay" || "fgocard" ));
-                                        let extension = (c == "momopay" || c === "fgocard" || c === "help2pay") ? "png" : "svg";
+                                        // console.log(c);
+                                        // console.log(c === ("momopay" || "fgocard" ));
+                                        let extension = (c === "momopay" || c === "fgocard" || c === "help2pay") ? "png" : "svg";
                                         
                                         return (
                                             <div className={classes.methodColumn}>

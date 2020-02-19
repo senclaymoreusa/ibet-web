@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
 import { config, images } from '../../../../util_config';
 import { connect } from 'react-redux';
@@ -525,7 +524,7 @@ class Transfer extends Component {
                         totalBalance: total
                     });
 
-                    if (this.props.walletColors.length == 0)
+                    if (this.props.walletColors.length === 0)
                         this.props.setWalletColors(res.data);
 
                 }
