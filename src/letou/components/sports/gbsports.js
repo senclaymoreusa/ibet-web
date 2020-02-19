@@ -11,6 +11,7 @@ import { config} from '../../../util_config';
 import axios from 'axios';
 import Iframe from 'react-iframe';
 import { isMobile, isTablet} from 'react-device-detect';
+// import ReactDOM from 'react-dom';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
 
@@ -109,6 +110,22 @@ const styles = theme => ({
   },
   PgHallBtnLeft:{
     float: "left",
+  },
+  iframeContainer:{
+    position:"relative",
+    float:"left"
+  },
+  iframeOverlay:{
+    top:0,
+    left:0,
+    width:"100%",
+    height:"100%",
+    position:"absolute",
+    zIndex: 2,
+  },
+  iframe:{
+    zIndex: 1000,
+
   }
 
 
@@ -117,7 +134,7 @@ const styles = theme => ({
 export class gbsports extends React.Component {
   constructor(props) {
     super(props);
-    
+    //this.iframeRef = React.createRef();
     this.state = {
       
 
@@ -128,38 +145,39 @@ export class gbsports extends React.Component {
   componentDidMount() {
     this.game_url("GB Sports");
     
-    window.addEventListener('blur', this.handleIframeClick);
+    //window.addEventListener('blur', this.handleIframeClick);
     
-      //var iframe = document.getElementById('gb-iframe')
+      var iframe = document.getElementById('gb-iframe')
       
       
-      // console.log(iframe);
-      // var innerDoc = (iframe.contentDocument)?iframe.contentDocument:iframe.contentWindow.document;
-      // console.log(innerDoc.body);
-      // var innerButton = innerDoc.getElementById('sec_betslipContent_bet');
-      // console.log(innerButton);
+      console.log(iframe);
+      var innerDoc = (iframe.contentDocument)?iframe.contentDocument:iframe.contentWindow.document;
+      console.log(innerDoc.body);
+      var innerButton = innerDoc.getElementById('a_betsContinueBet');
+      console.log(innerButton);
+      var innerButton1 = innerDoc.getElementById('a_betslipContent_bet');
+      console.log(innerButton1);
 
 }
 
   componentDidUpdate(prevProps){
     if ((this.props.lang !== prevProps.lang && this.props.lang) || this.props.user !== prevProps.user) {
       this.game_url("GB Sports");
+      //this.nv.addEventListener('nv-enter', this.handleIframeClick);
     }
     
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.reminderIntervalId);
-
-    window.removeEventListener(
-        'blur',
-        this.handleIframeClick
-    );
+    //window.removeEventListener('blur', this.handleIframeClick);
   }
 
-  handleIframeClick = event =>{
+  handleIframeClick(){
+    //console.log('auth');
+    alert("iframe");
     if(document.activeElement === document.getElementById('gb-iframe')) {
-      //console.log("auth");
+      console.log("auth");
+
       this.props.authUserUpdate();
     }
   }
@@ -241,18 +259,23 @@ hideIframe(){
         <div className={classes.grow} >
           <div className={classes.rootDesktop}>
             <TopNavbar />
+            <div className={classes.iframeContainer} >
+              <Iframe url={this.state.url}
+                width='100%'
+                height="1500px"
+                id="gb-iframe"
+                className={classes.iframe}
+                display="initial"
+                position="relative"
+                scrolling="auto"
+                loading='auto'
+                
+              />
+               <div className={classes.iframeOverlay} onClick={this.handleIframeClick}>
+
+               </div>
+            </div>
             
-            <Iframe url={this.state.url}
-              width='100%'
-              height="1500px"
-              id="gb-iframe"
-              className="myClassname"
-              display="initial"
-              position="relative"
-              scrolling="auto"
-              loading='auto'
-            
-            />
             
             <Footer />
           </div>
