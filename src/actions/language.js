@@ -34,6 +34,7 @@ export const setLanguage = language => {
                     language = 'zh';
                 }
                 dispatch(setLanguageState(language));
+                localStorage.setItem('lang', language);
                 return Promise.resolve(res);
             })
             .catch(err => {

@@ -84,7 +84,8 @@ class GameDetail extends Component {
         const { id } = this.props.match.params;
         // console.log(id);
         const token = localStorage.getItem('token');
-
+        const lang = localStorage.getItem('lang');
+       
         axios
             .get(API_URL + `games/api/games-detail/?id=${id}`, config)
             .then(async res => {
@@ -101,7 +102,7 @@ class GameDetail extends Component {
                             this.setState({ user: res.data });
                         });
                     if (data.provider.provider_name === 'FG') {
-                        this.generateFGURL(gameId, providerName);
+                        this.generateFGURL(gameId, providerName, lang);
                     } else if (data.provider.provider_name === 'QTech') {
                         this.generateQTURL(gameId, true);
                     } else if (data.provider.provider_name === 'PLAYNGO') {
@@ -117,13 +118,13 @@ class GameDetail extends Component {
                         });
                         
                     } else if (data.provider.provider_name === 'PT') {
-                        this.launchPTGame(gameId);
+                        this.launchPTGame(gameId, lang);
 
                     } else {
                         gameUrl = LAUNCH_GAME_URL[providerName]['real'];
                         let token = localStorage.getItem('token');
                         gameUrl = gameUrl.replace('{token}', token);
-                        gameUrl = gameUrl.replace('{lang}', 'en');
+                        gameUrl = gameUrl.replace('{lang}', lang);
                         gameUrl = gameUrl.replace('{gameId}', gameId);
                         this.setState({ gameURL: gameUrl });
                     }
@@ -135,12 +136,12 @@ class GameDetail extends Component {
                         this.launchPNGGame(gameId, 'en_GB', '', false);
                     } else if (data.provider.provider_name === 'PT') {
                         gameUrl = LAUNCH_GAME_URL[providerName]['free'];                           
-                        gameUrl = gameUrl.replace('{lang}', 'en');
+                        gameUrl = gameUrl.replace('{lang}', lang);
                         gameUrl = gameUrl.replace('{gameId}', gameId);
                         window.open(gameUrl);
                     } else {
                         gameUrl = LAUNCH_GAME_URL[providerName]['free'];
-                        gameUrl = gameUrl.replace('{lang}', 'en');
+                        gameUrl = gameUrl.replace('{lang}', lang);
                         gameUrl = gameUrl.replace('{gameId}', gameId);
                         this.setState({ gameURL: gameUrl });
                     }
@@ -149,14 +150,14 @@ class GameDetail extends Component {
             });
     }
 
-    generateFGURL(gameId, providerName) {
+    generateFGURL(gameId, providerName, lang) {
         axios
             .get(
                 API_URL + 'games/api/fg/getSessionKey?pk=' + this.state.user.pk
             )
             .then(res => {
                 var gameUrl = LAUNCH_GAME_URL[providerName]['real'];
-                gameUrl = gameUrl.replace('{lang}', 'en');
+                gameUrl = gameUrl.replace('{lang}', lang);
                 gameUrl = gameUrl.replace('{gameId}', gameId);
                 if (res.data.sessionKey != null && res.data.alive === 'true') {
                     gameUrl = gameUrl + '&sessionKey=' + res.data.sessionKey;
@@ -233,7 +234,7 @@ class GameDetail extends Component {
 
     }
 
-    launchPTGame(gameId) {
+    launchPTGame(gameId, lang) {
         // const script = document.createElement("script");
         // script.type = "text/javascript";
         // script.src = "https://login.fourblessings88.com/jswrapper/integration.js.php?casino=fourblessings88"
@@ -245,7 +246,7 @@ class GameDetail extends Component {
                 // balance enough, can launch game.
                 // ptLogintest(1, res.data.playername, this.state.user.username)
                 console.log("pt user success")
-                window.iapiSetCallout('Login', ptCalloutLogin(window.iapiLogin(res.data.playername, this.state.user.username, 1, "en"), gameId)); 
+                window.iapiSetCallout('Login', ptCalloutLogin(window.iapiLogin(res.data.playername, this.state.user.username, 1, lang), gameId)); 
             } else if (res.data.state === 1) {
                 alert("General error in launchPT!");
             } else {

@@ -140,6 +140,7 @@ export class LiveCasinoTransfer extends React.Component {
                                 this.props.history.push(
                                     '/p/fortune-center/transfer'
                                 );
+                                this.props.hide_letou_transfer();
                             }}>
                             <span className={classes.label}>
                                 {this.getLabel('transfer-redirect')}
