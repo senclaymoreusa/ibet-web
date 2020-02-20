@@ -286,7 +286,19 @@ export class live_casino extends React.Component {
     }
 
     handleAGClick(){
-
+        var lang = localStorage.getItem('lang');
+        console.log(lang);
+        if(lang == 'en'){
+            lang = '3';
+        }else if(lang == 'zh'){
+            lang = '1';
+        }else if(lang == 'th'){
+            lang = '6';
+        }else if(lang == 'vi'){
+            lang = '8';
+        }else{
+            lang = '1';
+        }
         var bodyFormData = new FormData();
         bodyFormData.set('username', this.state.data.username);
         axios({
@@ -312,6 +324,7 @@ export class live_casino extends React.Component {
                             "username": this.state.data.username,
                             "actype" : '1',
                             "gameType": '0',
+                            'lang': lang
                         }
                         var formBody = [];
                         for (var pd in postData) {
