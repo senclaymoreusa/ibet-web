@@ -3,7 +3,7 @@ import Footer from "./../footer";
 import TopNavbar from "./../top_navbar";
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { authCheckState, handle_referid, hide_landing_page } from '../../../actions';
+import { authCheckState, handle_referid, hide_landing_page,authUserUpdate } from '../../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import '../../css/banner.css';
 import { withRouter } from 'react-router-dom';
@@ -128,12 +128,25 @@ export class gbk3 extends React.Component {
   componentDidMount() {
     
     this.game_url("K3");
+    this.handleIframeClick();
    
 }
 componentDidUpdate(prevProps){
   if (this.props.lang !== prevProps.lang && this.props.lang) {
     this.game_url("K3");
   }
+}
+handleIframeClick= (props) => {
+  let currentComponent = this;
+  //console.log('auth');
+  //alert("iframe");
+  // if(document.activeElement === document.getElementById('gb-iframe')) {
+  setInterval(function () {
+    //console.log("auth");
+    currentComponent.props.authUserUpdate(); 
+  }, 5000);
+    
+  //}
 }
   game_url(gamename){
     var URL ="";
@@ -243,4 +256,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page })(gbk3))));
+export default withStyles(styles)(injectIntl(withRouter(connect(mapStateToProps, { authCheckState, handle_referid, hide_landing_page,authUserUpdate })(gbk3))));

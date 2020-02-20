@@ -326,7 +326,7 @@ export class Profile extends Component {
         var parts = url.split('/');
 
         if (parts.length >= 2) {
-            let path = parts[2];
+            
             this.setState({ mobileContent: parts[parts.length - 1] });
 
         }
