@@ -286,9 +286,9 @@ export class DepositMain extends Component {
         })
     }
 
-    setPage = (page, msg) => {
-        if (msg)
-            this.setState({ depositMessage: msg });
+    setPage = (page, msg, timer) => {
+        if (msg) this.setState({ depositMessage: msg });
+        if (timer) this.setState({ timer: timer})
 
         this.setState({ contentValue: page });
     };
@@ -820,7 +820,7 @@ export class DepositMain extends Component {
         else if (contentValue === 'inprogress')
             return <DepositInprogress callbackFromParent={this.setPage} InprogressMessage={this.state.depositMessage} />;
         else if (contentValue === 'pending')
-            return <DepositPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} />;
+            return <DepositPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} timer={this.state.timer}/>;
         else if (contentValue === 'momopay')
             return <MomoPayPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} />;
 

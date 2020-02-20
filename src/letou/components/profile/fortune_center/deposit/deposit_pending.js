@@ -149,8 +149,7 @@ export class DepositPending extends Component {
     }
 
     render() {
-        const { classes } = this.props;
-        const { pendingMessage } = this.props;
+        const { classes, pendingMessage, timer } = this.props;
 
         return (
             <div className={classes.root}>
@@ -193,7 +192,10 @@ export class DepositPending extends Component {
                         <span className={classes.label}>Remaining Time</span>
                     </Grid>
                     <Grid item xs={9} className={classes.row}>
-                        <Timer initialTime={600000} direction="backward">
+                        <Timer
+                            initialTime={timer || 600000}
+                            direction="backward"
+                        >
                             {() => (
                                 <React.Fragment>
                                     <Timer.Minutes /> {'minutes '}

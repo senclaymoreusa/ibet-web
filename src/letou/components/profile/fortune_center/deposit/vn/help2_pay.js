@@ -521,8 +521,31 @@ class VietnamHelp2pay extends Component {
                 );
             })
             .then(function(data) {
-                let newwin = window.open('');
+                console.log(data);
+                console.log(data.indexOf("'RefID'"));
+                console.log(data.indexOf("'", 346));
+                console.log(data.slice(354, data.indexOf("'", 356)));
+                let newwin = window.open('', 'Help2Pay');
                 newwin.document.write(data);
+                currentComponent.props.callbackFromParent(
+                    'pending',
+                    {
+                        trans_id: data.slice(354, data.indexOf("'", 356)),
+                        method: 'deposit',
+                        amount: currentComponent.state.amount
+                    },
+                    360000
+                );
+                let timer = setInterval(function() {
+                    if (newwin.closed) {
+                        clearInterval(timer);
+                        console.log('closed window');
+                        currentComponent.props.callbackFromParent(
+                            'success',
+                            'Transaction processing. Please check your balance for updates'
+                        );
+                    }
+                }, 1000);
             });
     }
 
