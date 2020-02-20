@@ -727,7 +727,7 @@ export class DepositMain extends Component {
                                                 <Button
                                                     className={classes.paymentButton}
                                                     onClick={() => {
-                                                        if (c != "help2pay") { this.depositWith(c); }
+                                                        if (c !== "help2pay") { this.depositWith(c); }
                                                         else { this.depositWith("vietnamhelp2pay"); }
                                                     }}>
                                                     <img src={images.src + `letou/${c}.${extension}`} alt="" height="26" />

@@ -257,7 +257,7 @@ export class live_casino extends React.Component {
         //console.log(this.state.data)
         var currency = this.state.data.currency;
         var language = '';
-        if (lang == 'zh') {
+        if (lang === 'zh') {
             language = 'zh-cn';
         } else {
             language = lang;
@@ -294,14 +294,14 @@ export class live_casino extends React.Component {
 
     handleAGClick(){
         var lang = localStorage.getItem('lang');
-        console.log(lang);
-        if(lang == 'en'){
+        //console.log(lang);
+        if(lang === 'en'){
             lang = '3';
-        }else if(lang == 'zh'){
+        }else if(lang === 'zh'){
             lang = '1';
-        }else if(lang == 'th'){
+        }else if(lang === 'th'){
             lang = '6';
-        }else if(lang == 'vi'){
+        }else if(lang === 'vi'){
             lang = '8';
         }else{
             lang = '1';
