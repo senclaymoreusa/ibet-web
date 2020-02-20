@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { config } from '../util_config';
 import { errors } from '../ibet/components/errors';
+import { IP_ACCESS } from '../ip_access';
 
 //const API_URL = process.env.REACT_APP_REST_API;
 //const API_URL = 'http://52.9.147.67:8080/';
@@ -35,6 +36,24 @@ export const authFail = error => {
         error: error
     };
 };
+
+export const checkAccess = (ip, country) => {
+    var ipAccess = true;
+    var countryAccess = true;
+    console.log("HIHI");
+    if (country && country !== ('CN' || 'TH' || 'VN')) {
+        console.log("country is not allow");
+        countryAccess = false;
+    }
+
+    if (ip && !IP_ACCESS.includes(ip)) {
+        console.log("ip is not allow");
+        ipAccess = false;
+    }
+
+    return countryAccess && ipAccess;
+   
+}
 
 export const authLogin = (username, password, iovationData) => {
     return dispatch => {
@@ -146,7 +165,8 @@ export const authSignup = (
     over_eighteen,
     language,
     referralCode,
-    currency
+    currency,
+    iovationData
 ) => {
     return dispatch => {
         const body = JSON.stringify({
@@ -164,7 +184,8 @@ export const authSignup = (
             over_eighteen,
             language,
             referralCode,
-            currency
+            currency,
+            iovationData
         });
 
         return axios

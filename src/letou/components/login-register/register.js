@@ -261,6 +261,8 @@ export class Register extends Component {
             confirmPasswordFocused: false,
             showConfirmPassword: false,
             confirmPasswordInvalid: true,
+            currency: '',
+            country: 'China',
 
             phoneCode: this.props.signup_phone
                 ? this.props.signup_phone.split('/')[0]
@@ -302,12 +304,54 @@ export class Register extends Component {
         //         });
         //     });
         // }
-        axios.get('https://ipapi.co/json/').then(res => {
-                this.setState({
-                    phoneCode: res.data.country_calling_code,
-                    country: res.data.country_name
-                });
-            });
+        // this.setState("")
+
+        // axios.get('https://ipapi.co/json/').then(res => {
+        //         this.setState({
+        //             phoneCode: res.data.country_calling_code,
+        //             country: res.data.country_name
+        //         });
+        //     });
+
+
+        // if(phoneCode === '+1'){
+        //     country = 'United State';
+        // }else if(phoneCode === '+84'){
+        //     country = 'vietnam';
+        //     currency = 7;
+        // }else if(phoneCode === '+66'){
+        //     country = 'thailand';
+        //     currency = 2;
+        // }else if(phoneCode === '+86'){
+        //     country = 'china';
+        //     currency = 0;
+        // }else{
+        //     country = 'thailand';
+        //     currency = 2;
+        // }
+        const countryCode = localStorage.getItem('countryCode');
+        let country = "China";
+        let phoneCode = "+86";
+        var currency = 1;
+        if (countryCode === 'TH') {
+            phoneCode = "+66";
+            currency = 2;
+            country = 'Thailand';
+        } else if (countryCode === 'VI') {
+            phoneCode = "+84";
+            currency = 7;
+            country = 'Vietnam';
+        } else if (countryCode === 'CH') {
+            phoneCode = "+86";
+            currency = 0;
+            country = 'China';
+        }
+
+        this.setState({
+            phoneCode: phoneCode,
+            currency: currency,
+            country: country,
+        })
     }
 
     usernameChanged(event) {
@@ -365,67 +409,71 @@ export class Register extends Component {
     }
 
     onFormSubmit(event) {
-        let phoneCode = this.state.phoneCode;
-        let country = '';
-        let currency = 0;
+        let currency = this.state.currency;
+        let country = this.state.country;
+        // let currency = 0;
         
-        if(phoneCode === '+1'){
-            country = 'United State';
-        }else if(phoneCode === '+84'){
-            country = 'vietnam';
-            currency = 7;
-        }else if(phoneCode === '+66'){
-            country = 'thailand';
-            currency = 2;
-        }else if(phoneCode === '+86'){
-            country = 'china';
-            currency = 0;
-        }else{
-            country = 'thailand';
-            currency = 2;
-        }
-        
+        // if(phoneCode === '+1'){
+        //     country = 'United State';
+        // }else if(phoneCode === '+84'){
+        //     country = 'vietnam';
+        //     currency = 7;
+        // }else if(phoneCode === '+66'){
+        //     country = 'thailand';
+        //     currency = 2;
+        // }else if(phoneCode === '+86'){
+        //     country = 'china';
+        //     currency = 0;
+        // }else{
+        //     country = 'thailand';
+        //     currency = 2;
+        // }
+
         event.preventDefault();
 
         this.setState({ errorMessage: '' });
         let phoneNum = `[${this.state.phoneCode.slice(1)}]-${this.state.phone}`;
-        this.props
-            .authSignup(
-                this.state.username,
-                this.state.email.length !== 0 ? this.state.email : undefined,
-                this.state.password,
-                undefined,
-                undefined,
-                phoneNum,
-                undefined,
-                undefined,
-                country,
-                undefined,
-                undefined,
-                true,
-                this.props.lang,
-                this.state.referralCode.length !== 0
-                    ? this.state.referralCode
-                    : undefined,
-                currency
-            )
-            .then(() => {
-                // this.props.show_letou_login();
-                var bbData = window.IGLOO.getBlackbox();
-                if (bbData.finished) {
-                    // clearTimeout(timeoutId);
-                    var blackBoxString = bbData.blackbox;
-                    axios
-                        .get(
-                            API_URL + 'users/api/login-device-info?bb=' + blackBoxString
-                        )
-                        .then(res => {
-                            //console.log(res.data)
+
+        var bbData = window.IGLOO.getBlackbox();
+        if (bbData.finished) {
+            // clearTimeout(timeoutId);
+            var blackBoxString = bbData.blackbox;
+            axios
+                .get(
+                    API_URL + 'users/api/login-device-info?bb=' + blackBoxString
+                )
+                .then(res => {
+
+                    var data = res.data;
+                    // console.log(data);
+                    //iovation call back
+                    this.props
+                        .authSignup(
+                            this.state.username,
+                            this.state.email.length !== 0 ? this.state.email : undefined,
+                            this.state.password,
+                            undefined,
+                            undefined,
+                            phoneNum,
+                            undefined,
+                            undefined,
+                            country,
+                            undefined,
+                            undefined,
+                            true,
+                            this.props.lang,
+                            this.state.referralCode.length !== 0
+                                ? this.state.referralCode
+                                : undefined,
+                            currency,
+                            data,
+                        ).then(() => {
+                            console.log("data: " + data);
                             this.props
                                 .authLogin(
                                     this.state.username,
                                     this.state.password,
-                                    res.data
+                                    data
                                 )
                                 .then(response => {
                                     if (response.errorCode) {
@@ -442,38 +490,40 @@ export class Register extends Component {
 
                                     sendingLog(err);
                                 });
+                                this.setState({ showRegisterMessage: true });
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            // sendingLog(err);
+            
+                            // if (err.response && 'username' in err.response.data) {
+                            //     this.setState({ usernameInvalid: true });
+                            //     this.setState({
+                            //         errorMessage: err.response.data.username[0]
+                            //     });
+                            // } else if (err.response && 'email' in err.response.data) {
+                            //     this.setState({ emailInvalid: true });
+                            //     this.setState({ errorMessage: err.response.data.email[0] });
+                            // } else if (err.response && 'phone' in err.response.data) {
+                            //     this.setState({ phoneInvalid: true });
+                            //     this.setState({ errorMessage: err.response.data.phone[0] });
+                            // } else if (
+                            //     err.response &&
+                            //     'non_field_errors' in err.response.data
+                            // ) {
+                            //     // this.setState({ error: err.response.data.non_field_errors.slice(0) })
+                            //     // this.setState({ errorMessage: err.response.data.username[0] });
+                            // } else if (err.response && 'password' in err.response.data) {
+                            //     this.setState({ passwordInvalid: true });
+                            //     this.setState({
+                            //         errorMessage: err.response.data.password[0]
+                            //     });
+                            // }
                         });
+            
                     // Your code to handle blackBoxString
-                }
-                this.setState({ showRegisterMessage: true });
-            })
-            .catch(err => {
-                sendingLog(err);
-
-                if (err.response && 'username' in err.response.data) {
-                    this.setState({ usernameInvalid: true });
-                    this.setState({
-                        errorMessage: err.response.data.username[0]
-                    });
-                } else if (err.response && 'email' in err.response.data) {
-                    this.setState({ emailInvalid: true });
-                    this.setState({ errorMessage: err.response.data.email[0] });
-                } else if (err.response && 'phone' in err.response.data) {
-                    this.setState({ phoneInvalid: true });
-                    this.setState({ errorMessage: err.response.data.phone[0] });
-                } else if (
-                    err.response &&
-                    'non_field_errors' in err.response.data
-                ) {
-                    // this.setState({ error: err.response.data.non_field_errors.slice(0) })
-                    // this.setState({ errorMessage: err.response.data.username[0] });
-                } else if (err.response && 'password' in err.response.data) {
-                    this.setState({ passwordInvalid: true });
-                    this.setState({
-                        errorMessage: err.response.data.password[0]
-                    });
-                }
-            });
+                });
+            }   
     }
 
     onCountryCodeClose = () => {
@@ -820,6 +870,7 @@ export class Register extends Component {
                                             <FormControl>
                                                 <Select
                                                     value={this.state.phoneCode}
+                                                    disabled
                                                     onClose={event => {
                                                         this.setState({
                                                             formOpen: false

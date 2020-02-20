@@ -679,7 +679,8 @@ export const messages = {
 
         'confirm-password': 'Confirm Password',
         'help-prob': 'Meet problems?',
-        'help-serv': 'We are here for help.'
+        'help-serv': 'We are here for help.',
+        'ip-not-allow': 'The IP is not allowed',
 
     },
     zh: {
@@ -1236,7 +1237,8 @@ export const messages = {
         'dont-have-enough-balance': '目前此游戏账户余额低于10，请转帐以保证游戏顺畅。',
         'transfer-redirect': '跳转到转账页',
         'help-prob': '遇到问题吗',
-        'help-serv': '我们随时随刻为您服务'
+        'help-serv': '我们随时随刻为您服务',
+        'ip-not-allow': 'IP位置不允許',
 
     },
     th: {
@@ -1775,7 +1777,9 @@ export const messages = {
         'gaming-room': 'ห้องเล่นเกม',
         'video-poker': 'วีดีโอโป๊กเกอร์',
         'ﬁshing-games': 'เกมยิงปลา',
-        'view-all': 'ดูทั้งหมด'
+        'view-all': 'ดูทั้งหมด',
+        'ip-not-allow': 'ไม่อนุญาตให้ใช้ตำแหน่ง IP',
+
     },
 
     vi: {
@@ -2103,6 +2107,7 @@ export const messages = {
         'back-banking': 'Quay về ngân hàng',
         'bitcoin-placeholder': 'Nạp từ ¥100 - ¥100000',
         'alipay-placeholder': 'Nạp từ ¥500 - ¥5000',
-        'payzod-placeholder': 'Nạp từ ฿500 - ฿500000'
+        'payzod-placeholder': 'Nạp từ ฿500 - ฿500000',
+        'ip-not-allow': 'Vị trí IP không được phép',
     }
 };
