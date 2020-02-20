@@ -336,7 +336,7 @@ class ScratchCard extends Component {
             operator: operator,
             amount: amount
         };
-        console.log(postData);
+
         axios
             .post(
                 API_URL + 'accounting/api/scratchcard/deposit',
@@ -636,6 +636,21 @@ class ScratchCard extends Component {
                         >
                             {this.getLabel('deposit-label')}
                         </Button>
+                    </Grid>
+                    <Grid
+                        item
+                        xs={12}
+                        className={classes.detailRow}
+                        style={{ marginBottom: 15 }}
+                    >
+                        <span className={classes.info}>
+                            {this.getLabel('fgo-ensure')}
+                        </span>
+                    </Grid>
+                    <Grid item xs={12} className={classes.detailRow}>
+                        <span className={classes.info}>
+                            {this.getLabel('fgo-wrong')}
+                        </span>
                     </Grid>
                 </Grid>
             </div>

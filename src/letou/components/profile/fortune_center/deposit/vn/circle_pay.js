@@ -410,10 +410,13 @@ class CirclePay extends Component {
 
         let currentComponent = this;
 
-        const { data: userData } = this.state;
+        const { user: userData } = this.props;
         const { amount } = this.state;
         const token = localStorage.getItem('token');
-
+        // console.log('STATE');
+        // console.log(this.state);
+        // console.log(this.props.user);
+        // return;
         if (!token) {
             console.log('no token -- user is not logged in');
         }
@@ -493,11 +496,12 @@ class CirclePay extends Component {
                         'CirclePay Portal',
                         'location=no'
                     );
-                    console.log('opening window');
-                    currentComponent.props.callbackFromParent(
-                        'pending',
-                        'Please continue through the pop-up portal and make sure to follow the instructions'
-                    );
+                    // console.log('opening window');
+                    currentComponent.props.callbackFromParent('pending', {
+                        trans_id: transId,
+                        method: 'deposit',
+                        amount: amount
+                    });
                     let timer = setInterval(function() {
                         if (newwin.closed) {
                             clearInterval(timer);
