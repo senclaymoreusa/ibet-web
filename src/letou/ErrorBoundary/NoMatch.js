@@ -10,6 +10,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
+import { checkAccess } from '../../actions/auth';
 
 
 
@@ -51,11 +52,16 @@ class NoMatch extends Component {
 
     render() {
         const { classes } = this.props;
+        const countryCode = localStorage.getItem('countryCode');
+        const ip = localStorage.getItem('ip');
         return (
             <div className={classes.root}>
             <Grid container pacing={2}>
             <Typography variant="h1" component="h2" align="center" style={{ width: '100%' }}>
-                {this.getLabel('page-not-found')} 
+                {
+                    (!checkAccess("", countryCode) && !checkAccess(ip, "")) ? this.getLabel('ip-not-allow') : this.getLabel('page-not-found')
+                
+                } 
             </Typography>
             <Typography variant="h6" component="h6" align="center" style={{ width: '100%' }}>
                 {this.getLabel('contact-message')}
