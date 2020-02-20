@@ -243,7 +243,7 @@ export class DepositMain extends Component {
     componentDidMount() {
         let txn_type = "deposit";
         let country = "";
-        let marketCode = "";
+        let marketCode = 5;
         let { user } = this.props;
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
