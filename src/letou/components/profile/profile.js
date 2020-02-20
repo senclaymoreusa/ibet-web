@@ -35,6 +35,7 @@ import Email from '@material-ui/icons/Email';
 
 import MobileMainProfile from '../mobile/mobile_profile';
 import MobileAccountInfo from '../mobile/mobile_account_info';
+import MobileSetup from '../mobile/mobile_setup';
 import SecuritySettings from './account_management/security_settings';
 import Suggestions from './account_management/suggestions';
 import { Grid } from '@material-ui/core';
@@ -287,7 +288,6 @@ export class Profile extends Component {
         super(props);
         this.rateRef = React.createRef();
         this.state = {
-            desktopTabValue: 'none',
             desktopContent: '',
             mobileContent: '',
             anchorEl: null,
@@ -329,9 +329,6 @@ export class Profile extends Component {
             let path = parts[2];
             this.setState({ mobileContent: parts[parts.length - 1] });
 
-            if (path.length > 0) {
-                this.setState({ desktopTabValue: parts[2] });
-            }
         }
     }
 
@@ -354,6 +351,8 @@ export class Profile extends Component {
                 return <FortuneCenter />;
             case 'suggestions':
                 return <Suggestions />;
+            case 'setup':
+                return <MobileSetup />;
             default:
                 return <MobileMainProfile />;
         }
@@ -469,7 +468,7 @@ export class Profile extends Component {
                                 centered
                                 value={
                                     typeProp === 'fortune-center' ||
-                                        typeProp === 'transaction-records'
+                                    typeProp === 'transaction-records'
                                         ? typeProp
                                         : 'none'
                                 }
@@ -513,26 +512,45 @@ export class Profile extends Component {
                                 <HtmlTooltip
                                     title={
                                         <React.Fragment>
-                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    alignItems: 'center'
+                                                }}
+                                            >
                                                 <span>{username}</span>
-                                                <span>{this.getLabel('verification-status')}</span>
-                                                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                                <span>
+                                                    {this.getLabel(
+                                                        'verification-status'
+                                                    )}
+                                                </span>
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        flexDirection: 'row'
+                                                    }}
+                                                >
                                                     <Tooltip
                                                         title={
-                                                            user && user.nameVerified
+                                                            user &&
+                                                            user.nameVerified
                                                                 ? this.getLabel(
-                                                                    'name-verified'
-                                                                )
+                                                                      'name-verified'
+                                                                  )
                                                                 : this.getLabel(
-                                                                    'verify-name-asap'
-                                                                )
+                                                                      'verify-name-asap'
+                                                                  )
                                                         }
                                                     >
                                                         <IconButton
                                                             className={clsx({
                                                                 [classes.icon]: true,
                                                                 [classes.verifiedIcon]:
-                                                                    user && user.nameVerified ? user.nameVerified : false
+                                                                    user &&
+                                                                    user.nameVerified
+                                                                        ? user.nameVerified
+                                                                        : false
                                                             })}
                                                             onClick={() => {
                                                                 if (
@@ -541,9 +559,11 @@ export class Profile extends Component {
                                                                     this.handleCategoryChange(
                                                                         'account-management/verify-name'
                                                                     );
-                                                                    this.setState({
-                                                                        anchorEl: null
-                                                                    });
+                                                                    this.setState(
+                                                                        {
+                                                                            anchorEl: null
+                                                                        }
+                                                                    );
                                                                 }
                                                             }}
                                                         >
@@ -552,20 +572,24 @@ export class Profile extends Component {
                                                     </Tooltip>
                                                     <Tooltip
                                                         title={
-                                                            user && user.phoneVerified
+                                                            user &&
+                                                            user.phoneVerified
                                                                 ? this.getLabel(
-                                                                    'phone-verified'
-                                                                )
+                                                                      'phone-verified'
+                                                                  )
                                                                 : this.getLabel(
-                                                                    'verify-phone-asap'
-                                                                )
+                                                                      'verify-phone-asap'
+                                                                  )
                                                         }
                                                     >
                                                         <IconButton
                                                             className={clsx({
                                                                 [classes.icon]: true,
                                                                 [classes.verifiedIcon]:
-                                                                    user && user.phoneVerified ? user.phoneVerified : false
+                                                                    user &&
+                                                                    user.phoneVerified
+                                                                        ? user.phoneVerified
+                                                                        : false
                                                             })}
                                                             onClick={() => {
                                                                 if (
@@ -574,9 +598,11 @@ export class Profile extends Component {
                                                                     this.handleCategoryChange(
                                                                         'account-management/verify-phone'
                                                                     );
-                                                                    this.setState({
-                                                                        anchorEl: null
-                                                                    });
+                                                                    this.setState(
+                                                                        {
+                                                                            anchorEl: null
+                                                                        }
+                                                                    );
                                                                 }
                                                             }}
                                                         >
@@ -585,20 +611,24 @@ export class Profile extends Component {
                                                     </Tooltip>
                                                     <Tooltip
                                                         title={
-                                                            user && user.emailVerified
+                                                            user &&
+                                                            user.emailVerified
                                                                 ? this.getLabel(
-                                                                    'email-verified'
-                                                                )
+                                                                      'email-verified'
+                                                                  )
                                                                 : this.getLabel(
-                                                                    'verify-email-asap'
-                                                                )
+                                                                      'verify-email-asap'
+                                                                  )
                                                         }
                                                     >
                                                         <IconButton
                                                             className={clsx({
                                                                 [classes.icon]: true,
                                                                 [classes.verifiedIcon]:
-                                                                    user && user.emailVerified ? user.emailVerified : false
+                                                                    user &&
+                                                                    user.emailVerified
+                                                                        ? user.emailVerified
+                                                                        : false
                                                             })}
                                                             onClick={() => {
                                                                 if (
@@ -607,9 +637,11 @@ export class Profile extends Component {
                                                                     this.handleCategoryChange(
                                                                         'account-management/verify-email'
                                                                     );
-                                                                    this.setState({
-                                                                        anchorEl: null
-                                                                    });
+                                                                    this.setState(
+                                                                        {
+                                                                            anchorEl: null
+                                                                        }
+                                                                    );
                                                                 }
                                                             }}
                                                         >
@@ -655,7 +687,7 @@ export class Profile extends Component {
                                 centered
                                 value={
                                     typeProp === 'account-management' ||
-                                        typeProp === 'sharing-plan'
+                                    typeProp === 'sharing-plan'
                                         ? typeProp
                                         : 'none'
                                 }

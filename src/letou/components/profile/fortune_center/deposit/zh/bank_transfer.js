@@ -359,7 +359,7 @@ class BankTransfer extends Component {
                         ),
                         isFavorite:
                             this.props.user.favoriteDepositMethod ===
-                            'chinabanktransfer'
+                            'zhlocalbank'
                     });
                 }
             }
@@ -494,7 +494,7 @@ class BankTransfer extends Component {
     setAsFavorite(event) {
         axios.post(API_URL + `users/api/favorite-payment-setting/`, {
             user_id: this.props.user.userId,
-            payment: event.target.checked ? 'chinabanktransfer' : null,
+            payment: event.target.checked ? 'zhlocalbank' : null,
         })
             .then(() => {
                 this.props.authUserUpdate();

@@ -642,7 +642,7 @@ class ThaiLocalBank extends Component {
 
         const body = JSON.stringify({
             bank: bank_options.filter(b => {
-                return b.value == this.state.selectedBank;
+                return b.value === this.state.selectedBank;
             })[0].label,
             bank_acc_no: this.state.selectedCard.account_no,
             real_name:
@@ -984,15 +984,18 @@ class ThaiLocalBank extends Component {
                                                         : 1
                                                 });
                                             }}>
-                                            <img
+                                            {images.src + bank_options.filter(b => {
+                                                        return b.value === card.bank_code;
+                                                    }).length > 0 &&
+                                                    <img
                                                 src={
                                                     images.src + bank_options.filter(b => {
-                                                        return b.value == card.bank_code;
+                                                        return b.value === card.bank_code;
                                                     })[0].img
                                                 }
                                                 alt=""
                                                 className={classes.bankIcon}
-                                            />
+                                            />}
                                             <span className={classes.accountInfo}>
                                                 {card.account_no.substring(
                                                     card.account_no.length - 4
@@ -1413,7 +1416,7 @@ class ThaiLocalBank extends Component {
                             <img
                                 src={
                                     images.src + bank_options.filter(b => {
-                                        return b.value == this.state.selectedBank;
+                                        return b.value === this.state.selectedBank;
                                     })[0].img
                                 }
                                 alt=""
@@ -1668,7 +1671,7 @@ class ThaiLocalBank extends Component {
     }
 
     render() {
-        const { classes, user } = this.props;
+        const { classes } = this.props;
 
         return (
             <div className={classes.root}>

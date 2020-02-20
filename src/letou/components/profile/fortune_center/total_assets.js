@@ -353,6 +353,8 @@ export class TotalAssets extends Component {
             walletObjs: [],
             totalBalance: 0
         };
+
+        this.getWalletsByUsername = this.getWalletsByUsername.bind(this);
     }
 
     componentDidMount() {
@@ -379,7 +381,9 @@ export class TotalAssets extends Component {
         this._isMounted = false;
     }
 
-    getWalletsByUsername = userId => {
+    async getWalletsByUsername(userId) {
+        let currentComponent = this;
+
         axios
             .get(
                 API_URL + 'users/api/get-each-wallet-amount/?user_id=' + userId,
@@ -393,22 +397,24 @@ export class TotalAssets extends Component {
                         0
                     );
 
-                    this.setState({
-                        walletObjs: res.data,
-                        totalBalance: total
-                    });
+                    this._isMounted &&
+                        this.setState({
+                            walletObjs: res.data,
+                            totalBalance: total
+                        });
 
-                    if (this.props.walletColors.length == 0)
+                    if (this.props.walletColors.length === 0)
                         this.props.setWalletColors(res.data);
                 }
 
-                this.setState({ loading: false });
+                this._isMounted && this.setState({ loading: false });
             })
             .catch(function(err) {
-                this.setState({ loading: false });
+                currentComponent._isMounted &&
+                    currentComponent.setState({ loading: false });
                 sendingLog(err);
             });
-    };
+    }
 
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;

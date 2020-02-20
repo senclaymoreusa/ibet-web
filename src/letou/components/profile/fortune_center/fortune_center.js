@@ -180,9 +180,6 @@ export class FortuneCenter extends Component {
         super(props);
 
         this.state = {
-            urlPath: '',
-            desktopContent: '',
-            desktopTabValue: '',
             userInformationEditMessage: '',
             message: '',
             mainWallet: 0,
@@ -190,41 +187,11 @@ export class FortuneCenter extends Component {
         }
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-
-                axios
-                    .get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({
-                            username: res.data.username,
-                            mainWallet: res.data.main_wallet,
-                            currency: res.data.currency
-                        });
-                    })
-                    .catch(function (err) {
-                        sendingLog(err);
-                    });
-            }
-        })
-
-
-
-        this.setState({ urlPath: this.props.history.location.pathname });
-
-        this.initializeContent();
-    }
-
     componentDidMount() {
-        const { activeContent } = this.props;
+        // const { activeContent } = this.props;
 
-        if (activeContent)
-            this.setState({ contentValue: activeContent });
+        // if (activeContent)
+        //     this.setState({ contentValue: activeContent });
 
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -246,11 +213,9 @@ export class FortuneCenter extends Component {
             }
         })
 
+        // this.setState({ urlPath: this.props.history.location.pathname });
 
-
-        this.setState({ urlPath: this.props.history.location.pathname });
-
-        this.initializeContent();
+       // this.initializeContent();
     }
 
     initializeContent() {
@@ -269,7 +234,6 @@ export class FortuneCenter extends Component {
             this.setState({ desktopTabValue: 'total-assets' })
         }
     }
-
 
     setContent = (page, msg) => {
         this.setState({ desktopContent: page });
@@ -295,6 +259,7 @@ export class FortuneCenter extends Component {
         const { subProp } = this.props;
         const { classes } = this.props;
 
+        console.log(subProp)
         switch (subProp) {
             case 'deposit':
                 return <DepositMain />;
@@ -448,8 +413,7 @@ export class FortuneCenter extends Component {
     }
 
     render() {
-        const { classes } = this.props;
-        const { desktopContent, desktopTabValue } = this.state;
+        const { classes, subProp } = this.props;
 
         return (
             <div className={classes.root}>
@@ -460,32 +424,32 @@ export class FortuneCenter extends Component {
                         </Grid>
                         <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row', paddingTop: 20 }}>
                             <div className={classes.leftPane}>
-                                <Button className={(desktopTabValue === 'total-assets') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                <Button className={(subProp === 'total-assets') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                     onClick={() => this.props.history.push('/p/fortune-center/total-assets')}>
                                     <AccountBalanceOutlined style={{ marginRight: 8 }} />
                                     {this.getLabel('total-assets')}
                                 </Button>
-                                <Button className={(desktopTabValue === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                <Button className={(subProp === 'deposit') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                     onClick={() => this.props.history.push('/p/fortune-center/deposit')}>
                                     <FlightLandOutlined style={{ marginRight: 8 }} />
                                     {this.getLabel('deposit-label')}
                                 </Button>
-                                <Button className={(desktopTabValue === 'withdraw') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                <Button className={(subProp === 'withdraw') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                     onClick={() => this.props.history.push('/p/fortune-center/withdraw')}>
                                     <FlightTakeoffOutlined style={{ marginRight: 8 }} />
                                     {this.getLabel('withdraw-label')}
                                 </Button>
-                                <Button className={(desktopTabValue === 'transfer') ? classes.activeLeftPaneButton : classes.leftPaneButton}
+                                <Button className={(subProp === 'transfer') ? classes.activeLeftPaneButton : classes.leftPaneButton}
                                     onClick={() => this.props.history.push('/p/fortune-center/transfer')}>
                                     <LoopOutlined style={{ marginRight: 8 }} />
                                     {this.getLabel('title-transfer')}
                                 </Button>
                             </div>
                             <div className={classes.content}>
-                                {desktopContent === 'deposit' && <DepositMain />}
-                                {desktopContent === 'total-assets' && <TotalAssets />}
-                                {desktopContent === 'transfer' && <Transfer />}
-                                {desktopContent === 'withdraw' && <WithdrawMain />}
+                                {subProp === 'deposit' && <DepositMain />}
+                                {subProp === 'total-assets' && <TotalAssets />}
+                                {subProp === 'transfer' && <Transfer />}
+                                {subProp === 'withdraw' && <WithdrawMain />}
                             </div>
                         </Grid>
                     </Grid>

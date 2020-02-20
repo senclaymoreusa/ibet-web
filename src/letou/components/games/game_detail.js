@@ -5,6 +5,8 @@ import { config } from '../../../util_config';
 import { withStyles } from '@material-ui/core/styles';
 import Iframe from 'react-iframe';
 import { GAME_URLS } from '../../../game_constant';
+import { images } from '../../../util_config';
+
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 var LAUNCH_GAME_URL = '';
@@ -18,6 +20,18 @@ if (process.env.REACT_APP_NODE_ENV === 'development') {
 const styles = theme => ({
     root: {
         height: '100%',
+    },
+    gameBg: {
+        backgroundImage: 'url(' + images.src + 'letou/playgamebg.jpg)',
+        textAlign: 'center',
+        paddingLeft: '300px',
+        display: 'flex',
+    },
+    game: {
+        backgroundColor: '#ffffff',
+        width: '1300px',
+        paddingLeft: '1px',
+        paddingRight: '1px',
     }
 });
 
@@ -114,12 +128,13 @@ class GameDetail extends Component {
                         this.setState({ gameURL: gameUrl });
                     }
                 } else {
+                    
                     if (data.provider.provider_name === 'QTech') {
                         this.generateQTURL(gameId, false);
                     } else if (data.provider.provider_name === 'PLAYNGO') {
                         this.launchPNGGame(gameId, 'en_GB', '', false);
                     } else if (data.provider.provider_name === 'PT') {
-                        gameUrl = LAUNCH_GAME_URL[providerName]['free'];
+                        gameUrl = LAUNCH_GAME_URL[providerName]['free'];                           
                         gameUrl = gameUrl.replace('{lang}', 'en');
                         gameUrl = gameUrl.replace('{gameId}', gameId);
                         window.open(gameUrl);
@@ -129,6 +144,7 @@ class GameDetail extends Component {
                         gameUrl = gameUrl.replace('{gameId}', gameId);
                         this.setState({ gameURL: gameUrl });
                     }
+                    
                 }
             });
     }
@@ -241,6 +257,7 @@ class GameDetail extends Component {
     }
 
     render() {
+        const { classes } = this.props;
         var { png } = this.state;
         var height = window.innerHeight;
         if (png) {
@@ -250,12 +267,15 @@ class GameDetail extends Component {
             )
         } else {
             return (
-                <div>
-                    <Iframe
-                        url={this.state.gameURL}
-                        height={window.innerHeight}
-                        width="100%"
-                    />
+                <div className={classes.gameBg}>
+                    <div className={classes.game}>
+                        <Iframe 
+                            url={this.state.gameURL}
+                           
+                            height={window.innerHeight}
+                            width="100%"
+                        />
+                    </div>
                 </div>
             );
         }

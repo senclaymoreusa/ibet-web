@@ -75,15 +75,19 @@ class LetouApp extends Component {
         }
     }
     loadScript(){
+        let currentComponent = this;
         new_script("../../public/iovation.js")
             .then(() => {
-                this.setState({'status': 'done'});
+                currentComponent.setState({'status': 'done'});
                 //console.log(script);
-                this.iovationLoad(); 
+                currentComponent.iovationLoad(); 
                 
-            }).catch(function(){
-                this.setState({'status': 'error'});
-            })
+            }).catch(function() {
+                    currentComponent.setState({'status': 'error'});
+                    
+                }
+                
+            );
 
     }
     componentDidMount() {

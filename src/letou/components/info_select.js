@@ -63,8 +63,8 @@ export class InfoSelect extends React.Component {
          <IconButton className={classes.logoHeader}>
              <img src={images.src + 'letou/letou-logo.png'} alt="LETOU" height="20" />
          </IconButton>
-         <h2 className={classes.header}>{this.getLabel('help-problem')}
-          <br/>{this.getLabel('help-service')}
+         <h2 className={classes.header}>{this.getLabel('help-prob')}
+          <br/>{this.getLabel('help-serv')}
          </h2>
          </div>
 
