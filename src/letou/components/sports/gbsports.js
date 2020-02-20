@@ -139,47 +139,52 @@ export class gbsports extends React.Component {
       
 
     };
+    //this.handleIframeClick = this.handleIframeClick.bind(this);
 
     
   }
   componentDidMount() {
     this.game_url("GB Sports");
-    
+    this.handleIframeClick();
     //window.addEventListener('blur', this.handleIframeClick);
+
+    //var iframe = document.getElementById('gb-iframe')
+    //console.log(iframe);
+    // var innerDoc = (iframe.contentDocument)?iframe.contentDocument:iframe.contentWindow.document.body;
+    // console.log(innerDoc);
+    // innerDoc.onClick = this.handleIframeClick
+
     
-      var iframe = document.getElementById('gb-iframe')
-      
-      
-      console.log(iframe);
-      var innerDoc = (iframe.contentDocument)?iframe.contentDocument:iframe.contentWindow.document;
-      console.log(innerDoc.body);
-      var innerButton = innerDoc.getElementById('a_betsContinueBet');
-      console.log(innerButton);
-      var innerButton1 = innerDoc.getElementById('a_betslipContent_bet');
-      console.log(innerButton1);
+    // var innerButton = innerDoc.getElementById('a_betsContinueBet');
+    // console.log(innerButton);
+    // var innerButton1 = innerDoc.getElementById('a_betslipContent_bet');
+    // console.log(innerButton1);
 
 }
 
   componentDidUpdate(prevProps){
     if ((this.props.lang !== prevProps.lang && this.props.lang) || this.props.user !== prevProps.user) {
       this.game_url("GB Sports");
-      //this.nv.addEventListener('nv-enter', this.handleIframeClick);
+      //window.addEventListener('click', this.handleIframeClick);
     }
     
   }
 
   componentWillUnmount() {
-    //window.removeEventListener('blur', this.handleIframeClick);
+    //window.removeEventListener('click', this.handleIframeClick);
   }
 
-  handleIframeClick(){
+  handleIframeClick= (props) => {
+    let currentComponent = this;
     //console.log('auth');
-    alert("iframe");
-    if(document.activeElement === document.getElementById('gb-iframe')) {
-      console.log("auth");
-
-      this.props.authUserUpdate();
-    }
+    //alert("iframe");
+    // if(document.activeElement === document.getElementById('gb-iframe')) {
+    setInterval(function () {
+      //console.log("auth");
+      currentComponent.props.authUserUpdate(); 
+    }, 5000);
+      
+    //}
   }
   game_url(gamename){
     var URL = "";
@@ -259,7 +264,7 @@ hideIframe(){
         <div className={classes.grow} >
           <div className={classes.rootDesktop}>
             <TopNavbar />
-            <div className={classes.iframeContainer} >
+            <div className={classes.iframeContainer} onClick={this.handleIframeClick}>
               <Iframe url={this.state.url}
                 width='100%'
                 height="1500px"
@@ -268,12 +273,9 @@ hideIframe(){
                 display="initial"
                 position="relative"
                 scrolling="auto"
-                loading='auto'
-                
+                loading='auto' 
               />
-               <div className={classes.iframeOverlay} onClick={this.handleIframeClick}>
-
-               </div>
+              
             </div>
             
             
