@@ -454,7 +454,7 @@ class FgoCard extends Component {
         return (
             <div className={classes.root}>
                 <Grid container spacing={2} className={classes.contentGrid}>
-                    <Grid
+                    {/* <Grid
                         item
                         xs={12}
                         className={classes.detailRow}
@@ -463,7 +463,7 @@ class FgoCard extends Component {
                         <span className={classes.info}>
                             {this.getLabel('fgo-enter')}
                         </span>
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12}>
                         <Select
                             className={classes.select}
@@ -606,7 +606,7 @@ class FgoCard extends Component {
                         item
                         xs={12}
                         className={classes.detailRow}
-                        style={{ marginBottom: 30 }}
+                        style={{ marginBottom: 15 }}
                     >
                         <span className={classes.info}>
                             {this.getLabel('fgo-ensure')}

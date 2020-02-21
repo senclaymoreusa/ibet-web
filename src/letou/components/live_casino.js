@@ -230,10 +230,11 @@ export class live_casino extends React.Component {
     }
 
     handleN2Click = (username) => {
+        const lang = localStorage.getItem('lang');
         var token = localStorage.getItem('token');
         if (token) {
         window.open(
-            `https://666.claymoreasia.com/SingleLogin?merchantcode=IBT&lang=en&userId=${username}&uuId=${token}`,'n2','width=1000,height=800'
+            `https://666.claymoreasia.com/SingleLogin?merchantcode=IBT&lang=${lang}&userId=${username}&uuId=${token}`,'n2','width=1000,height=800'
         );
         }
         else {
@@ -250,20 +251,26 @@ export class live_casino extends React.Component {
         
         }
         const token = localStorage.getItem('token');
+        const lang = localStorage.getItem('lang');
         // var code = gdcasino_code;
         // var accessKey = gdcasino_accessKey;
         //console.log(this.state.data)
         var currency = this.state.data.currency;
         var language = '';
-        if(currency === 'CNY'){
+        if (lang === 'zh') {
             language = 'zh-cn';
-        }else if(currency === 'THB'){
-            language = 'th';
-        }else if(currency === 'VND'){
-            language = 'vi';
-        }else{
-            language = 'en';
+        } else {
+            language = lang;
         }
+        // if(currency === 'CNY'){
+        //     language = 'zh-cn';
+        // }else if(currency === 'THB'){
+        //     language = 'th';
+        // }else if(currency === 'VND'){
+        //     language = 'vi';
+        // }else{
+        //     language = 'en';
+        // }
         
         
         // currency = currencyConversion[currency];
@@ -286,7 +293,19 @@ export class live_casino extends React.Component {
     }
 
     handleAGClick(){
-
+        var lang = localStorage.getItem('lang');
+        //console.log(lang);
+        if(lang === 'en'){
+            lang = '3';
+        }else if(lang === 'zh'){
+            lang = '1';
+        }else if(lang === 'th'){
+            lang = '6';
+        }else if(lang === 'vi'){
+            lang = '8';
+        }else{
+            lang = '1';
+        }
         var bodyFormData = new FormData();
         bodyFormData.set('username', this.state.data.username);
         axios({
@@ -297,7 +316,7 @@ export class live_casino extends React.Component {
         }).then(
             res => {
                 //console.log(res);
-                var balance = res.data.balance;
+                var balance = res.data.info;
                 //console.log(balance);
                 if(balance <= 10){
                     //console.log("popup");
@@ -312,6 +331,7 @@ export class live_casino extends React.Component {
                             "username": this.state.data.username,
                             "actype" : '1',
                             "gameType": '0',
+                            'lang': lang
                         }
                         var formBody = [];
                         for (var pd in postData) {
@@ -351,6 +371,7 @@ export class live_casino extends React.Component {
 
     handleEAClick(mobile) {
         let user_id = this.state.data.pk;
+        const lang = localStorage.getItem('lang');
         axios({
             method: 'get',
             url: API_URL + 'games/api/ea/get-balance/?user_id=' + user_id,
@@ -369,8 +390,12 @@ export class live_casino extends React.Component {
                     }
 
                     var language = 3;
-                    if (this.props.lang === "zh") {
+                    if (lang === "zh") {
                         language = 1;
+                    } else if (lang === "vi") {
+                        language = 11;
+                    } else if (lang === "th") {
+                        language = 8;
                     }
                     var username = this.state.data.username;
                     var token = localStorage.getItem('token');
@@ -390,6 +415,7 @@ export class live_casino extends React.Component {
 
     handleGPIClick(gameName) {
         var username = this.state.data.username;
+        const lang = localStorage.getItem('lang');
         axios({
             method: 'get',
             url: API_URL + 'games/api/gpi/getbalance/?username=' + username,
@@ -404,13 +430,13 @@ export class live_casino extends React.Component {
                     let language = 'us-en';
                     let suffix = "";
 
-                    if (this.props.lang === "zh") {
+                    if (lang === "zh") {
                         language = "zh-cn";
                     }
-                    else if (this.props.lang === "th") {
+                    else if (lang === "th") {
                         language = "th-th";
                     }
-                    else if (this.props.lang === "vi") {
+                    else if (lang === "vi") {
                         language = "vi-vn";
                     }
 

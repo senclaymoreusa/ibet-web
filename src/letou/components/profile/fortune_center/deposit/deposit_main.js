@@ -243,7 +243,7 @@ export class DepositMain extends Component {
     componentDidMount() {
         let txn_type = "deposit";
         let country = "";
-        let marketCode = "";
+        let marketCode = 5;
         let { user } = this.props;
         this.props.authCheckState().then(res => {
             if (res === AUTH_RESULT_FAIL) {
@@ -299,9 +299,9 @@ export class DepositMain extends Component {
         })
     }
 
-    setPage = (page, msg) => {
-        if (msg)
-            this.setState({ depositMessage: msg });
+    setPage = (page, msg, timer) => {
+        if (msg) this.setState({ depositMessage: msg });
+        if (timer) this.setState({ timer: timer})
 
         this.setState({ contentValue: page });
     };
@@ -723,19 +723,20 @@ export class DepositMain extends Component {
                                         let extension = (c === "momopay" || c === "fgocard" || c === "help2pay") ? "png" : "svg";
                                         
                                         return (
-                                            <div className={classes.methodColumn}>
+                                            <div className={classes.methodColumn} key={c}>
                                                 <Button
                                                     className={classes.paymentButton}
                                                     onClick={() => {
-                                                        this.depositWith(c);
+                                                        if (c !== "help2pay") { this.depositWith(c); }
+                                                        else { this.depositWith("vietnamhelp2pay"); }
                                                     }}>
                                                     <img src={images.src + `letou/${c}.${extension}`} alt="" height="26" />
-                                                    {user.favoriteDepositMethod === c && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                                    {((c === "help2pay" && user.favoriteDepositMethod === "vietnamhelp2pay") || (c !== "help2pay" && user.favoriteDepositMethod === c))  && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                                 </Button>
                                                 <span className={clsx(classes.title, {
-                                                    [classes.active]: (operationProp === c),
+                                                    [classes.active]: ((c === "help2pay" && operationProp === "vietnamhelp2pay") || (c !== "help2pay" && operationProp === c)),
                                                 })}>{this.getLabel(c)}</span>
-                                                {operationProp === c && <div className={classes.selected} />}
+                                                {((c === "help2pay" && operationProp === "vietnamhelp2pay") || (c !== "help2pay" && operationProp === c)) && <div className={classes.selected} />}
                                             </div>
                                         )
                                     }) : <div></div>}
@@ -803,14 +804,14 @@ export class DepositMain extends Component {
                                             this.depositWith('fgocard');
                                         }
                                     }} />
-                                <StyledTab label={this.getLabel('help2pay')} value="help2pay"
+                                <StyledTab label={this.getLabel('help2pay')} value="vietnamhelp2pay"
                                     icon={<div className={classes.mobileTabIcon}>
                                         <img src={images.src + 'letou/help2pay.png'} alt="" height="18" />
-                                        {user.favoriteDepositMethod === 'help2pay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                        {user.favoriteDepositMethod === 'vietnamhelp2pay' && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                     </div>}
                                     onClick={() => {
-                                        if (operationProp !== 'help2pay') {
-                                            this.depositWith('help2pay');
+                                        if (operationProp !== 'vietnamhelp2pay') {
+                                            this.depositWith('vietnamhelp2pay');
                                         }
                                     }} />
                             </StyledTabs>
@@ -833,7 +834,7 @@ export class DepositMain extends Component {
         else if (contentValue === 'inprogress')
             return <DepositInprogress callbackFromParent={this.setPage} InprogressMessage={this.state.depositMessage} />;
         else if (contentValue === 'pending')
-            return <DepositPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} />;
+            return <DepositPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} timer={this.state.timer}/>;
         else if (contentValue === 'momopay')
             return <MomoPayPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} />;
 

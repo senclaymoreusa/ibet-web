@@ -845,7 +845,12 @@ class Transfer extends Component {
                                         return {
                                             title: item.code,
                                             value: parseFloat(item.amount),
-                                            color: item.color
+                                            color: walletColors.filter(wc => {
+                                                return (
+                                                    wc.code ===
+                                                    item.code
+                                                );
+                                            })[0].color
                                         };
                                     })}
                                     lineWidth={15}
@@ -915,7 +920,12 @@ class Transfer extends Component {
                                     return {
                                         title: item.code,
                                         value: parseFloat(item.amount),
-                                        color: item.color
+                                        color: walletColors.filter(wc => {
+                                            return (
+                                                wc.code ===
+                                                item.code
+                                            );
+                                        })[0].color
                                     };
                                 })}
                                 lengthAngle={360}
@@ -957,6 +967,12 @@ class Transfer extends Component {
                                 {otherWalletObjs.map(walletObj => (
                                     <Grid item xs={4} key={walletObj.code}>
                                         <LetouWallet wallet={walletObj} currency={currency}
+                                        colorObj={walletColors.filter(wc => {
+                                            return (
+                                                wc.code ===
+                                                walletObj.code
+                                            );
+                                        })[0]}
                                             onClick={() => { this.handleWalletClick(walletObj.code) }} />
                                     </Grid>
                                 ))}
