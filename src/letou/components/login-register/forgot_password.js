@@ -397,6 +397,7 @@ export class ForgotPassword extends React.Component {
             .get(API_URL + apiURL, config)
             .then(res => {
                 if (res.status === 200) {
+                    console.log(res);
                     this.setState({
                         hasQuestion: res.data.question,
                         phoneVerified: res.data.phone,
