@@ -120,7 +120,7 @@ class TransferSuccess extends Component {
     }
 
     checkBalanceClicked() {
-        this.props.history.push('/p/fortune-center');
+        this.props.history.push('/p/fortune-center/total-assets');
     }
 
     getLabel(labelId) {
