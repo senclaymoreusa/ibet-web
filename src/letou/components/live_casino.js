@@ -316,7 +316,7 @@ export class live_casino extends React.Component {
         }).then(
             res => {
                 //console.log(res);
-                var balance = res.data.balance;
+                var balance = res.data.info;
                 //console.log(balance);
                 if(balance <= 10){
                     //console.log("popup");
