@@ -208,6 +208,7 @@ const styles = theme => ({
     borderRadius: 18,
     textTransform:'capitalize',
     color:'#fff',
+    cursor:'pointer',
     backgroundColor:'#000',
     '&:hover': {
       backgroundColor: '#1a1a1a'
