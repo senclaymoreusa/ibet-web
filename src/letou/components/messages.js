@@ -34,6 +34,7 @@ export const messages = {
         'pick-up': 'PK10',
         'fast-3': 'K3',
         'latest-offer': 'Latest Offer',
+        'latest-offers': 'Latest Offers',
         'daily-discount': 'Daily Discount',
         'operation-license': 'Operation License',
         'seriea-sponsorship': 'Serie A Sponsorship',

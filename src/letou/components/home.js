@@ -28,6 +28,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Link from '@material-ui/core/Link';
 import RightIcon from '@material-ui/icons/KeyboardArrowRight';
+import clsx from 'clsx';
 
 import axios from 'axios';
 import { errors } from './errors';
@@ -165,6 +166,53 @@ const styles = theme => ({
       backgroundColor: '#f9f9f9',
     },
   },
+  hot: {
+    border: '1px solid #f0f0f0',
+    marginBottom: 10,
+    backgroundColor: 'white',
+    padding: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: '#f9f9f9',
+    },
+  },
+  carouselContainer: {
+    width: 240,
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 3,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  carouselColumn: {
+    width: 140,
+    marginTop: 50,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  carousel: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundSize: 'cover',
+    height: 70,
+    marginBottom:6
+  },
+  latestButton:{
+    borderRadius: 18,
+    textTransform:'capitalize',
+    color:'#fff',
+    backgroundColor:'#000',
+    '&:hover': {
+      backgroundColor: '#1a1a1a'
+    }
+  },
   searchContainer: {
     width: '100%',
     height: 140,
@@ -299,7 +347,7 @@ const styles = theme => ({
     height: 60,
     padding: 10,
     backgroundColor: '#fff',
-    
+
     bottom: 0,
     overflow: 'hidden',
     transition: ' all ease-out .2s',
@@ -315,11 +363,79 @@ const styles = theme => ({
     transition: ' all ease-out .2s',
     lineHeight: 1.57
   },
-  proColumn:{
-    position: 'relative', 
-    display: 'flex', 
+  proColumn: {
+    position: 'relative',
+    display: 'flex',
     flexDirection: 'column',
   },
+  hotCol: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  hotRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  hotTitle: {
+    fontSize: 18,
+    color: '#212121',
+    fontWeight: 500,
+    fontStyle: 'normal',
+    lineHeight: 1.57,
+  },
+  hoveredHotTitle: {
+    color: '#ff9e00',
+  },
+  hotPrize: {
+    marginTop: 10,
+    paddingLeft: 12,
+    paddingRight: 12,
+    backgroundColor: '#f6f6f6',
+    border: '1px solid #e5e5e5',
+    borderRadius: 20,
+    fontSize: 12,
+    color: '#666'
+  },
+  hoveredhotPrize: {
+    backgroundColor: '#fff',
+    border: '1px solid #ff9e00',
+    color: '#ff9e00'
+  },
+  hotButton: {
+    marginTop: 10,
+    marginRight: 10,
+    border: 0,
+    fontSize: 12,
+    textTransform: 'capitalize',
+    color: '#212121',
+    "&:hover": {
+      backgroundColor: '#f0f0f0',
+    },
+  },
+  hotIcon: {
+    width: 16,
+    height: 16
+  },
+  hotText: {
+    fontSize: 12,
+    color: '#ff9e00',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+  },
+  heat: {
+    backgroundImage: 'url(' + images.src + 'letou/icon-hot3.png)',
+    backgroundSize: 'cover',
+    width: 37,
+    height: 33,
+    fontSize: 14,
+    color: '#fff',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: 8,
+    marginLeft: 10
+  }
 });
 
 const ColorButton = withStyles(theme => ({
@@ -352,7 +468,8 @@ export class Home extends Component {
     this.state = {
       width: 800,
       search: '',
-      searchType: 'all'
+      searchType: 'all',
+      hoveredHot: null,
     };
   }
 
@@ -419,7 +536,7 @@ export class Home extends Component {
 
   render() {
     const { classes } = this.props;
-    const { search, searchType } = this.state;
+    const { search, searchType, hoveredHot } = this.state;
 
     const bannerImages = [
       images.src + 'letou/banner1.jpg',
@@ -495,6 +612,14 @@ export class Home extends Component {
                     <span className={classes.playground}>{this.getLabel('play-ground')}</span>
                     <span className={classes.playgorundText}>{this.getLabel('playground-text')}</span>
                   </div>
+                </div>
+              </div>
+              <div className={classes.carouselContainer}>
+                <div className={classes.carouselColumn}>
+                  {bannerImages.map(item => (
+                    <div key={item} className={classes.carousel} style={{ 'backgroundImage': `url(${item})` }} />
+                  ))}
+                  <Button className={classes.latestButton} variant="contained">{this.getLabel('latest-offers')}</Button>
                 </div>
               </div>
             </Grid>
@@ -596,7 +721,6 @@ export class Home extends Component {
                         <div className={classes.grow} />
                         <RightIcon />
                       </Grid>
-
                       <Grid item xs={12} style={{ borderBottom: '3px solid #ff9e00', height: 20 }}>
                       </Grid>
                       <Grid item xs={12} style={{ paddingBottom: 10, paddingTop: 10 }}>
@@ -608,7 +732,7 @@ export class Home extends Component {
                     </Grid>
                   </div>
                   <div className={classes.rightColumn}>
-                    <Grid container spacing={3} style={{marginLeft: 10}}>
+                    <Grid container spacing={3} style={{ marginLeft: 10 }}>
                       <Grid item xs={12} className={classes.searchRow}>
                         <span className={classes.subTitle}>{this.getLabel('featured-promotions')}</span>
                         <div className={classes.grow} />
@@ -661,23 +785,73 @@ export class Home extends Component {
                         <div className={classes.grow} />
                         <ColorButton style={{ marginBottom: 10 }}>More</ColorButton>
                       </Grid>
-                      <Grid item xs={12} className={classes.row} style={{ padding: 20, display: 'flex', flexDirection: 'row', cursor: 'pointer' }}>
-                        <img
-                          src={
-                            images.src +
-                            'letou/ct1.jpg'
-                          }
-                          style={{ minWidth: 221 }}
-                          height={168}
-                          width={221}
-                          alt=""
-                        />
-                        <div style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
-                          <span className={classes.subTitle}>Captain's Treasure</span>
-                          <span className={classes.text}>Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times!</span>
+                      <Grid item xs={12} style={{ padding: 0 }}>
+                        <div className={classes.hot}
+                          onMouseEnter={() => {
+                            this.setState({ hoveredHot: 1 })
+                          }}
+                          onMouseLeave={() => {
+                            this.setState({ hoveredHot: null })
+                          }}>
+                          <img
+                            src={
+                              images.src +
+                              'letou/ct1.jpg'
+                            }
+                            style={{ minWidth: 221, marginRight: 20 }}
+                            height={168}
+                            width={221}
+                            alt=""
+                          />
+                          <div className={classes.hotCol}>
+                            <span
+                              className={clsx({
+                                [classes.hotTitle]: true,
+                                [classes.hoveredHotTitle]: hoveredHot === 1
+                              })}>Captain's Treasure</span>
+                            <span className={classes.text}>Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times!</span>
+                            <div>
+                              <span className={clsx({
+                                [classes.hotPrize]: true,
+                                [classes.hoveredhotPrize]: hoveredHot === 1
+                              })}>¥1,382,303.96</span>
+                            </div>
+                            <div className={classes.grow} />
+                            <div className={classes.hotRow}>
+                              <Button
+                                className={classes.hotButton}
+                                startIcon={<img
+                                  src={
+                                    images.src +
+                                    'letou/icon-hot1.png'
+                                  }
+                                  alt=""
+                                  className={classes.hotIcon}
+                                />}
+                              >
+                                {this.getLabel('slot-machine')}
+                              </Button>
+                              <Button
+                                className={classes.hotButton}
+                                startIcon={<img
+                                  src={
+                                    images.src +
+                                    'letou/icon-hot2.png'
+                                  }
+                                  alt=""
+                                  className={classes.hotIcon}
+                                />}
+                              >
+                                11 lines
+                              </Button>
+                              <div className={classes.grow} />
+                              <span className={classes.hotText}>17</span>
+                              <div className={classes.heat} >Hot</div>
+                            </div>
+                          </div>
                         </div>
                       </Grid>
-                      <Grid item xs={12} className={classes.row} style={{ padding: 20, display: 'flex', flexDirection: 'row', cursor: 'pointer' }}>
+                      <Grid item xs={12} className={classes.hot}>
                         <img
                           src={
                             images.src +
@@ -693,7 +867,7 @@ export class Home extends Component {
                           <span className={classes.text}>The full fruit carnival party has begun! This is a five-reel, 15-payline game with various winning combinations. You can use the payline to create your own way of winning. When someone gets a jackpot, players in the game will be notified!</span>
                         </div>
                       </Grid>
-                      <Grid item xs={12} className={classes.row} style={{ padding: 20, display: 'flex', flexDirection: 'row', cursor: 'pointer', '&:hover': { backgroundColor: 'orange' } }}>
+                      <Grid item xs={12} className={classes.hot}>
                         <img
                           src={
                             images.src +
