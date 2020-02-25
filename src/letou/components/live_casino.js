@@ -9,7 +9,7 @@ import '../css/banner.css';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import sha256 from 'sha256';
-import { config} from '../../util_config';
+import { config } from '../../util_config';
 import axios from 'axios';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -452,6 +452,25 @@ export class live_casino extends React.Component {
         )
         
     }
+
+
+    handleOPUSClick(e, username) {
+        e.preventDefault();
+        var userId = this.props.user.userId ? this.props.user : "";
+        var currencyCode = this.props.user.currency_code ?  this.props.user : "";
+        const lang = localStorage.getItem('lang');
+        console.log(userId);
+        var language = 'en-US';
+        if (lang === 'zh') {
+            language = 'zh-CN';
+        } else if (lang === 'th') {
+            language = 'zh-TH';
+        } else if (lang === 'vi') {
+            language = 'vi-VN';
+        }
+
+        
+    }
     
     
     render() {
@@ -597,7 +616,7 @@ export class live_casino extends React.Component {
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a href="/"><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
+                            <a href="/" onClick={(e) => {this.handleOPUSClick(e, username);}} ><span>{(this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
                         </div>
@@ -908,7 +927,7 @@ const mapStateToProps = (state) => {
         isAuthenticated: (token !== null && token !== undefined),
         lang: state.language.lang,
         showTransfer: state.general.show_letou_transfer,
-        
+        user: state.auth.user
     }
 }
 

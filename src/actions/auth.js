@@ -323,6 +323,7 @@ export const authCheckState = () => {
                 return axios
                     .get(API_URL + 'users/api/user/', config)
                     .then(res => {
+                        console.log(res);
                         if (res.data.errorCode === errors.USER_IS_BLOCKED) {
                             dispatch(authFail(res.data.errorMsg.detail[0]));
                             dispatch(postLogout());
@@ -353,7 +354,8 @@ function parseUser(data) {
         username: data.username,
         firstName: data.first_name,
         lastName: data.last_name,
-        currency: data.currency,
+        currency_code: data.currency,
+        currency: data.currency_value,
         favoriteDepositMethod: data.favorite_payment_method,
         country: data.country,
         balance: data.main_wallet,
