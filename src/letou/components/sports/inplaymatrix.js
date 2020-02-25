@@ -3,7 +3,7 @@ import Footer from "./../footer";
 import TopNavbar from "./../top_navbar";
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { authCheckState, handle_referid, hide_landing_page } from '../../../actions';
+import { authCheckState, handle_referid, hide_landing_page, sendingLog } from '../../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import '../../css/banner.css';
 import { withRouter } from 'react-router-dom';
@@ -12,9 +12,6 @@ import axios from 'axios';
 import Iframe from 'react-iframe'
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL
-
-
-//console.log("Line 15, process env URL = " + API_URL);
 
 document.body.style = 'background: #f1f1f1;';
 
@@ -115,32 +112,37 @@ export class gbesports extends React.Component {
     
   }
   componentDidMount() {
+    const { user } = this.props;
+
     var token = localStorage.getItem('token');
     if (token){
         config.headers["Authorization"] = `Token ${token}`;
         var URL = API_URL + 'games/api/inplay/login/';
 
-        axios.get(API_URL + 'users/api/user/', config)
-            .then(res => {
-                let userName = res.data.username;
-                axios.post(URL, {"username": "Bobby"}, config)
-                .then(res => {
-                    console.log(res);
-                    if(res.status == 200) {
-                        if(res.data.StatusCode === 0 && res.data.StatusDesc === "Success") {
-                            // let launchUrl = "https://imes.claymoreasia.com/?token=" + String(token);
-                            let launchUrl = "https://imes.claymoreasia.com/?token=a7d7eadf40d6364c17a7416b766497ff57fb84e2";
-                            console.log(launchUrl);
-                            this.setState({url: launchUrl});
-                        }
-                    }
-                })
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        let userName = user.username;
+        axios.post(URL, {"username": userName}, config)
+        .then(res => {
+            if(res.status == 200) {
+                console.log(res.data);
+                if(res.data.StatusCode === 0 && res.data.StatusDesc === "Success") {
+                    let launchUrl = "https://imes.claymoreasia.com/?token=" + String(token);
+                    // let launchUrl = "https://imes.claymoreasia.com/?token=" + "a7d7eadf40d6364c17a7416b766497ff57fb84e2";
+                    this.setState({url: launchUrl});
+                }
+                else {
+                    sendingLog(res.data);
+                }
+            }
+            else{
+              sendingLog(res.data);
+            }
+        })
+        .catch(err => {
+           sendingLog(err);
+        })
     } else {
-        console.log("Not Login");
+        let launchUrl = "https://imes.claymoreasia.com";
+        this.setState({url: launchUrl});
     }
     // this.props.authCheckState()
     //     .then(() => {
@@ -149,37 +151,10 @@ export class gbesports extends React.Component {
     // this.game_url("GB ESports");
    
 }
-//   game_url(gamename){
-    
-//     var token = localStorage.getItem('token')  
-//     if (token){
-//         config.headers["Authorization"] = `Token ${token}`;
-//         var URL = API_URL + 'games/api/inplay/login/';
-//         axios.get(URL, {"user": "Bobby"}, config)
-//             .then(res => {
-//                 // var Game_URL = res.data.game_url
-//                 console.log(res);
-//                 // // this.state.url =Game_URL
-//                 // this.setState({url : Game_URL});
-//             })
-//     } else {
-//         console.log("Not Login");
-//         // var URL = API_URL + 'games/api/gb/generatefakeusergameurl/?game=' + gamename
-//         // axios.get(URL, config)
-//         // .then(res => {
-//         //     var Game_URL = res.data.game_url
-//         //     // console.log("fake");
-//         //     // console.log(Game_URL);
-//         //     // return Game_URL;
-//         //     this.setState({url : Game_URL});
-//         // })
-//     }
-// }
   
-
   render() {
 
-    const { classes } = this.props;
+    const { classes, user } = this.props;
 
     return (
       <div className={classes.root}>
@@ -195,8 +170,6 @@ export class gbesports extends React.Component {
             scrolling="auto"
             loading='auto' />
 
-        
-        
         <Footer />
       </div>
       
@@ -205,8 +178,10 @@ export class gbesports extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const {user} = state.auth;
   return {
     lang: state.language.lang,
+    user : user,
   }
 }
 
