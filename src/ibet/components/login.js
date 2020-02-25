@@ -179,7 +179,7 @@ export class Login extends React.Component {
 
     onFormSubmit(event) {
         event.preventDefault();
-        this.props.authLogin(this.state.username, this.state.password)
+        this.props.authLogin(this.state.username, this.state.password, '')
             .then((response) => {
                 // console.log(response);
                 if (response.errorCode) {

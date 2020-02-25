@@ -242,6 +242,28 @@ export class live_casino extends React.Component {
         }
     };
 
+    handleABClick = (username) => {
+        var token = localStorage.getItem('token');
+        var launch_url = `https://ibet-django-apdev.claymoreasia.com/games/api/allbet/launch?client=${username}`;
+
+        if (token) {
+            axios.get(launch_url)
+                .then(
+                    res => {
+                        const AB_URL = res.data;
+
+                        window.open(
+                            AB_URL, 'allbet', 'width=1000,height=800'
+                        );
+                    }
+                );
+        }
+        else {
+            this.props.history.push('/register');
+        }
+
+    };
+
     handleGDClick(view){
         let direct_view = {
         'Baccarat': 'N',
@@ -540,7 +562,7 @@ export class live_casino extends React.Component {
                         </ul>
                         <Grid item xs={3} className={classes.PgHallBtn}>
                         <div className="PgHallBtn FloatRight" style={{ cursor: 'pointer' }}>
-                            <a href="/"><span>{(this.state.data) ? (this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now') : this.getLabel('Register-Now')}</span></a>
+                            <a href="/" onClick={(e) => {this.handleABClick(username);e.preventDefault();}} ><span>{(this.state.data) ? (this.state.data) ? this.getLabel('Real-money') : this.getLabel('Register-Now') : this.getLabel('Register-Now')}</span></a>
                         </div>
                         </Grid>
                         </div>
