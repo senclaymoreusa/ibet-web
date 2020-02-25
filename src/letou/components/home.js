@@ -202,14 +202,17 @@ const styles = theme => ({
     justifyContent: 'center',
     backgroundSize: 'cover',
     height: 70,
-    marginBottom:6
+    marginBottom: 6
   },
-  latestButton:{
+  activeCarousel: {
+    border: '2px solid #ff9e00'
+  },
+  latestButton: {
     borderRadius: 18,
-    textTransform:'capitalize',
-    color:'#fff',
-    cursor:'pointer',
-    backgroundColor:'#000',
+    textTransform: 'capitalize',
+    color: '#fff',
+    cursor: 'pointer',
+    backgroundColor: '#000',
     '&:hover': {
       backgroundColor: '#1a1a1a'
     }
@@ -464,14 +467,18 @@ export class Home extends Component {
   constructor(props) {
     super(props);
 
-    this.searchDiv = React.createRef();
+    this.bannerRef = React.createRef();
 
     this.state = {
       width: 800,
+      banners: [],
+      activeBanner: -1,
       search: '',
       searchType: 'all',
       hoveredHot: null,
     };
+
+    this.setActiveBanner = this.setActiveBanner.bind(this);
   }
 
   handleResize = () => {
@@ -485,7 +492,35 @@ export class Home extends Component {
   componentDidMount() {
     this.setState({ width: window.innerWidth });
 
+    this.getBanners();
+
     window.addEventListener("resize", this.handleResize);
+  }
+
+  getBanners() {
+
+    axios
+      .get(API_URL + 'games/api/get-banner/?category=home', config)
+      .then(res => {
+        if (res.data.success) {
+          let itemArray = [];
+          Object.keys(res.data.results).map(function (refNum) {
+            let result = res.data.results[refNum];
+            itemArray.push(
+              {
+                key: refNum,
+                image: result.image_url
+              }
+            );
+
+          });
+
+          this.setState({ banners: itemArray })
+        }
+      })
+      .catch(err => {
+        sendingLog(err);
+      });
   }
 
   getLabel(labelId) {
@@ -535,9 +570,14 @@ export class Home extends Component {
     }
   }
 
+  setActiveBanner(index){
+      this.setState({ activeBanner: index });
+      this.bannerRef.current.goTo(index);
+  }
+
   render() {
     const { classes } = this.props;
-    const { search, searchType, hoveredHot } = this.state;
+    const { banners, activeBanner, search, searchType, hoveredHot } = this.state;
 
     const bannerImages = [
       images.src + 'letou/banner1.jpg',
@@ -548,11 +588,15 @@ export class Home extends Component {
     ];
 
     const bannerProperties = {
+      // ref: this.bannerRef,
       duration: 3000,
       transitionDuration: 500,
       infinite: true,
       indicators: false,
-      arrows: false
+      arrows: false,
+      onChange: (oldIndex, newIndex) => {
+        this.setState({ activeBanner: newIndex })
+      }
     }
 
     const leftProperties = {
@@ -571,9 +615,9 @@ export class Home extends Component {
           <Grid container>
             <Grid item sm={12} style={{ position: 'relative' }}>
               <div className={classes.bannerContainer}>
-                <Fade {...bannerProperties}>
-                  {bannerImages.map(item => (
-                    <div key={item} className={classes.banner} style={{ 'backgroundImage': `url(${item})` }} />
+                <Fade {...bannerProperties} ref={this.bannerRef} >
+                  {banners.map(item => (
+                    <div key={item.key} className={classes.banner} style={{ 'backgroundImage': `url(${item.image})` }} />
                   ))}
                 </Fade>
               </div>
@@ -617,8 +661,12 @@ export class Home extends Component {
               </div>
               <div className={classes.carouselContainer}>
                 <div className={classes.carouselColumn}>
-                  {bannerImages.map(item => (
-                    <div key={item} className={classes.carousel} style={{ 'backgroundImage': `url(${item})` }} />
+                  {banners.map((item, index) => (
+                    <div key={item.key} className={clsx({
+                      [classes.carousel]: true,
+                      [classes.activeCarousel]: activeBanner === index
+                    })} style={{ 'backgroundImage': `url(${item.image})` }}
+                      onClick={() => {this.setActiveBanner(index)}} />
                   ))}
                   <Button className={classes.latestButton} variant="contained">{this.getLabel('latest-offers')}</Button>
                 </div>
