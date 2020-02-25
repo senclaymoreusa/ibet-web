@@ -456,10 +456,8 @@ export class live_casino extends React.Component {
 
     handleOPUSClick(e, username) {
         e.preventDefault();
-        var userId = this.props.user.userId ? this.props.user : "";
-        var currencyCode = this.props.user.currency_code ?  this.props.user : "";
         const lang = localStorage.getItem('lang');
-        console.log(userId);
+        //console.log(userId);
         var language = 'en-US';
         if (lang === 'zh') {
             language = 'zh-CN';
@@ -468,6 +466,24 @@ export class live_casino extends React.Component {
         } else if (lang === 'vi') {
             language = 'vi-VN';
         }
+        var bodyFormData = new FormData();
+        bodyFormData.set('userid', 16);
+        bodyFormData.append('language', language);
+        
+        axios({
+            method: 'post',
+            url: API_URL + 'games/api/opus/login',
+            data: bodyFormData,
+            config
+        }).then(
+            res => {
+                let url = res.data.url;
+                console.log(res);
+                window.open(url);
+            }
+                
+
+        )
 
         
     }
