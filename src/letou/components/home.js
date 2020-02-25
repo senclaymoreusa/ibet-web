@@ -14,10 +14,22 @@ import {
   sendingLog
 } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
-import { Slide } from 'react-slideshow-image';
+import { Fade } from 'react-slideshow-image';
 import { config, images } from '../../util_config';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Search from '@material-ui/icons/Search';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import Link from '@material-ui/core/Link';
+import RightIcon from '@material-ui/icons/KeyboardArrowRight';
+import clsx from 'clsx';
+
 import axios from 'axios';
 import { errors } from './errors';
 
@@ -58,7 +70,7 @@ const styles = theme => ({
     width: '100%'
   },
   bannerContainer: {
-    height: 504
+    height: 'auto',
   },
   mobileBannerContainer: {
     height: 160
@@ -79,6 +91,8 @@ const styles = theme => ({
   },
   container: {
     width: '100%',
+    paddingTop: 10,
+    paddinBottom: 20,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
@@ -112,14 +126,14 @@ const styles = theme => ({
     width: 260
   },
   rightColumn: {
-    marginLeft: 5
   },
   left: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundSize: 'cover',
-    height: 260
+    height: 260,
+    width: '100%'
   },
   grow: {
     flexGrow: 1
@@ -152,6 +166,280 @@ const styles = theme => ({
       backgroundColor: '#f9f9f9',
     },
   },
+  hot: {
+    border: '1px solid #f0f0f0',
+    marginBottom: 10,
+    backgroundColor: 'white',
+    padding: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: '#f9f9f9',
+    },
+  },
+  carouselContainer: {
+    width: 240,
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 3,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  carouselColumn: {
+    width: 140,
+    marginTop: 50,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  carousel: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundSize: 'cover',
+    height: 70,
+    marginBottom: 6
+  },
+  activeCarousel: {
+    border: '2px solid #ff9e00'
+  },
+  latestButton: {
+    borderRadius: 18,
+    textTransform: 'capitalize',
+    color: '#fff',
+    cursor: 'pointer',
+    backgroundColor: '#000',
+    '&:hover': {
+      backgroundColor: '#1a1a1a'
+    }
+  },
+  searchContainer: {
+    width: '100%',
+    height: 140,
+    position: 'absolute',
+    bottom: 0,
+    margin: 0,
+    zIndex: 2,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  searchColumn: {
+    width: 600,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  searchBar: {
+    borderRadius: 4,
+    padding: 8,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+  },
+  searchRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    color: '#fff'
+  },
+  searchButton: {
+    backgroundColor: '#ff9e00',
+    color: 'white',
+    width: 35,
+    height: 45,
+    marginLeft: 20,
+    '&:hover': {
+      backgroundColor: '#FF7E05'
+    }
+  },
+  searchField: {
+    fontSize: 14,
+    fontWeight: 500,
+    fontStyle: 'normal',
+    fontStretch: 'normal',
+    lineHeight: 'normal',
+    letterSpacing: 'normal',
+    color: '#292929',
+    backgroundColor: '#fff',
+    height: 44,
+    paddingLeft: 6,
+    paddingRight: 10,
+    paddingTop: 6,
+    width: '100%',
+    borderRadius: 4,
+    border: 'solid 1px #e4e4e4',
+    "&:hover": {
+      border: '1px solid #717171',
+    },
+    "&:focus": {
+      border: '1px solid #717171',
+    },
+  },
+  playground: {
+    fontSize: 15,
+    fontWeight: 600,
+    fontStyle: 'normal',
+    fontStretch: 'normal',
+    lineHeight: 'normal',
+    letterSpacing: 'normal',
+    color: '#ff9e00',
+  },
+  playgorundText: {
+    fontSize: 15,
+    fontWeight: 500,
+    fontStyle: 'normal',
+    fontStretch: 'normal',
+    lineHeight: 'normal',
+    letterSpacing: 'normal',
+    color: '#fff',
+    marginLeft: 10
+  },
+  leftRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 8,
+    paddingBottom: 8
+  },
+  more: {
+    fontSize: 12,
+    fontWeight: 500,
+    fontStyle: 'normal',
+    fontStretch: 'normal',
+    lineHeight: 'normal',
+    letterSpacing: 'normal',
+    color: '#grey',
+  },
+  firstColorRow: {
+    borderTop: '1px solid #3eace9',
+    borderLeft: '1px solid #3eace9',
+    borderRight: '1px solid #3eace9',
+    color: '#3eace9',
+    height: 43,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    cursor: 'pointer',
+    "&:hover": {
+      backgroundColor: '#dfdfdf',
+    },
+  },
+  secondColorRow: {
+    border: '1px solid #3eace9',
+    color: '#3eace9',
+    height: 44,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    cursor: 'pointer',
+    "&:hover": {
+      backgroundColor: '#dfdfdf',
+    },
+  },
+  topRow: {
+    paddingLeft: 10,
+    marginBottom: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    borderBottom: '1px solid #dfdfdf',
+    alignItems: 'center',
+  },
+  pro: {
+    position: 'absolute',
+    height: 60,
+    padding: 10,
+    backgroundColor: '#fff',
+
+    bottom: 0,
+    overflow: 'hidden',
+    transition: ' all ease-out .2s',
+    "&:hover": {
+      height: 100,
+    },
+  },
+  proText: {
+    height: 40,
+    fontSize: 14,
+    marginBottom: 5,
+    overflow: 'hidden',
+    transition: ' all ease-out .2s',
+    lineHeight: 1.57
+  },
+  proColumn: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  hotCol: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  hotRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  hotTitle: {
+    fontSize: 18,
+    color: '#212121',
+    fontWeight: 500,
+    fontStyle: 'normal',
+    lineHeight: 1.57,
+  },
+  hoveredHotTitle: {
+    color: '#ff9e00',
+  },
+  hotPrize: {
+    marginTop: 10,
+    paddingLeft: 12,
+    paddingRight: 12,
+    backgroundColor: '#f6f6f6',
+    border: '1px solid #e5e5e5',
+    borderRadius: 20,
+    fontSize: 12,
+    color: '#666'
+  },
+  hoveredhotPrize: {
+    backgroundColor: '#fff',
+    border: '1px solid #ff9e00',
+    color: '#ff9e00'
+  },
+  hotButton: {
+    marginTop: 10,
+    marginRight: 10,
+    border: 0,
+    fontSize: 12,
+    textTransform: 'capitalize',
+    color: '#212121',
+    "&:hover": {
+      backgroundColor: '#f0f0f0',
+    },
+  },
+  hotIcon: {
+    width: 16,
+    height: 16
+  },
+  hotText: {
+    fontSize: 12,
+    color: '#ff9e00',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+  },
+  heat: {
+    backgroundImage: 'url(' + images.src + 'letou/icon-hot3.png)',
+    backgroundSize: 'cover',
+    width: 37,
+    height: 33,
+    fontSize: 14,
+    color: '#fff',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: 8,
+    marginLeft: 10
+  }
 });
 
 const ColorButton = withStyles(theme => ({
@@ -164,16 +452,33 @@ const ColorButton = withStyles(theme => ({
   },
 }))(Button);
 
+const SearchRadio = withStyles({
+  root: {
+    color: '#ff9e00',
+    '&$checked': {
+      color: '#FF7E05',
+    },
+  },
+  checked: {},
+})(props => <Radio color="default" {...props} />);
+
 export class Home extends Component {
 
   constructor(props) {
     super(props);
 
-    this.searchDiv = React.createRef();
+    this.bannerRef = React.createRef();
 
     this.state = {
-      width: 800
+      width: 800,
+      banners: [],
+      activeBanner: -1,
+      search: '',
+      searchType: 'all',
+      hoveredHot: null,
     };
+
+    this.setActiveBanner = this.setActiveBanner.bind(this);
   }
 
   handleResize = () => {
@@ -187,7 +492,35 @@ export class Home extends Component {
   componentDidMount() {
     this.setState({ width: window.innerWidth });
 
+    this.getBanners();
+
     window.addEventListener("resize", this.handleResize);
+  }
+
+  getBanners() {
+
+    axios
+      .get(API_URL + 'games/api/get-banner/?category=home', config)
+      .then(res => {
+        if (res.data.success) {
+          let itemArray = [];
+          Object.keys(res.data.results).map(function (refNum) {
+            let result = res.data.results[refNum];
+            itemArray.push(
+              {
+                key: refNum,
+                image: result.image_url
+              }
+            );
+
+          });
+
+          this.setState({ banners: itemArray })
+        }
+      })
+      .catch(err => {
+        sendingLog(err);
+      });
   }
 
   getLabel(labelId) {
@@ -217,15 +550,12 @@ export class Home extends Component {
               config
             )
             .then(res => {
-              // console.log("response: ", res);
               if (res.data.errorCode === errors.USER_IS_BLOCKED) {
-                // this.props.logout();
                 this.props.postLogout();
                 return;
               }
 
               if (res.status === 200) {
-                // console.log(res.data);
                 this.setState({ kyUrl: res.data.d.url });
                 window.open(this.state.kyUrl, 'kaiyuan gaming');
               }
@@ -240,8 +570,14 @@ export class Home extends Component {
     }
   }
 
+  setActiveBanner(index){
+      this.setState({ activeBanner: index });
+      this.bannerRef.current.goTo(index);
+  }
+
   render() {
     const { classes } = this.props;
+    const { banners, activeBanner, search, searchType, hoveredHot } = this.state;
 
     const bannerImages = [
       images.src + 'letou/banner1.jpg',
@@ -252,16 +588,20 @@ export class Home extends Component {
     ];
 
     const bannerProperties = {
-      duration: 2000,
+      // ref: this.bannerRef,
+      duration: 3000,
       transitionDuration: 500,
       infinite: true,
-      indicators: true,
-      arrows: true
+      indicators: false,
+      arrows: false,
+      onChange: (oldIndex, newIndex) => {
+        this.setState({ activeBanner: newIndex })
+      }
     }
 
     const leftProperties = {
-      duration: 3000,
-      transitionDuration: 50,
+      duration: 2500,
+      transitionDuration: 500,
       infinite: true,
       indicators: false,
       arrows: false,
@@ -272,210 +612,340 @@ export class Home extends Component {
       <div className={classes.root}>
         <TopNavbar />
         <div className={classes.rootDesktop}>
-          <div className={classes.bannerContainer}>
-            <Slide {...bannerProperties}>
-              {bannerImages.map(item => (
-                <div key={item} className={classes.banner} style={{ 'backgroundImage': `url(${item})` }} />
-              ))}
-            </Slide>
-          </div>
-          <div className={classes.container}>
-            <div className={classes.contentDesktop}>
-              <div className={classes.leftColumn}>
-                <Grid container>
-                  <Grid item xs={12} style={{ paddingBottom: 20, borderBottom: '3px solid #ff9e00' }}>
-                    <Slide {...leftProperties}>
-                      <div className={classes.left} style={{ 'backgroundImage': `url(${images.src + 'letou/left1.jpg'})` }} />
-                      <div className={classes.left} style={{ 'backgroundImage': `url(${images.src + 'letou/left2.jpg'})` }} />
-                    </Slide>
-                  </Grid>
-                  <Grid item xs={12} style={{ paddingBottom: 10, paddingTop: 10 }}>
-                    <span className={classes.subTitle}>Coming soon</span>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <img
-                      src={
-                        images.src +
-                        'letou/left3.jpg'
-                      }
-                      alt=""
-                    />
-                  </Grid>
-                  <Grid item xs={12} style={{ backgroundColor: '#fafafa', padding: 10 }}>
-                    <span className={classes.desc}>Boston Celtics v Detroit Pistons</span>
-                  </Grid>
-                  <Grid item xs={12} style={{ border: '1px solid #f3f3f3', padding: 10 }}>
-                    <span className={classes.desc}>Boston Celtics</span>
-                  </Grid>
-                  <Grid item xs={12} style={{ border: '1px solid #f3f3f3', padding: 10 }}>
-                    <span className={classes.desc}>Boston Celtics</span>
-                  </Grid>
-                  <Grid item xs={12} style={{ borderBottom: '3px solid #ff9e00', height: 20 }}>
-                  </Grid>
-                  <Grid item xs={12} style={{ paddingBottom: 10, paddingTop: 10 }}>
-                    <span className={classes.subTitle}>Digital color</span>
-                  </Grid>
-                  <Grid item xs={6} style={{ borderTop: '1px solid #3eace9', borderLeft: '1px solid #3eace9', borderBottom: '1px solid #3eace9', height: 32 }}>
-                    <img
-                      src={
-                        images.src +
-                        'letou/degitalpic1.jpg'
-                      }
-                      height={42}
-                      width={130}
-                      alt=""
-                    />
-                  </Grid>
-                  <Grid item xs={6} style={{ borderTop: '1px solid #3eace9', borderRight: '1px solid #3eace9', borderBottom: '1px solid #3eace9', height: 42, color: '#3eace9', paddingTop: 8, paddingLeft: 10 }}>
-                    <span >Happy color</span>
-                  </Grid>
-                  <Grid item xs={6} style={{ borderLeft: '1px solid #3eace9', borderBottom: '1px solid #3eace9', height: 42 }}>
-                    <img
-                      src={
-                        images.src +
-                        'letou/degitalpic2.jpg'
-                      }
-                      height={42}
-                      width={130}
-                      alt=""
-                    />
-                  </Grid>
-                  <Grid item xs={6} style={{ borderRight: '1px solid #3eace9', borderBottom: '1px solid #3eace9', height: 42, color: '#3eace9', paddingTop: 8, paddingLeft: 10 }}>
-                    <span >Lotto</span>
-                  </Grid>
-                  <Grid item xs={12} style={{ borderBottom: '3px solid #ff9e00', height: 20 }}>
-                  </Grid>
-                  <Grid item xs={12} style={{ paddingBottom: 10, paddingTop: 10 }}>
-                    <span className={classes.subTitle}>Live dealer</span>
-                  </Grid>
-                  <Grid item xs={6} style={{ borderTop: '1px solid #3eace9', borderLeft: '1px solid #3eace9', borderBottom: '1px solid #3eace9', height: 42 }}>
-                    <img
-                      src={
-                        images.src +
-                        'letou/pgbanner1.jpg'
-                      }
-                      height={42}
-                      width={130}
-                      alt=""
-                    />
-                  </Grid>
-                  <Grid item xs={6} style={{ borderTop: '1px solid #3eace9', borderRight: '1px solid #3eace9', borderBottom: '1px solid #3eace9', height: 42, color: '#3eace9', paddingTop: 8, paddingLeft: 10 }}>
-                    <span >Baccarat</span>
-                  </Grid>
-                  <Grid item xs={12} style={{ borderBottom: '3px solid #ff9e00', height: 20 }}>
-                  </Grid>
-                  <Grid item xs={12} style={{ paddingBottom: 10, paddingTop: 10 }}>
-                    <span className={classes.subTitle}>Latest Announcement</span>
-                  </Grid>
-                  <Grid item xs={12} style={{ paddingBottom: 10, paddingTop: 10, borderTop: '3px solid #f3f3f3' }}>
-                    <span className={classes.desc}>¥ Central People’s Bank of China...</span>
-                  </Grid>
-                </Grid>
+          <Grid container>
+            <Grid item sm={12} style={{ position: 'relative' }}>
+              <div className={classes.bannerContainer}>
+                <Fade {...bannerProperties} ref={this.bannerRef} >
+                  {banners.map(item => (
+                    <div key={item.key} className={classes.banner} style={{ 'backgroundImage': `url(${item.image})` }} />
+                  ))}
+                </Fade>
               </div>
-              <div className={classes.rightColumn}>
-                <Grid container>
-                  <Grid item xs={12} style={{ padding: 20, display: 'flex', flexDirection: 'row', backgroundColor: 'white' }}>
-                    <span className={classes.subTitle}>Letou Featured Promotions</span>
-                    <span className={classes.desc} style={{ marginLeft: 20, marginTop: 6 }}>Various offers to support you</span>
-                  </Grid>
-                  <Grid item xs={4} style={{ padding: 20, display: 'flex', flexDirection: 'column', }}>
-                    <img
-                      src={
-                        images.src +
-                        'letou/c1.jpg'
-                      }
-                      alt=""
-                      height={147}
-                    />
-                    <span className={classes.text} style={{ marginTop: 20 }}>Le Tou crazy football! All the leagues in all countries have made every week's winnings and fully upgraded!</span>
-                  </Grid>
-                  <Grid item xs={4} style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
-                    <img
-                      src={
-                        images.src +
-                        'letou/c2.jpg'
-                      }
-                      height={147}
-                      alt=""
-                    />
-                    <span className={classes.text} style={{ marginTop: 20 }}>Le Tou crazy football! All the leagues in all countries have made every week's winnings and fully upgraded!</span>
-                  </Grid>
-                  <Grid item xs={4} style={{ padding: 20, display: 'flex', flexDirection: 'column', }}>
-                    <img
-                      src={
-                        images.src +
-                        'letou/c3.jpg'
-                      }
-                      alt=""
-                      height={147}
-                    />
-                    <span className={classes.text} style={{ marginTop: 20 }}>Le Tou crazy football! All the leagues in all countries have made every week's winnings and fully upgraded!</span>
-                  </Grid>
-                  <Grid item xs={12} style={{ paddingLeft: 20, marginBottom: 20, display: 'flex', flexDirection: 'row', borderBottom: '2px solid #f3f3f3' }}>
-                    <span className={classes.subTitle}>Top Games</span>
-                    <div className={classes.grow} />
-                    <ColorButton style={{ marginBottom: 10 }}>More</ColorButton>
-                  </Grid>
-                  <Grid item xs={12} className={classes.row} style={{ padding: 20, display: 'flex', flexDirection: 'row', cursor: 'pointer' }}>
-                    <img
-                      src={
-                        images.src +
-                        'letou/ct1.jpg'
-                      }
-                      style={{ minWidth: 221 }}
-                      height={168}
-                      width={221}
-                      alt=""
-                    />
-                    <div style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
-                      <span className={classes.subTitle}>Captain's Treasure</span>
-                      <span className={classes.text}>Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times!</span>
+              <div className={classes.searchContainer}>
+                <div className={classes.searchColumn}>
+                  <div className={classes.searchBar}>
+                    <div className={classes.searchRow}>
+                      <RadioGroup aria-label="search" name="searchType" value={searchType} onChange={event => {
+                        this.setState({ searchType: event.target.value });
+                      }}>
+                        <div className={classes.searchRow}>
+                          <FormControlLabel value="all" control={<SearchRadio />} label={this.getLabel('all-label')} />
+                          <FormControlLabel value="slot" control={<SearchRadio />} label={this.getLabel('slot-machine')} />
+                          <FormControlLabel value="jackpot" control={<SearchRadio />} label={this.getLabel('jackpot-label')} />
+                          <FormControlLabel value="poker" control={<SearchRadio />} label={this.getLabel('video-poker')} />
+                        </div>
+                      </RadioGroup>
                     </div>
-                  </Grid>
-                  <Grid item xs={12} className={classes.row} style={{ padding: 20, display: 'flex', flexDirection: 'row', cursor: 'pointer' }}>
-                    <img
-                      src={
-                        images.src +
-                        'letou/ct2.jpg'
-                      }
-                      style={{ minWidth: 221 }}
-                      height={168}
-                      width={221}
-                      alt=""
-                    />
-                    <div style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
-                      <span className={classes.subTitle}>Line 5-Fruit Festival</span>
-                      <span className={classes.text}>Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times!</span>
+                    <div className={classes.searchRow}>
+                      <TextField
+                        className={classes.searchField}
+                        placeholder={this.getLabel('search-placeholder')}
+                        onChange={event => {
+                          this.setState({ search: event.target.value });
+                        }}
+                        value={search}
+                        InputProps={{
+                          disableUnderline: true
+                        }}
+                      />
+                      <Button className={classes.searchButton}>
+                        <Search style={{ height: 30 }} />
+                      </Button>
                     </div>
-                  </Grid>
-                  <Grid item xs={12} className={classes.row} style={{ padding: 20, display: 'flex', flexDirection: 'row', cursor: 'pointer', '&:hover': { backgroundColor: 'orange' } }}>
-                    <img
-                      src={
-                        images.src +
-                        'letou/ct3.jpg'
-                      }
-                      style={{ minWidth: 221 }}
-                      height={168}
-                      width={221}
-                      alt=""
-                    />
-                    <div style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
-                      <span className={classes.subTitle}>More than every year</span>
-                      <span className={classes.text}>Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times!</span>
-                    </div>
-                  </Grid>
-                </Grid>
+                  </div>
+                  <div className={classes.searchRow} style={{ paddingTop: 10, paddingBottom: 10 }}>
+                    <span className={classes.playground}>{this.getLabel('play-ground')}</span>
+                    <span className={classes.playgorundText}>{this.getLabel('playground-text')}</span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+              <div className={classes.carouselContainer}>
+                <div className={classes.carouselColumn}>
+                  {banners.map((item, index) => (
+                    <div key={item.key} className={clsx({
+                      [classes.carousel]: true,
+                      [classes.activeCarousel]: activeBanner === index
+                    })} style={{ 'backgroundImage': `url(${item.image})` }}
+                      onClick={() => {this.setActiveBanner(index)}} />
+                  ))}
+                  <Button className={classes.latestButton} variant="contained">{this.getLabel('latest-offers')}</Button>
+                </div>
+              </div>
+            </Grid>
+            <Grid item sm={12} style={{ alignItems: 'center' }}>
+              <div className={classes.container}>
+                <div className={classes.contentDesktop}>
+                  <div className={classes.leftColumn}>
+                    <Grid container>
+                      <Grid item xs={12} style={{ paddingBottom: 20, borderBottom: '3px solid #ff9e00' }}>
+                        <Fade {...leftProperties}>
+                          <div className={classes.left} style={{ 'backgroundImage': `url(${images.src + 'letou/left1.jpg'})` }} />
+                          <div className={classes.left} style={{ 'backgroundImage': `url(${images.src + 'letou/left2.jpg'})` }} />
+                        </Fade>
+                      </Grid>
+                      <Grid item xs={12} className={classes.leftRow}>
+                        <span className={classes.subTitle}>{this.getLabel('coming-soon')} </span>
+                        <div className={classes.grow} />
+                        <Link className={classes.more} onClick={() => {
+                          this.props.history.push('/gbsports');
+                        }} >{this.getLabel('more-matches')} </Link>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <img
+                          src={
+                            images.src +
+                            'letou/left3.jpg'
+                          }
+                          alt=""
+                        />
+                      </Grid>
+                      <Grid item xs={12} style={{ backgroundColor: '#fafafa', padding: 10 }}>
+                        <span className={classes.desc}>Boston Celtics v Detroit Pistons</span>
+                      </Grid>
+                      <Grid item xs={12} style={{ border: '1px solid #f3f3f3', padding: 10 }}>
+                        <span className={classes.desc}>Boston Celtics</span>
+                      </Grid>
+                      <Grid item xs={12} style={{ border: '1px solid #f3f3f3', padding: 10 }}>
+                        <span className={classes.desc}>Boston Celtics</span>
+                      </Grid>
+                      <Grid item xs={12} style={{ borderBottom: '3px solid #ff9e00', height: 20 }}>
+                      </Grid>
+                      <Grid item xs={12} className={classes.leftRow}>
+                        <span className={classes.subTitle}>{this.getLabel('digital-color')} </span>
+                        <div className={classes.grow} />
+                        <Link className={classes.more} onClick={() => {
+                          this.props.history.push(
+                            '/gblotto'
+                          );
+                        }} >{this.getLabel('bet-now')} </Link>
+                      </Grid>
+                      <Grid item xs={12} className={classes.firstColorRow}>
+                        <img
+                          src={
+                            images.src +
+                            'letou/degitalpic1.jpg'
+                          }
+                          height={42}
+                          width={130}
+                          alt=""
+                        />
+                        <span style={{ marginLeft: 5 }}>{this.getLabel('happy-color')} </span>
+                        <div className={classes.grow} />
+                        <RightIcon />
+                      </Grid>
+                      <Grid item xs={12} className={classes.secondColorRow}>
+                        <img
+                          src={
+                            images.src +
+                            'letou/degitalpic2.jpg'
+                          }
+                          height={42}
+                          width={130}
+                          alt=""
+                        />
+                        <span style={{ marginLeft: 5 }}>{this.getLabel('nav-lotto')} </span>
+                        <div className={classes.grow} />
+                        <RightIcon />
+                      </Grid>
+                      <Grid item xs={12} style={{ borderBottom: '3px solid #ff9e00', height: 20 }}>
+                      </Grid>
+                      <Grid item xs={12} className={classes.leftRow}>
+                        <span className={classes.subTitle}>{this.getLabel('live-dealer')} </span>
+                        <div className={classes.grow} />
+                        <Link className={classes.more} onClick={() => {
+                          this.props.history.push('/casino');
+                        }} >{this.getLabel('more-play')} </Link>
+                      </Grid>
+                      <Grid item xs={12} className={classes.secondColorRow}>
+                        <img
+                          src={
+                            images.src +
+                            'letou/pgbanner1.jpg'
+                          }
+                          height={42}
+                          width={130}
+                          alt=""
+                        />
+                        <span style={{ marginLeft: 5 }}>{this.getLabel('baccarat-label')} </span>
+                        <div className={classes.grow} />
+                        <RightIcon />
+                      </Grid>
+                      <Grid item xs={12} style={{ borderBottom: '3px solid #ff9e00', height: 20 }}>
+                      </Grid>
+                      <Grid item xs={12} style={{ paddingBottom: 10, paddingTop: 10 }}>
+                        <span className={classes.subTitle}>{this.getLabel('latest-announcement')}</span>
+                      </Grid>
+                      <Grid item xs={12} style={{ paddingBottom: 10, paddingTop: 10, borderTop: '2px solid #f3f3f3' }}>
+                        <span className={classes.desc}>¥ Central People’s Bank of China...</span>
+                      </Grid>
+                    </Grid>
+                  </div>
+                  <div className={classes.rightColumn}>
+                    <Grid container spacing={3} style={{ marginLeft: 10 }}>
+                      <Grid item xs={12} className={classes.searchRow}>
+                        <span className={classes.subTitle}>{this.getLabel('featured-promotions')}</span>
+                        <div className={classes.grow} />
+                        <span className={classes.desc} style={{ cursor: 'pointer' }} onClick={() => {
+                          this.props.history.push('/promotions');
+                        }}>{this.getLabel('more-offers')}</span>
+                      </Grid>
+                      <Grid item xs={4} className={classes.proColumn}>
+                        <img
+                          src={
+                            images.src +
+                            'letou/c1.jpg'
+                          }
+                          alt=""
+                          height={147}
+                        />
+                        <div className={classes.pro}>
+                          <span className={classes.proText}>LeTou crazy football! All the leagues in all countries have made every week's winnings and fully upgraded!</span>
+                        </div>
+                      </Grid>
+                      <Grid item xs={4} className={classes.proColumn} >
+                        <img
+                          src={
+                            images.src +
+                            'letou/c2.jpg'
+                          }
+                          height={147}
+                          alt=""
+                        />
+                        <div className={classes.pro}>
+                          <span className={classes.proText}>Cheer for Inter Milan Gifts! Blue and black with extraordinary vibes can be extraordinary!</span>
+                        </div>
+                      </Grid>
+                      <Grid item xs={4} className={classes.proColumn} >
+                        <img
+                          src={
+                            images.src +
+                            'letou/c3.jpg'
+                          }
+                          alt=""
+                          height={147}
+                        />
+                        <div className={classes.pro}>
+                          <span className={classes.proText}>NBA new season king returns with weekly SOS bailout</span>
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} className={classes.topRow}>
+                        <span className={classes.subTitle} style={{ color: '#ff9e00' }}>{this.getLabel('top-games')}</span>
+                        <span className={classes.subTitle} style={{ fontSize: 14, marginLeft: 10 }}>{this.getLabel('high-bonuses')}</span>
+                        <div className={classes.grow} />
+                        <ColorButton style={{ marginBottom: 10 }}>More</ColorButton>
+                      </Grid>
+                      <Grid item xs={12} style={{ padding: 0 }}>
+                        <div className={classes.hot}
+                          onMouseEnter={() => {
+                            this.setState({ hoveredHot: 1 })
+                          }}
+                          onMouseLeave={() => {
+                            this.setState({ hoveredHot: null })
+                          }}>
+                          <img
+                            src={
+                              images.src +
+                              'letou/ct1.jpg'
+                            }
+                            style={{ minWidth: 221, marginRight: 20 }}
+                            height={168}
+                            width={221}
+                            alt=""
+                          />
+                          <div className={classes.hotCol}>
+                            <span
+                              className={clsx({
+                                [classes.hotTitle]: true,
+                                [classes.hoveredHotTitle]: hoveredHot === 1
+                              })}>Captain's Treasure</span>
+                            <span className={classes.text}>Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times!</span>
+                            <div>
+                              <span className={clsx({
+                                [classes.hotPrize]: true,
+                                [classes.hoveredhotPrize]: hoveredHot === 1
+                              })}>¥1,382,303.96</span>
+                            </div>
+                            <div className={classes.grow} />
+                            <div className={classes.hotRow}>
+                              <Button
+                                className={classes.hotButton}
+                                startIcon={<img
+                                  src={
+                                    images.src +
+                                    'letou/icon-hot1.png'
+                                  }
+                                  alt=""
+                                  className={classes.hotIcon}
+                                />}
+                              >
+                                {this.getLabel('slot-machine')}
+                              </Button>
+                              <Button
+                                className={classes.hotButton}
+                                startIcon={<img
+                                  src={
+                                    images.src +
+                                    'letou/icon-hot2.png'
+                                  }
+                                  alt=""
+                                  className={classes.hotIcon}
+                                />}
+                              >
+                                11 lines
+                              </Button>
+                              <div className={classes.grow} />
+                              <span className={classes.hotText}>17</span>
+                              <div className={classes.heat} >Hot</div>
+                            </div>
+                          </div>
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} className={classes.hot}>
+                        <img
+                          src={
+                            images.src +
+                            'letou/ct2.jpg'
+                          }
+                          style={{ minWidth: 221 }}
+                          height={168}
+                          width={221}
+                          alt=""
+                        />
+                        <div style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
+                          <span className={classes.subTitle}>Line 5-Fruit Festival</span>
+                          <span className={classes.text}>The full fruit carnival party has begun! This is a five-reel, 15-payline game with various winning combinations. You can use the payline to create your own way of winning. When someone gets a jackpot, players in the game will be notified!</span>
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} className={classes.hot}>
+                        <img
+                          src={
+                            images.src +
+                            'letou/ct3.jpg'
+                          }
+                          style={{ minWidth: 221 }}
+                          height={168}
+                          width={221}
+                          alt=""
+                        />
+                        <div style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
+                          <span className={classes.subTitle}>More than every year</span>
+                          <span className={classes.text}>Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times!</span>
+                        </div>
+                      </Grid>
+                    </Grid>
+                  </div>
+                </div>
+              </div>
+            </Grid>
+          </Grid>
         </div>
         <div className={classes.rootMobile}>
           <div className={classes.mobileBannerContainer}>
-            <Slide {...bannerProperties}>
+            <Fade {...bannerProperties}>
               {bannerImages.map(item => (
                 <div key={item} className={classes.mobileBanner} style={{ 'backgroundImage': `url(${item})` }} />
               ))}
-            </Slide>
+            </Fade>
           </div>
           <div className={classes.mobileSection}>
             <Grid container
