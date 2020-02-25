@@ -374,7 +374,8 @@ const styles = theme => ({
   },
   hotCol: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    width:'100%'
   },
   hotRow: {
     display: 'flex',
@@ -475,6 +476,7 @@ export class Home extends Component {
       activeBanner: -1,
       search: '',
       searchType: 'all',
+      hotGames: [],
       hoveredHot: null,
     };
 
@@ -493,12 +495,12 @@ export class Home extends Component {
     this.setState({ width: window.innerWidth });
 
     this.getBanners();
+    this.getHotGames();
 
     window.addEventListener("resize", this.handleResize);
   }
 
   getBanners() {
-
     axios
       .get(API_URL + 'games/api/get-banner/?category=home', config)
       .then(res => {
@@ -516,6 +518,22 @@ export class Home extends Component {
           });
 
           this.setState({ banners: itemArray })
+        }
+      })
+      .catch(err => {
+        sendingLog(err);
+      });
+  }
+
+  getHotGames() {
+    const countryCode = localStorage.getItem('countryCode');
+
+    axios
+      .get(API_URL + 'games/api/hotgames/?country=' + countryCode.toLowerCase(), config)
+      .then(res => {
+        if (res.data.success) {
+          this.setState({ hotGames: res.data.results })
+          console.log(res.data.results)
         }
       })
       .catch(err => {
@@ -570,14 +588,14 @@ export class Home extends Component {
     }
   }
 
-  setActiveBanner(index){
-      this.setState({ activeBanner: index });
-      this.bannerRef.current.goTo(index);
+  setActiveBanner(index) {
+    this.setState({ activeBanner: index });
+    this.bannerRef.current.goTo(index);
   }
 
   render() {
-    const { classes } = this.props;
-    const { banners, activeBanner, search, searchType, hoveredHot } = this.state;
+    const { classes, lang } = this.props;
+    const { banners, activeBanner, search, searchType, hotGames, hoveredHot } = this.state;
 
     const bannerImages = [
       images.src + 'letou/banner1.jpg',
@@ -588,7 +606,6 @@ export class Home extends Component {
     ];
 
     const bannerProperties = {
-      // ref: this.bannerRef,
       duration: 3000,
       transitionDuration: 500,
       infinite: true,
@@ -666,7 +683,7 @@ export class Home extends Component {
                       [classes.carousel]: true,
                       [classes.activeCarousel]: activeBanner === index
                     })} style={{ 'backgroundImage': `url(${item.image})` }}
-                      onClick={() => {this.setActiveBanner(index)}} />
+                      onClick={() => { this.setActiveBanner(index) }} />
                   ))}
                   <Button className={classes.latestButton} variant="contained">{this.getLabel('latest-offers')}</Button>
                 </div>
@@ -834,104 +851,74 @@ export class Home extends Component {
                         <div className={classes.grow} />
                         <ColorButton style={{ marginBottom: 10 }}>More</ColorButton>
                       </Grid>
-                      <Grid item xs={12} style={{ padding: 0 }}>
-                        <div className={classes.hot}
-                          onMouseEnter={() => {
-                            this.setState({ hoveredHot: 1 })
-                          }}
-                          onMouseLeave={() => {
-                            this.setState({ hoveredHot: null })
-                          }}>
-                          <img
-                            src={
-                              images.src +
-                              'letou/ct1.jpg'
-                            }
-                            style={{ minWidth: 221, marginRight: 20 }}
-                            height={168}
-                            width={221}
-                            alt=""
-                          />
-                          <div className={classes.hotCol}>
-                            <span
-                              className={clsx({
-                                [classes.hotTitle]: true,
-                                [classes.hoveredHotTitle]: hoveredHot === 1
-                              })}>Captain's Treasure</span>
-                            <span className={classes.text}>Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times!</span>
-                            <div>
-                              <span className={clsx({
-                                [classes.hotPrize]: true,
-                                [classes.hoveredhotPrize]: hoveredHot === 1
-                              })}>¥1,382,303.96</span>
-                            </div>
-                            <div className={classes.grow} />
-                            <div className={classes.hotRow}>
-                              <Button
-                                className={classes.hotButton}
-                                startIcon={<img
-                                  src={
-                                    images.src +
-                                    'letou/icon-hot1.png'
-                                  }
-                                  alt=""
-                                  className={classes.hotIcon}
-                                />}
-                              >
-                                {this.getLabel('slot-machine')}
-                              </Button>
-                              <Button
-                                className={classes.hotButton}
-                                startIcon={<img
-                                  src={
-                                    images.src +
-                                    'letou/icon-hot2.png'
-                                  }
-                                  alt=""
-                                  className={classes.hotIcon}
-                                />}
-                              >
-                                11 lines
-                              </Button>
+                      {hotGames.map((hotItem, index) => (
+                        < Grid item xs={12} key={index} style={{ padding: 0 }}>
+                          <div className={classes.hot}
+                            onMouseEnter={() => {
+                              this.setState({ hoveredHot: index })
+                            }}
+                            onMouseLeave={() => {
+                              this.setState({ hoveredHot: null })
+                            }}
+                            onClick={() => {
+                              this.props.history.push('/game_detail/'+hotItem.game_id);
+                            }}>
+                            <img
+                              src={hotItem.image}
+                              style={{ minWidth: 221, marginRight: 20 }}
+                              height={168}
+                              width={221}
+                              alt={hotItem.name}
+                            />
+                            <div className={classes.hotCol}>
+                              <span
+                                className={clsx({
+                                  [classes.hotTitle]: true,
+                                  [classes.hoveredHotTitle]: hoveredHot === index
+                                })}>{hotItem.name}</span>
+                              <span className={classes.text}>{(hotItem['description_'+lang] !== null && hotItem['description_'+lang] !== undefined) ? hotItem['description_'+lang] : hotItem.description}</span>
+                              <div>
+                                <span className={clsx({
+                                  [classes.hotPrize]: true,
+                                  [classes.hoveredhotPrize]: hoveredHot === index
+                                })}>¥1,382,303.96</span>
+                              </div>
                               <div className={classes.grow} />
-                              <span className={classes.hotText}>17</span>
-                              <div className={classes.heat} >Hot</div>
+                              <div className={classes.hotRow}>
+                                <Button
+                                  className={classes.hotButton}
+                                  startIcon={<img
+                                    src={
+                                      images.src +
+                                      'letou/icon-hot1.png'
+                                    }
+                                    alt=""
+                                    className={classes.hotIcon}
+                                  />}
+                                >
+                                  {hotItem.category}
+                                </Button>
+                                <Button
+                                  className={classes.hotButton}
+                                  startIcon={<img
+                                    src={
+                                      images.src +
+                                      'letou/icon-hot2.png'
+                                    }
+                                    alt=""
+                                    className={classes.hotIcon}
+                                  />}
+                                >
+                                  11 lines
+                                </Button>
+                                <div className={classes.grow} />
+                                <span className={classes.hotText}>17</span>
+                                <div className={classes.heat} >Hot</div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} className={classes.hot}>
-                        <img
-                          src={
-                            images.src +
-                            'letou/ct2.jpg'
-                          }
-                          style={{ minWidth: 221 }}
-                          height={168}
-                          width={221}
-                          alt=""
-                        />
-                        <div style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
-                          <span className={classes.subTitle}>Line 5-Fruit Festival</span>
-                          <span className={classes.text}>The full fruit carnival party has begun! This is a five-reel, 15-payline game with various winning combinations. You can use the payline to create your own way of winning. When someone gets a jackpot, players in the game will be notified!</span>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} className={classes.hot}>
-                        <img
-                          src={
-                            images.src +
-                            'letou/ct3.jpg'
-                          }
-                          style={{ minWidth: 221 }}
-                          height={168}
-                          width={221}
-                          alt=""
-                        />
-                        <div style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
-                          <span className={classes.subTitle}>More than every year</span>
-                          <span className={classes.text}>Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times! Take a sea adventure with Captain Pirate! The game line can be up to 50 and can be up to 25 lines. The highest multiple is 10,000 times!</span>
-                        </div>
-                      </Grid>
+                        </Grid>
+                      ))}
                     </Grid>
                   </div>
                 </div>
