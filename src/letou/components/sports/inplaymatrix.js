@@ -123,22 +123,27 @@ export class gbesports extends React.Component {
         axios.post(URL, {"username": userName}, config)
         .then(res => {
             if(res.status == 200) {
-                console.log(res.data);
                 if(res.data.StatusCode === 0 && res.data.StatusDesc === "Success") {
                     let launchUrl = "https://imes.claymoreasia.com/?token=" + String(token);
                     // let launchUrl = "https://imes.claymoreasia.com/?token=" + "a7d7eadf40d6364c17a7416b766497ff57fb84e2";
                     this.setState({url: launchUrl});
                 }
                 else {
+                    let launchUrl = "https://imes.claymoreasia.com";
+                    this.setState({url: launchUrl});
                     sendingLog(res.data);
                 }
             }
             else{
-              sendingLog(res.data);
+                let launchUrl = "https://imes.claymoreasia.com";
+                this.setState({url: launchUrl});
+                sendingLog(res.data);
             }
         })
         .catch(err => {
-           sendingLog(err);
+            let launchUrl = "https://imes.claymoreasia.com";
+            this.setState({url: launchUrl});
+            sendingLog(err);
         })
     } else {
         let launchUrl = "https://imes.claymoreasia.com";
