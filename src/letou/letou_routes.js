@@ -156,6 +156,7 @@ import VirtualVn from './components/help/member_vn/virtual_sports';
 import VNPromotion from './components/promotions/vn_promotion';
 import gbsports from './components/sports/gbsports';
 import gbesports from './components/sports/gbesports';
+import im from './components/sports/inplaymatrix';
 import onebook from './components/sports/onebook';
 import btisports from './components/sports/btisports';
 import eonebook from './components/sports/eonebook';
@@ -207,6 +208,7 @@ const BaseRouter = () => (
         <Route exact path="/gbsports" component={gbsports} />
         <Route exact path="/btisports" component={btisports} />
         <Route exact path="/gbesports" component={gbesports} />
+        <Route exact path="/im" component={im} />
         <Route exact path="/onebook" component={onebook} />
         <Route exact path="/eonebook" component={eonebook} />
         <Route exact path="/gblotto" component={gblotto} />
