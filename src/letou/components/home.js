@@ -29,7 +29,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Link from '@material-ui/core/Link';
 import RightIcon from '@material-ui/icons/KeyboardArrowRight';
 import clsx from 'clsx';
-
+import SearchBar from './search_bar';
 import axios from 'axios';
 import { errors } from './errors';
 
@@ -375,7 +375,7 @@ const styles = theme => ({
   hotCol: {
     display: 'flex',
     flexDirection: 'column',
-    width:'100%'
+    width: '100%'
   },
   hotRow: {
     display: 'flex',
@@ -533,7 +533,6 @@ export class Home extends Component {
       .then(res => {
         if (res.data.success) {
           this.setState({ hotGames: res.data.results })
-          console.log(res.data.results)
         }
       })
       .catch(err => {
@@ -641,34 +640,8 @@ export class Home extends Component {
               <div className={classes.searchContainer}>
                 <div className={classes.searchColumn}>
                   <div className={classes.searchBar}>
-                    <div className={classes.searchRow}>
-                      <RadioGroup aria-label="search" name="searchType" value={searchType} onChange={event => {
-                        this.setState({ searchType: event.target.value });
-                      }}>
-                        <div className={classes.searchRow}>
-                          <FormControlLabel value="all" control={<SearchRadio />} label={this.getLabel('all-label')} />
-                          <FormControlLabel value="slot" control={<SearchRadio />} label={this.getLabel('slot-machine')} />
-                          <FormControlLabel value="jackpot" control={<SearchRadio />} label={this.getLabel('jackpot-label')} />
-                          <FormControlLabel value="poker" control={<SearchRadio />} label={this.getLabel('video-poker')} />
-                        </div>
-                      </RadioGroup>
-                    </div>
-                    <div className={classes.searchRow}>
-                      <TextField
-                        className={classes.searchField}
-                        placeholder={this.getLabel('search-placeholder')}
-                        onChange={event => {
-                          this.setState({ search: event.target.value });
-                        }}
-                        value={search}
-                        InputProps={{
-                          disableUnderline: true
-                        }}
-                      />
-                      <Button className={classes.searchButton}>
-                        <Search style={{ height: 30 }} />
-                      </Button>
-                    </div>
+
+                    <SearchBar onRef={actualChild => this.actualChild = actualChild}></SearchBar>
                   </div>
                   <div className={classes.searchRow} style={{ paddingTop: 10, paddingBottom: 10 }}>
                     <span className={classes.playground}>{this.getLabel('play-ground')}</span>
@@ -861,7 +834,7 @@ export class Home extends Component {
                               this.setState({ hoveredHot: null })
                             }}
                             onClick={() => {
-                              this.props.history.push('/game_detail/'+hotItem.game_id);
+                              this.props.history.push('/game_detail/' + hotItem.game_id);
                             }}>
                             <img
                               src={hotItem.image}
@@ -876,7 +849,7 @@ export class Home extends Component {
                                   [classes.hotTitle]: true,
                                   [classes.hoveredHotTitle]: hoveredHot === index
                                 })}>{hotItem.name}</span>
-                              <span className={classes.text}>{(hotItem['description_'+lang] !== null && hotItem['description_'+lang] !== undefined) ? hotItem['description_'+lang] : hotItem.description}</span>
+                              <span className={classes.text}>{(hotItem['description_' + lang] !== null && hotItem['description_' + lang] !== undefined) ? hotItem['description_' + lang] : hotItem.description}</span>
                               <div>
                                 <span className={clsx({
                                   [classes.hotPrize]: true,
@@ -1249,6 +1222,7 @@ export class Home extends Component {
             </Grid>
           </div>
         </div>
+       
         <Footer />
       </div >
     );
