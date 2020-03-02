@@ -259,7 +259,6 @@ export class FortuneCenter extends Component {
         const { subProp } = this.props;
         const { classes } = this.props;
 
-        console.log(subProp)
         switch (subProp) {
             case 'deposit':
                 return <DepositMain />;
@@ -414,7 +413,8 @@ export class FortuneCenter extends Component {
 
     render() {
         const { classes, subProp } = this.props;
-
+        console.log('fortune center icine girdim')
+       
         return (
             <div className={classes.root}>
                 <div className={classes.rootDesktop}>
