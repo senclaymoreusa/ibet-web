@@ -291,9 +291,6 @@ export class Profile extends Component {
             desktopContent: '',
             mobileContent: '',
             anchorEl: null,
-            currency: 'CNY',
-            mainWallet: 0.0,
-            username: '',
             show: false,
 
             popperMoreCount: 0,
@@ -308,6 +305,7 @@ export class Profile extends Component {
     closeMenu() {
         this.setState({ anchorEl: null });
     }
+
     handleCategoryChange(category) {
         this.props.history.push('/p/' + category);
 
@@ -315,12 +313,9 @@ export class Profile extends Component {
     }
 
     componentDidMount() {
-        // this.props.authCheckState().then(res => {
-        //     if (res === AUTH_RESULT_FAIL)
-        //         this.props.history.push('/');
-        //     else
-        //         this.setContent();
-        // });
+        this.props.authCheckState().then(res => {
+            if (res === AUTH_RESULT_FAIL) this.props.history.push('/');
+        });
     }
 
     setContent() {
@@ -328,9 +323,7 @@ export class Profile extends Component {
         var parts = url.split('/');
 
         if (parts.length >= 2) {
-
             this.setState({ mobileContent: parts[parts.length - 1] });
-
         }
     }
 
@@ -374,8 +367,6 @@ export class Profile extends Component {
 
         let rate = 0;
 
-        console.log('profilin icine girdim')
-
         if (user && user.emailVerified) rate += 33;
         if (user && user.nameVerified) rate += 33;
         if (user && user.nameVerified) rate += 33;
@@ -384,7 +375,7 @@ export class Profile extends Component {
         return (
             <div className={classes.root}>
                 <div className={classes.rootDesktop}>
-                    {/* <AppBar position="static" className={classes.firstRow}>
+                    <AppBar position="static" className={classes.firstRow}>
                         <Toolbar className={classes.firstBar}>
                             <IconButton
                                 onClick={() => {
@@ -451,7 +442,7 @@ export class Profile extends Component {
                                     >
                                         {this.getLabel('balance-label')}{' '}
                                         {getSymbolFromCurrency(currency)}
-                                        {balance}
+                                        {this.props}
                                     </Button>
                                     <Button
                                         size="small"
@@ -763,7 +754,7 @@ export class Profile extends Component {
                         <Grid item xs={12}>
                             <Footer />
                         </Grid>
-                    </Grid> */}
+                    </Grid>
                 </div>
                 <div className={classes.rootMobile}>
                     {this.getMobileContent()}

@@ -353,7 +353,7 @@ function parseUser(data) {
         username: data.username,
         firstName: data.first_name,
         lastName: data.last_name,
-        currency: data.currency,
+        currency: data.currency_value,
         favoriteDepositMethod: data.favorite_payment_method,
         country: data.country,
         balance: data.main_wallet,
