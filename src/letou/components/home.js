@@ -1249,6 +1249,7 @@ export class Home extends Component {
             </Grid>
           </div>
         </div>
+       
         <Footer />
       </div >
     );

@@ -73,6 +73,9 @@ const styles = theme => ({
             display: 'none'
         }
     },
+    popper: {
+        zIndex: 1000
+    },
     firstRow: {
         height: 32,
         alignItems: 'center',
@@ -431,7 +434,6 @@ class TopNavbar extends React.Component {
     render() {
         const { classes } = this.props;
         const { anchorEl, anchorElLang, dropdownMenu } = this.state;
-        
 
         let flag = '';
 
@@ -545,12 +547,15 @@ class TopNavbar extends React.Component {
                     <AppBar position="static" className={classes.firstRow}>
                         <Toolbar className={classes.firstBar}>
                             {LangDropdown}
-                           
                             <Button
                                 size="small"
                                 className={classes.topLinkButton}
                                 target="_blank"
-                                href= {this.props.lang === 'en' ? '/zh/about_us' : '/' + this.props.lang + '/about_us'}
+                                href={
+                                    this.props.lang === 'en'
+                                        ? '/zh/about_us'
+                                        : '/' + this.props.lang + '/about_us'
+                                }
                             >
                                 {this.getLabel('about-letou')}
                             </Button>
@@ -730,6 +735,7 @@ class TopNavbar extends React.Component {
                                 {this.getLabel('sports-label')}
                             </Button>
                             <Popper
+                                className={classes.popper}
                                 open={dropdownMenu === 'sports'}
                                 anchorEl={anchorEl}
                                 placement="top-start"
@@ -820,6 +826,7 @@ class TopNavbar extends React.Component {
                                 {this.getLabel('gaming-label')}
                             </Button>
                             <Popper
+                                className={classes.popper}
                                 open={dropdownMenu === 'gaming'}
                                 anchorEl={anchorEl}
                                 placement="top-start"
@@ -911,6 +918,7 @@ class TopNavbar extends React.Component {
                                 {this.getLabel('nav-chess')}
                             </Button>
                             <Popper
+                                className={classes.popper}
                                 open={dropdownMenu === 'chess'}
                                 anchorEl={anchorEl}
                                 placement="top-start"
@@ -1006,6 +1014,7 @@ class TopNavbar extends React.Component {
                                 {this.getLabel('nav-lottery')}
                             </Button>
                             <Popper
+                                className={classes.popper}
                                 open={dropdownMenu === 'lottery'}
                                 anchorEl={anchorEl}
                                 placement="top-start"
@@ -1119,6 +1128,7 @@ class TopNavbar extends React.Component {
                                 {this.getLabel('nav-offer')}
                             </Button>
                             <Popper
+                                className={classes.popper}
                                 open={dropdownMenu === 'offer'}
                                 anchorEl={anchorEl}
                                 placement="top-start"
@@ -1169,7 +1179,7 @@ class TopNavbar extends React.Component {
                                             borderRadius: 18,
                                             padding: 5
                                         }}
-                                    // style={{ backgroundColor: "#64bced", color: "white" }}
+                                        // style={{ backgroundColor: "#64bced", color: "white" }}
                                     >
                                         <div
                                             style={{
@@ -1217,29 +1227,29 @@ class TopNavbar extends React.Component {
                                     </div>
                                 </div>
                             ) : (
-                                    <div style={{ marginLeft: 20 }}>
-                                        <Button
-                                            variant="contained"
-                                            className={classes.signUpButton}
-                                            onClick={() => {
-                                                this.props.history.push(
-                                                    '/register'
-                                                );
-                                            }}
-                                        >
-                                            {this.getLabel('sign-up')}
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            className={classes.loginButton}
-                                            onClick={() => {
-                                                this.props.show_letou_login();
-                                            }}
-                                        >
-                                            {this.getLabel('log-in')}
-                                        </Button>
-                                    </div>
-                                )}
+                                <div style={{ marginLeft: 20 }}>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.signUpButton}
+                                        onClick={() => {
+                                            this.props.history.push(
+                                                '/register'
+                                            );
+                                        }}
+                                    >
+                                        {this.getLabel('sign-up')}
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        className={classes.loginButton}
+                                        onClick={() => {
+                                            this.props.show_letou_login();
+                                        }}
+                                    >
+                                        {this.getLabel('log-in')}
+                                    </Button>
+                                </div>
+                            )}
                         </Toolbar>
                     </AppBar>
                     <Modal
@@ -1497,10 +1507,7 @@ class TopNavbar extends React.Component {
                                 <ListItem
                                     button
                                     onClick={() => {
-                                        
-                                        this.chessOptions(
-                                            0
-                                        );
+                                        this.chessOptions(0);
                                         this.props.hide_letou_mobile_menu();
                                     }}
                                 >
