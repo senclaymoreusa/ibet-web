@@ -584,7 +584,7 @@ export class GameLobby extends React.Component {
                                 {
                                     this.state.all_slots.map((games, index) => {
                                         return (
-                                            <Grid container xs={12} key={index}>
+                                            <Grid container key={index}>
                                                 {
                                                     games.map(game => {
                                                         var gameFields = game['fields'];
@@ -744,6 +744,7 @@ export class GameLobby extends React.Component {
                             <StyledTab key={index} label={cate}
                                 value={cateStr.toLowerCase()}
                                 onClick={() => {
+                                    console.log('cat: '+ cateStr)
                                     var categoryStr = this.props.match.params.category;
                                     categoryStr = categoryStr.charAt(0).toUpperCase() + categoryStr.slice(1);
                                     if (categoryStr !== cateStr) {

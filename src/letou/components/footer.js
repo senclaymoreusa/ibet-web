@@ -1056,6 +1056,9 @@ export class Footer extends React.Component {
                                     height="20"
                                 />
                             }
+                            onClick={() => {
+                                this.props.history.push('/p/account-management/message-notification');
+                            }}
                         />
                         <BottomNavigationAction
                             label={this.getLabel('profile-label')}
