@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    authCheckState, sendingLog, AUTH_RESULT_FAIL
+    authCheckState, sendingLog
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
@@ -232,8 +232,6 @@ TabPanel.propTypes = {
 };
 
 export class DepositMain extends Component {
-    _isMounted = false;
-
     constructor(props) {
         super(props);
 
@@ -248,88 +246,75 @@ export class DepositMain extends Component {
     }
 
     componentDidMount() {
-        this._isMounted = true;
+        let { user } = this.props;
 
-        // if (!this.state.showReadAlert) {
-        //     console.log('dialog acildi'+ this.state.showReadAlert)
-        //     this.setState({
-        //         showReadAlert: true
-        //     })
+        if (user) {
+            if (user.firstName && user.lastName)
+                this.getActivePSP();
+            else
+                alert('isim yok isim');
+        }
+    }
 
-        // }
-
-        let currentComponent = this;
+    getActivePSP() {
         let txn_type = "deposit";
         let country = "";
         let marketCode = 5;
         let { user } = this.props;
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            } else {
 
-                if (this._isMounted) {
+        if (user && user.country) {
+            country = user.country;
+        }
 
-
-
-                    if (user && user.country) {
-                        country = user.country;
-                    }
-
-                    if (user && user.favoriteDepositMethod) {
-                        this.depositWith(user.favoriteDepositMethod)
-                    } else {
-                        switch (country.toLowerCase()) {
-                            case 'china':
-                                this.depositWith('zhlocalbank');
-                                break;
-                            case 'thailand':
-                                this.depositWith('thlocalbank');
-                                break;
-                            case 'vietnam':
-                                this.depositWith('vnlocalbank');
-                                break;
-                        }
-                    }
-
-                    let available = {
-                        'methods': [],
-                        'channels': []
-                    };
-                    if (country.toLowerCase() === "china") marketCode = 5
-                    if (country.toLowerCase() === "thailand") marketCode = 4
-                    if (country.toLowerCase() === "vietnam") marketCode = 3
-
-                    let path = `accounting/api/payments/get_available_psps?txn_type=${txn_type}&market_code=${marketCode}`
-                    fetch(API_URL + path)
-                        .then(function (res) {
-                            if (res.status === 200) {
-                                return res.json();
-                            } else {
-                                this.props.callbackFromParent("error", "Could not retrieve payment options");
-                            }
-                        })
-                        .then((data) => {
-
-                            for (let i = 0; i < data.length; i++) {
-                                available.channels.push(data[i].fields.channel.toLowerCase());
-                                available.methods.push(data[i].fields.method.toLowerCase());
-                            }
-                            this.setState({ activePSP: available });
-                        })
-                }
+        if (user && user.favoriteDepositMethod) {
+            this.depositWith(user.favoriteDepositMethod)
+        } else {
+            switch (country.toLowerCase()) {
+                case 'china':
+                    this.depositWith('zhlocalbank');
+                    break;
+                case 'thailand':
+                    this.depositWith('thlocalbank');
+                    break;
+                case 'vietnam':
+                    this.depositWith('vnlocalbank');
+                    break;
             }
-        })
-    }
+        }
 
+        let available = {
+            'methods': [],
+            'channels': []
+        };
+        if (country.toLowerCase() === "china") marketCode = 5
+        if (country.toLowerCase() === "thailand") marketCode = 4
+        if (country.toLowerCase() === "vietnam") marketCode = 3
+
+        let path = `accounting/api/payments/get_available_psps?txn_type=${txn_type}&market_code=${marketCode}`
+        fetch(API_URL + path)
+            .then(function (res) {
+                if (res.status === 200) {
+                    return res.json();
+                } else {
+                    this.props.callbackFromParent("error", "Could not retrieve payment options");
+                }
+            })
+            .then((data) => {
+
+                for (let i = 0; i < data.length; i++) {
+                    available.channels.push(data[i].fields.channel.toLowerCase());
+                    available.methods.push(data[i].fields.method.toLowerCase());
+                }
+                this.setState({ activePSP: available });
+            })
+    }
 
     componentWillUnmount() {
         this._isMounted = false;
 
-        this.setState({
-            showReadAlert: false
-        })
-        console.log('dialog kapandi')
+        // this.setState({
+        //     showReadAlert: false
+        // })
     }
 
     setPage = (page, msg, timer) => {
@@ -368,6 +353,7 @@ export class DepositMain extends Component {
             </div>
         )
     }
+
     renderPayzod(classes, user, operationProp) {
         return (
             <div className={classes.methodColumn}>
@@ -387,6 +373,7 @@ export class DepositMain extends Component {
             </div>
         )
     }
+
     renderLocalbank(classes, user, operationProp, bank) {
         return (
             <div className={classes.methodColumn}>
@@ -406,6 +393,7 @@ export class DepositMain extends Component {
             </div>
         )
     }
+
     renderAstropay(classes, user, operationProp) {
         return (
             <div className={classes.methodColumn}>
@@ -955,11 +943,6 @@ export class DepositMain extends Component {
                 </div>
                 {this.getAvailablePaymentMethods()}
                 {this.getPaymentMethodContent()}
-                <Button onClick={() => {
-                    this.setState({
-                        showReadAlert: true
-                    })
-                }}>open</Button>
                 <Dialog
                     open={this.state.showReadAlert}
                     onClose={() => {

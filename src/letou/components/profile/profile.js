@@ -442,7 +442,7 @@ export class Profile extends Component {
                                     >
                                         {this.getLabel('balance-label')}{' '}
                                         {getSymbolFromCurrency(currency)}
-                                        {this.props}
+                                        {balance}
                                     </Button>
                                     <Button
                                         size="small"
