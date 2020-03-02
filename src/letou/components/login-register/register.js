@@ -493,32 +493,32 @@ export class Register extends Component {
                                 this.setState({ showRegisterMessage: true });
                         })
                         .catch(err => {
-                            console.log(err);
+                            // console.log(err);
                             // sendingLog(err);
             
-                            // if (err.response && 'username' in err.response.data) {
-                            //     this.setState({ usernameInvalid: true });
-                            //     this.setState({
-                            //         errorMessage: err.response.data.username[0]
-                            //     });
-                            // } else if (err.response && 'email' in err.response.data) {
-                            //     this.setState({ emailInvalid: true });
-                            //     this.setState({ errorMessage: err.response.data.email[0] });
-                            // } else if (err.response && 'phone' in err.response.data) {
-                            //     this.setState({ phoneInvalid: true });
-                            //     this.setState({ errorMessage: err.response.data.phone[0] });
-                            // } else if (
-                            //     err.response &&
-                            //     'non_field_errors' in err.response.data
-                            // ) {
-                            //     // this.setState({ error: err.response.data.non_field_errors.slice(0) })
-                            //     // this.setState({ errorMessage: err.response.data.username[0] });
-                            // } else if (err.response && 'password' in err.response.data) {
-                            //     this.setState({ passwordInvalid: true });
-                            //     this.setState({
-                            //         errorMessage: err.response.data.password[0]
-                            //     });
-                            // }
+                            if (err.response && 'username' in err.response.data) {
+                                this.setState({ usernameInvalid: true });
+                                this.setState({
+                                    errorMessage: err.response.data.username[0]
+                                });
+                            } else if (err.response && 'email' in err.response.data) {
+                                this.setState({ emailInvalid: true });
+                                this.setState({ errorMessage: err.response.data.email[0] });
+                            } else if (err.response && 'phone' in err.response.data) {
+                                this.setState({ phoneInvalid: true });
+                                this.setState({ errorMessage: err.response.data.phone[0] });
+                            } else if (
+                                err.response &&
+                                'non_field_errors' in err.response.data
+                            ) {
+                                // this.setState({ error: err.response.data.non_field_errors.slice(0) })
+                                // this.setState({ errorMessage: err.response.data.username[0] });
+                            } else if (err.response && 'password' in err.response.data) {
+                                this.setState({ passwordInvalid: true });
+                                this.setState({
+                                    errorMessage: err.response.data.password[0]
+                                });
+                            }
                         });
             
                     // Your code to handle blackBoxString
