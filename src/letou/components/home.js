@@ -464,6 +464,7 @@ const SearchRadio = withStyles({
 })(props => <Radio color="default" {...props} />);
 
 export class Home extends Component {
+   countryCodeTimer = null;
 
   constructor(props) {
     super(props);
@@ -494,10 +495,20 @@ export class Home extends Component {
   componentDidMount() {
     this.setState({ width: window.innerWidth });
 
-    this.getBanners();
-    this.getHotGames();
+    this.countryCodeTimer = setInterval(() => this.customInitialize(), 500);
 
     window.addEventListener("resize", this.handleResize);
+  }
+
+  customInitialize() {
+    const countryCode = localStorage.getItem('countryCode');
+   
+    if (countryCode) {
+      clearInterval(this.countryCodeTimer);
+      
+      this.getBanners();
+      this.getHotGames(countryCode);
+    }
   }
 
   getBanners() {
@@ -525,9 +536,7 @@ export class Home extends Component {
       });
   }
 
-  getHotGames() {
-    const countryCode = localStorage.getItem('countryCode');
-
+  getHotGames(countryCode) {
     axios
       .get(API_URL + 'games/api/hotgames/?country=' + countryCode.toLowerCase(), config)
       .then(res => {
@@ -1222,7 +1231,7 @@ export class Home extends Component {
             </Grid>
           </div>
         </div>
-       
+
         <Footer />
       </div >
     );
