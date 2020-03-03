@@ -478,7 +478,7 @@ class Help2Pay extends Component {
                 this.setState({
                     amount: event.target.value,
                     amountInvalid:
-                        parseFloat(event.target.value) < 500 ||
+                        parseFloat(event.target.value) < 50 ||
                         parseFloat(event.target.value) > 500000
                 });
             } else {

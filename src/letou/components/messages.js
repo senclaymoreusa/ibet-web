@@ -699,7 +699,10 @@ export const messages = {
         'baccarat-label': 'Baccarat',
         'featured-promotions': 'Letou Featured Promotions',
         'more-offers': 'More offers',
-        'high-bonuses': 'High bonuses for various mini games'
+        'high-bonuses': 'High bonuses for various mini games',
+        'warning-label':'Warning',
+        'real-name-warning':'To ensure the security of your account, you must fill in your real name before performing this operation.',
+        
     },
     zh: {
         'sports-label': '体育',

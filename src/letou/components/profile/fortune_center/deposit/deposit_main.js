@@ -238,7 +238,10 @@ export class DepositMain extends Component {
         this.state = {
             contentValue: '',
             activePSP: null,
-            showReadAlert: false
+            showReadAlert: false,
+
+            realNameChecked: false,
+            showEmptyAlert: false
         };
 
         this.setPage = this.setPage.bind(this);
@@ -249,11 +252,16 @@ export class DepositMain extends Component {
         let { user } = this.props;
 
         if (user) {
-            if (user.firstName && user.lastName)
-                this.getActivePSP();
-            else
-                alert('isim yok isim');
+            if (user.firstName && user.lastName) {
+                if (user.firstName.trim().length > 0 && user.lastName.trim().length > 0) {
+                    this.getActivePSP();
+                }else {
+                    this.setState({ showEmptyAlert: true });
+                }
+            }
         }
+
+        this.setState({ realNameChecked: true });
     }
 
     getActivePSP() {
@@ -307,14 +315,6 @@ export class DepositMain extends Component {
                 }
                 this.setState({ activePSP: available });
             })
-    }
-
-    componentWillUnmount() {
-        this._isMounted = false;
-
-        // this.setState({
-        //     showReadAlert: false
-        // })
     }
 
     setPage = (page, msg, timer) => {
@@ -904,6 +904,7 @@ export class DepositMain extends Component {
     render() {
         const { classes } = this.props;
 
+        console.log('depositmetodu')
         return (
             <div className={classes.root}>
                 <div className={classes.rootMobile}>
@@ -964,6 +965,32 @@ export class DepositMain extends Component {
                             onClick={() => {
                                 this.setState({
                                     showReadAlert: false
+                                })
+                            }}
+                            color="primary" autoFocus>
+                            {this.getLabel('i-understand')}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Dialog
+                    open={this.state.realNameChecked && this.state.showEmptyAlert}
+                    onClose={() => {
+                        this.setState({
+                            showEmptyAlert: false
+                        })
+                    }}
+                >
+                    <DialogTitle id="alert-real-name-title">{this.getLabel('warning-label')}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-real-name">
+                            {this.getLabel('real-name-warning')}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={() => {
+                                this.setState({
+                                    showEmptyAlert: false
                                 })
                             }}
                             color="primary" autoFocus>
