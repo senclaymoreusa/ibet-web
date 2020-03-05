@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, sendingLog } from '../../../../../actions';
+import { authCheckState, sendingLog, hide_letou_deposit_name_alert, authUserUpdate } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -27,6 +27,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { TextField } from '@material-ui/core';
 
 import PasswordStrengthMeter from '../../../../../commons/PasswordStrengthMeter';
+import { isThisHour } from 'date-fns';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -235,28 +236,31 @@ export class EditName extends Component {
 
     async onFormSubmit(event) {
         event.preventDefault();
+        let currentComponent = this;
 
         const token = localStorage.getItem('token');
         config.headers["Authorization"] = `Token ${token}`;
 
         const { user } = this.props;
-        user.firstName = this.state.firstName;
-        user.lastName = this.state.lastName;
 
-        await axios.put(API_URL + 'users/api/user/', user, config)
+        const body = {
+            user_id: user.userId,
+            first_name: this.state.firstName,
+            last_name: this.state.lastName    
+        };  
+
+        await axios.post(API_URL + 'users/api/set-real-name/', JSON.stringify(body), config)
             .then(() => {
                 this.setState({
                     snackType: 'success',
                     snackMessage: this.getLabel('name-saved-successful'),
                     showSnackbar: true
                 });
+                currentComponent.props.hide_letou_deposit_name_alert();
+                currentComponent.props.authUserUpdate();
             }).catch(err => {
                 sendingLog(err);
-                if (err.response.status === 400)
-                    this.setState({ snackMessage: this.getLabel('wrong-password') });
-                else
-                    this.setState({ snackMessage: this.getLabel('password-update-failed') });
-
+            
                 this.setState({
                     snackMessage: this.getLabel('saving-name-fail'),
                     snackType: 'error',
@@ -382,4 +386,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState })(EditName))));
+export default withStyles(styles)(withRouter(injectIntl(connect(mapStateToProps, { authCheckState, sendingLog, hide_letou_deposit_name_alert, authUserUpdate})(EditName))));
