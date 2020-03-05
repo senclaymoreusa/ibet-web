@@ -317,38 +317,42 @@ export class live_casino extends React.Component {
     handleAGClick(){
         var lang = localStorage.getItem('lang');
         //console.log(lang);
-        if(lang === 'en'){
-            lang = '3';
-        }else if(lang === 'zh'){
-            lang = '1';
-        }else if(lang === 'th'){
-            lang = '6';
-        }else if(lang === 'vi'){
-            lang = '8';
-        }else{
-            lang = '1';
-        }
-        var bodyFormData = new FormData();
-        bodyFormData.set('username', this.state.data.username);
-        axios({
-            method: 'post',
-            url: API_URL + 'games/api/ag/get_balance',
-            data: bodyFormData,
-            headers: {'Content-Type': 'multipart/form-data'} 
-        }).then(
-            res => {
-                //console.log(res);
-                var balance = res.data.info;
-                //console.log(balance);
-                if(balance <= 10){
-                    //console.log("popup");
-                    this.props.show_letou_transfer();
-                    // this.setState({ showModal: true });
-                    
-                }else{
-                    var token = localStorage.getItem('token')
-                    var url = "";
-                    if(token){
+        var token = localStorage.getItem('token');
+        if (!token) {
+            this.props.history.push('/register');
+        } else {
+
+            if(lang === 'en'){
+                lang = '3';
+            }else if(lang === 'zh'){
+                lang = '1';
+            }else if(lang === 'th'){
+                lang = '6';
+            }else if(lang === 'vi'){
+                lang = '8';
+            }else{
+                lang = '1';
+            }
+            var bodyFormData = new FormData();
+            bodyFormData.set('username', this.state.data.username);
+            axios({
+                method: 'post',
+                url: API_URL + 'games/api/ag/get_balance',
+                data: bodyFormData,
+                headers: {'Content-Type': 'multipart/form-data'} 
+            }).then(
+                res => {
+                    //console.log(res);
+                    var balance = res.data.info;
+                    //console.log(balance);
+                    if(balance <= 10){
+                        //console.log("popup");
+                        this.props.show_letou_transfer();
+                        // this.setState({ showModal: true });
+                        
+                    }else{
+                        
+                        var url = "";
                         var postData = {
                             "username": this.state.data.username,
                             "actype" : '1',
@@ -379,113 +383,107 @@ export class live_casino extends React.Component {
                             }
                             window.open(url, "aggames", 'width=1000,height=800');
                         });
-                    } else {
-                        this.props.history.push('/register');
                     }
-                }
-            }).catch(function (error) {
-                // handle error
-                sendingLog(error);
-            });
-        
+                }).catch(function (error) {
+                    // handle error
+                    sendingLog(error);
+                });
+
+        }    
     }
 
 
     handleEAClick(mobile) {
         let user_id = this.state.data.pk;
         const lang = localStorage.getItem('lang');
-        axios({
-            method: 'get',
-            url: API_URL + 'games/api/ea/get-balance/?user_id=' + user_id,
-        }).then(
-            res => {
-                var balance = res.data.current_balance;
-                if(balance <= 10){
-                    this.props.show_letou_transfer();
-                }else{
-                    // console.log("lang: " + this.props.lang);
-                    // console.log(this.state.data);
-                    
-                    var domainUrl = "https://178.claymoreasia.com/wkpibet/newlayout/index.php?userid=";
-                    if (mobile) {
-                        domainUrl = "https://178-mobile.claymoreasia.com/mobile/src/mobile.php?userid=";
-                    }
-
-                    var language = 3;
-                    if (lang === "zh") {
-                        language = 1;
-                    } else if (lang === "vi") {
-                        language = 11;
-                    } else if (lang === "th") {
-                        language = 8;
-                    }
-                    var username = this.state.data.username;
-                    var token = localStorage.getItem('token');
-                    var url = "";
-                    if (!token) {
-                        this.props.history.push('/register');
+        var token = localStorage.getItem('token');
+        var url = "";
+        if (!token) {
+            this.props.history.push('/register');
+        } else {
+            axios({
+                method: 'get',
+                url: API_URL + 'games/api/ea/get-balance/?user_id=' + user_id,
+            }).then(
+                res => {
+                    var balance = res.data.current_balance;
+                    if (balance <= 10) {
+                        this.props.show_letou_transfer();
                     } else {
-                    
+                        
+                        var domainUrl = "https://178.claymoreasia.com/?userid=";
+                        if (mobile) {
+                            domainUrl = "https://178-mobile.claymoreasia.com/?userid=";
+                        }
+    
+                        var language = 3;
+                        if (lang === "zh") {
+                            language = 1;
+                        } else if (lang === "vi") {
+                            language = 11;
+                        } else if (lang === "th") {
+                            language = 8;
+                        }
+                        var username = this.state.data.username;
                         url = domainUrl + username + "&uuid=" + token + "&lang=" + language;
-                        window.open(url, "ea-live",'width=1000,height=800')
+                        window.open(url, "ea-live",'width=1000,height=800');
                     }
                 }
-            }
-        )
-        
+            )
+        }
     }
 
     handleGPIClick(gameName) {
         var username = this.state.data.username;
         const lang = localStorage.getItem('lang');
-        axios({
-            method: 'get',
-            url: API_URL + 'games/api/gpi/getbalance/?username=' + username,
-        }).then(
-            res => {
-                var balance = res.data.resp.balance;
-                if(balance <= 10){
-                    this.props.show_letou_transfer();
-                }else{
-                    let token = localStorage.getItem('token');
-                    let gpiUrl = "";
-                    let language = 'us-en';
-                    let suffix = "";
-
-                    if (lang === "zh") {
-                        language = "zh-cn";
-                    }
-                    else if (lang === "th") {
-                        language = "th-th";
-                    }
-                    else if (lang === "vi") {
-                        language = "vi-vn";
-                    }
-
-                    if(gameName === "gpi-Baccarat") {
-                        suffix = "&tab=5";
-                    } else if(gameName === "gpi-Qixi") {
-                        suffix = "&tab=8";
-                    } else if(gameName === "gpi-Dai") {
-                        suffix = "&tab=6";
-                    } else if(gameName === "gpi-Sangong") {
-                        suffix = "&tab=1";
-                    } else if(gameName === "gpi-Black") {
-                        suffix = "&tab=3";
-                    } else if(gameName === "gpi-Super") {
-                        suffix = "&tab=7";
-                    }
-
-                    if (!token) {
-                        this.props.history.push('/register');
+        let token = localStorage.getItem('token');
+        if (!token) {
+            this.props.history.push('/register');
+        } else {
+            axios({
+                method: 'get',
+                url: API_URL + 'games/api/gpi/getbalance/?username=' + username,
+            }).then(
+                res => {
+                    var balance = res.data.resp.balance;
+                    if (balance <= 10) {
+                        this.props.show_letou_transfer();
                     } else {
+                    
+                        let gpiUrl = "";
+                        let language = 'us-en';
+                        let suffix = "";
+
+                        if (lang === "zh") {
+                            language = "zh-cn";
+                        }
+                        else if (lang === "th") {
+                            language = "th-th";
+                        }
+                        else if (lang === "vi") {
+                            language = "vi-vn";
+                        }
+
+                        if(gameName === "gpi-Baccarat") {
+                            suffix = "&tab=5";
+                        } else if(gameName === "gpi-Qixi") {
+                            suffix = "&tab=8";
+                        } else if(gameName === "gpi-Dai") {
+                            suffix = "&tab=6";
+                        } else if(gameName === "gpi-Sangong") {
+                            suffix = "&tab=1";
+                        } else if(gameName === "gpi-Black") {
+                            suffix = "&tab=3";
+                        } else if(gameName === "gpi-Super") {
+                            suffix = "&tab=7";
+                        }
+
+                        
                         gpiUrl = "http://casino.w88uat.com/html5/casino?token=" + token + "&op=IBETP&lang=" + language + suffix;
                         window.open(gpiUrl);
                     }
-                }
-            }
-        )
-        
+            });
+        }
     }
     
     
