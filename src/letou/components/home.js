@@ -18,14 +18,6 @@ import { Fade } from 'react-slideshow-image';
 import { config, images } from '../../util_config';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Search from '@material-ui/icons/Search';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 import Link from '@material-ui/core/Link';
 import RightIcon from '@material-ui/icons/KeyboardArrowRight';
 import clsx from 'clsx';
@@ -96,12 +88,6 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
-  },
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start'
   },
   column: {
     display: 'flex',
@@ -443,7 +429,7 @@ const styles = theme => ({
   }
 });
 
-const ColorButton = withStyles(theme => ({
+const ColorButton = withStyles(() => ({
   root: {
     color: 'white',
     backgroundColor: '#ff9e00',
@@ -453,15 +439,6 @@ const ColorButton = withStyles(theme => ({
   },
 }))(Button);
 
-const SearchRadio = withStyles({
-  root: {
-    color: '#ff9e00',
-    '&$checked': {
-      color: '#FF7E05',
-    },
-  },
-  checked: {},
-})(props => <Radio color="default" {...props} />);
 
 export class Home extends Component {
    countryCodeTimer = null;
@@ -488,7 +465,7 @@ export class Home extends Component {
     this.setState({ height: window.innerHeight, width: window.innerWidth })
   };
 
-  componentWillReceiveProps(props) {
+  componentDidUpdate(prevProps) {
     window.addEventListener("resize", this.handleResize);
   }
 
@@ -517,7 +494,7 @@ export class Home extends Component {
       .then(res => {
         if (res.data.success) {
           let itemArray = [];
-          Object.keys(res.data.results).map(function (refNum) {
+          Object.keys(res.data.results).forEach(function (refNum) {
             let result = res.data.results[refNum];
             itemArray.push(
               {
@@ -603,7 +580,7 @@ export class Home extends Component {
 
   render() {
     const { classes, lang } = this.props;
-    const { banners, activeBanner, search, searchType, hotGames, hoveredHot } = this.state;
+    const { banners, activeBanner, hotGames, hoveredHot } = this.state;
 
     const bannerImages = [
       images.src + 'letou/banner1.jpg',

@@ -48,7 +48,8 @@ const INITIAL_STATE = {
     show_letou_mobile_login: false,
     show_letou_mobile_signup: false,
     show_letou_transfer: false,
-
+    show_letou_deposit_empty_alert:false,
+    
     onc_click_username: '',
     one_click_password: '',
 
@@ -296,6 +297,11 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, show_letou_transfer: true };
         case 'HIDE_LETOU_TRANSFER':
             return { ...state, show_letou_transfer: false };
+            case 'SHOW_LETOU_DEPOSIT_NAME_ALERT':
+                return { ...state, show_letou_deposit_name_alert: true };
+            case 'HIDE_LETOU_DEPOSIT_NAME_ALERT':
+                return { ...state, show_letou_deposit_name_alert: false };
+
         case 'SET_WALLET_COLORS':
             return {
                 ...state,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { authCheckState, AUTH_RESULT_FAIL, sendingLog } from '../../../../actions';
+import { authCheckState } from '../../../../actions';
 import { injectIntl, FormattedNumber } from 'react-intl';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -10,20 +10,15 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { withStyles } from '@material-ui/core/styles';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import { config, images } from '../../../../util_config';
-import axios from 'axios';
-
+import { images } from '../../../../util_config';
 import AccountBalanceOutlined from '@material-ui/icons/AccountBalanceOutlined';
 import FlightLandOutlined from '@material-ui/icons/FlightLandOutlined';
 import FlightTakeoffOutlined from '@material-ui/icons/FlightTakeoffOutlined';
 import LoopOutlined from '@material-ui/icons/LoopOutlined';
-
 import DepositMain from './deposit/deposit_main';
 import TotalAssets from './total_assets';
 import Transfer from './transfer';
 import WithdrawMain from './withdraw/withdraw_main';
-
-const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 const styles = theme => ({
     root: {
@@ -188,34 +183,7 @@ export class FortuneCenter extends Component {
     }
 
     componentDidMount() {
-        // const { activeContent } = this.props;
 
-        // if (activeContent)
-        //     this.setState({ contentValue: activeContent });
-
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            } else {
-                const token = localStorage.getItem('token');
-                config.headers['Authorization'] = `Token ${token}`;
-
-                axios
-                    .get(API_URL + 'users/api/user/', config)
-                    .then(res => {
-                        this.setState({ username: res.data.username });
-                        this.setState({ mainWallet: res.data.main_wallet });
-                        this.setState({ currency: res.data.currency });
-                    })
-                    .catch(function (err) {
-                        sendingLog(err);
-                    });
-            }
-        })
-
-        // this.setState({ urlPath: this.props.history.location.pathname });
-
-       // this.initializeContent();
     }
 
     initializeContent() {
@@ -259,7 +227,6 @@ export class FortuneCenter extends Component {
         const { subProp } = this.props;
         const { classes } = this.props;
 
-        console.log(subProp)
         switch (subProp) {
             case 'deposit':
                 return <DepositMain />;
@@ -414,7 +381,7 @@ export class FortuneCenter extends Component {
 
     render() {
         const { classes, subProp } = this.props;
-
+       
         return (
             <div className={classes.root}>
                 <div className={classes.rootDesktop}>

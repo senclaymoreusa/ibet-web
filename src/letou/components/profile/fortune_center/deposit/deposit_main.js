@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    authCheckState, sendingLog, AUTH_RESULT_FAIL
+    authCheckState, sendingLog, show_letou_deposit_name_alert, hide_letou_deposit_name_alert
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
@@ -41,6 +41,14 @@ import QuickPay from './zh/quickpay';
 import UnionPayQr from './zh/unionpay_qr';
 import JDPay from './zh/jd_pay';
 import AstropayCH from './zh/astro_pay';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Modal from '@material-ui/core/Modal';
+import Paper from '@material-ui/core/Paper';
+import EditName from './edit_name';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -71,13 +79,19 @@ const styles = theme => ({
         },
         textTransform: 'capitalize'
     },
+    modal: {
+        display: 'flex',
+        padding: theme.spacing(1),
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     paymentButton: {
         width: 80,
-        maxWidth:80,
+        maxWidth: 80,
         padding: 0,
         height: 58,
         marginBottom: 32,
-        position:'relative',
+        position: 'relative',
         backgroundColor: '#efefef',
         display: 'inline-block',
         '&:hover': {
@@ -97,6 +111,14 @@ const styles = theme => ({
         flexDirection: 'row',
         alignItems: 'center'
     },
+    paper: {
+        position: 'absolute',
+        width: 360,
+        padding: 15,
+        '&:focus': {
+            outline: 'none'
+        }
+    },
     methodGrid: {
         borderBottom: '1px solid #d8d8d8',
         marginBottom: 30
@@ -106,6 +128,16 @@ const styles = theme => ({
         paddingRight: 0,
         width: '100%',
         borderBottom: '1px solid #d8d8d8'
+    },
+    understand: {
+        width: '100%',
+        textTransform: 'capitalize',
+        backgroundColor: '#ff9e00',
+        color: '#fff',
+        '&:hover': {
+            backgroundColor: '#ff9e00',
+            color: '#fff',
+        }
     },
     grow: {
         flexGrow: 1
@@ -117,7 +149,7 @@ const styles = theme => ({
     },
     title: {
         fontSize: 12,
-        marginBottom:10,
+        marginBottom: 10,
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
@@ -164,12 +196,12 @@ const styles = theme => ({
         height: 40,
         maxHeight: 40,
         width: 60,
-        minWidth:60,
+        minWidth: 60,
         borderRadius: 3,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        position:'relative'
+        position: 'relative'
     }
 });
 
@@ -227,13 +259,13 @@ TabPanel.propTypes = {
 };
 
 export class DepositMain extends Component {
-
     constructor(props) {
         super(props);
 
         this.state = {
             contentValue: '',
-            activePSP: null
+            activePSP: null,
+            showReadAlert: false,
         };
 
         this.setPage = this.setPage.bind(this);
@@ -241,73 +273,85 @@ export class DepositMain extends Component {
     }
 
     componentDidMount() {
+        let { user } = this.props;
+
+        if (user) {
+            if (user.firstName && user.lastName) {
+                if (user.firstName.trim().length > 0 && user.lastName.trim().length > 0) {
+                    this.getActivePSP();
+                }else{
+                    this.props.show_letou_deposit_name_alert();
+                }                
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+
+    }
+
+    getActivePSP() {
         let txn_type = "deposit";
         let country = "";
         let marketCode = 5;
         let { user } = this.props;
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            } else {
-                if (user && user.country) {
-                    country = user.country;
-                }
-                
-                if (user && user.favoriteDepositMethod) {
-                    this.depositWith(user.favoriteDepositMethod)
-                }else{
-                    switch(country.toLowerCase()){
-                        case 'china':
-                            this.depositWith('zhlocalbank');
-                            break;
-                        case 'thailand':
-                            this.depositWith('thlocalbank');
-                            break;
-                        case 'vietnam':
-                            this.depositWith('vnlocalbank');
-                            break;
-                    }
-               }
 
-                let available = {
-                    'methods': [],
-                    'channels': []
-                };
-                if (country.toLowerCase() === "china") marketCode = 5
-                if (country.toLowerCase() === "thailand") marketCode = 4
-                if (country.toLowerCase() === "vietnam") marketCode = 3
-        
-                
-                let path = `accounting/api/payments/get_available_psps?txn_type=${txn_type}&market_code=${marketCode}`
-                fetch(API_URL + path)
-                .then( function(res) {
-                    if (res.status === 200) {
-                        return res.json();
-                    } else {
-                        this.props.callbackFromParent("error", "Could not retrieve payment options");
-                    }
-                })
-                .then( (data) => {
-        
-                    for(let i = 0; i < data.length; i++) {
-                        available.channels.push(data[i].fields.channel.toLowerCase());
-                        available.methods.push(data[i].fields.method.toLowerCase());
-                    }
-                    this.setState({ activePSP: available});
-                })
+        if (user && user.country) {
+            country = user.country;
+        }
+
+        if (user && user.favoriteDepositMethod) {
+            this.depositWith(user.favoriteDepositMethod)
+        } else {
+            switch (country.toLowerCase()) {
+                case 'china':
+                    this.depositWith('zhlocalbank');
+                    break;
+                case 'thailand':
+                    this.depositWith('thlocalbank');
+                    break;
+                case 'vietnam':
+                    this.depositWith('vnlocalbank');
+                    break;
             }
-        })
+        }
+
+        let available = {
+            'methods': [],
+            'channels': []
+        };
+        if (country.toLowerCase() === "china") marketCode = 5
+        if (country.toLowerCase() === "thailand") marketCode = 4
+        if (country.toLowerCase() === "vietnam") marketCode = 3
+
+        let path = `accounting/api/payments/get_available_psps?txn_type=${txn_type}&market_code=${marketCode}`
+        fetch(API_URL + path)
+            .then(function (res) {
+                if (res.status === 200) {
+                    return res.json();
+                } else {
+                    this.props.callbackFromParent("error", "Could not retrieve payment options");
+                }
+            })
+            .then((data) => {
+
+                for (let i = 0; i < data.length; i++) {
+                    available.channels.push(data[i].fields.channel.toLowerCase());
+                    available.methods.push(data[i].fields.method.toLowerCase());
+                }
+                this.setState({ activePSP: available });
+            })
     }
 
     setPage = (page, msg, timer) => {
         if (msg) this.setState({ depositMessage: msg });
-        if (timer) this.setState({ timer: timer})
+        if (timer) this.setState({ timer: timer })
 
         this.setState({ contentValue: page });
     };
 
     depositWith(paymentMethod) {
-        this.setState({contentValue:''});
+        this.setState({ contentValue: '' });
         this.props.history.push('/p/fortune-center/deposit/' + paymentMethod)
     }
 
@@ -335,6 +379,7 @@ export class DepositMain extends Component {
             </div>
         )
     }
+
     renderPayzod(classes, user, operationProp) {
         return (
             <div className={classes.methodColumn}>
@@ -354,6 +399,7 @@ export class DepositMain extends Component {
             </div>
         )
     }
+
     renderLocalbank(classes, user, operationProp, bank) {
         return (
             <div className={classes.methodColumn}>
@@ -373,6 +419,7 @@ export class DepositMain extends Component {
             </div>
         )
     }
+
     renderAstropay(classes, user, operationProp) {
         return (
             <div className={classes.methodColumn}>
@@ -392,7 +439,7 @@ export class DepositMain extends Component {
             </div>
         )
     }
-    
+
     getAvailablePaymentMethods() {
         const { classes, user, operationProp } = this.props;
         const { activePSP: psps } = this.state;
@@ -400,7 +447,7 @@ export class DepositMain extends Component {
         if (user && user.country) {
             country = user.country;
         }
-        
+
         switch (country.toLowerCase()) {
             case 'china':
                 return (
@@ -717,11 +764,11 @@ export class DepositMain extends Component {
                             <Grid container className={classes.methodGrid} >
                                 <Grid item xs={12} className={classes.row}>
                                     {this.renderLocalbank(classes, user, operationProp, 'vnlocalbank')}
-                                    {psps && psps.channels ? psps.channels.map( c => {
+                                    {psps && psps.channels ? psps.channels.map(c => {
                                         // console.log(c);
                                         // console.log(c === ("momopay" || "fgocard" ));
                                         let extension = (c === "momopay" || c === "fgocard" || c === "help2pay") ? "png" : "svg";
-                                        
+
                                         return (
                                             <div className={classes.methodColumn} key={c}>
                                                 <Button
@@ -731,7 +778,7 @@ export class DepositMain extends Component {
                                                         else { this.depositWith("vietnamhelp2pay"); }
                                                     }}>
                                                     <img src={images.src + `letou/${c}.${extension}`} alt="" height="26" />
-                                                    {((c === "help2pay" && user.favoriteDepositMethod === "vietnamhelp2pay") || (c !== "help2pay" && user.favoriteDepositMethod === c))  && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
+                                                    {((c === "help2pay" && user.favoriteDepositMethod === "vietnamhelp2pay") || (c !== "help2pay" && user.favoriteDepositMethod === c)) && <img src={images.src + 'letou/favorite.svg'} alt="" className={classes.heart} />}
                                                 </Button>
                                                 <span className={clsx(classes.title, {
                                                     [classes.active]: ((c === "help2pay" && operationProp === "vietnamhelp2pay") || (c !== "help2pay" && operationProp === c)),
@@ -834,9 +881,11 @@ export class DepositMain extends Component {
         else if (contentValue === 'inprogress')
             return <DepositInprogress callbackFromParent={this.setPage} InprogressMessage={this.state.depositMessage} />;
         else if (contentValue === 'pending')
-            return <DepositPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} timer={this.state.timer}/>;
+            return <DepositPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} timer={this.state.timer} />;
         else if (contentValue === 'momopay')
             return <MomoPayPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} />;
+        else if (contentValue === 'editname')
+            return <EditName />;
 
         if (operationProp === 'alipay')
             return <AliPay callbackFromParent={this.setPage} />;
@@ -920,9 +969,73 @@ export class DepositMain extends Component {
                         </Toolbar>
                     </AppBar>
                 </div>
-                {this.getAvailablePaymentMethods()}
-                {this.getPaymentMethodContent()}
-            </div>
+                {(this.props.user.firstName.trim().length > 0 && this.props.user.lastName.trim().length > 0)
+                    ?
+                    <div>
+                        {this.getAvailablePaymentMethods()}
+                        {this.getPaymentMethodContent()}
+                    </div>
+                    :
+                    <EditName />
+                }
+                <Dialog
+                    open={this.state.showReadAlert}
+                    onClose={() => {
+                        this.setState({
+                            showReadAlert: false
+                        })
+                    }}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{this.getLabel('attention-label')}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {this.getLabel('deposit-attention-text')}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            onClick={() => {
+                                this.setState({
+                                    showReadAlert: false
+                                })
+                            }}
+                            color="primary" autoFocus>
+                            {this.getLabel('i-understand')}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Modal
+                    open={this.props.showEmptyAlert}
+                    className={classes.modal}
+                >
+                    <Paper className={classes.paper}>
+                        <Grid container>
+                            <Grid item xs={12} className={classes.methodColumn}>
+                                <span className={classes.mobileTitle}>
+                                    {this.getLabel('warning-label')}
+                                </span>
+                            </Grid>
+                            <Grid item xs={12} style={{ marginTop: 20, marginBottom: 20, textAlign: 'center' }}>
+                                {this.getLabel('real-name-warning')}
+
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button
+                                    variant="contained"
+                                    className={classes.understand}
+                                    onClick={() => {
+                                        this.props.hide_letou_deposit_name_alert();
+                                    }}
+                                >
+                                    {this.getLabel('i-understand')}
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Modal >
+            </div >
         );
     }
 }
@@ -932,7 +1045,8 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         user: user,
-        operationProp: ownProps.match.params.operation
+        operationProp: ownProps.match.params.operation,
+        showEmptyAlert: state.general.show_letou_deposit_name_alert,
     };
 };
 
@@ -940,7 +1054,7 @@ export default withStyles(styles)
     (withRouter(
         injectIntl(
             connect(
-                mapStateToProps, { authCheckState, sendingLog }
+                mapStateToProps, { authCheckState, sendingLog, show_letou_deposit_name_alert, hide_letou_deposit_name_alert }
             )(DepositMain)
         )
     )

@@ -144,17 +144,17 @@ export class AccountManagement extends Component {
         this.props.history.push(url);
     }
 
-    componentWillReceiveProps(props) {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            }
-        })
+    // componentWillReceiveProps(props) {
+    //     this.props.authCheckState().then(res => {
+    //         if (res === AUTH_RESULT_FAIL) {
+    //             this.props.history.push('/')
+    //         }
+    //     })
 
-        this.setState({ urlPath: this.props.history.location.pathname });
+    //     this.setState({ urlPath: this.props.history.location.pathname });
 
-        this.initializeContent();
-    }
+    //     this.initializeContent();
+    // }
 
     componentDidMount() {
         const { activeContent } = this.props;

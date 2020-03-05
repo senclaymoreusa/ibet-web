@@ -401,7 +401,6 @@ const BaseRouter = () => (
         <Route exact path="/th/promotion/vip_first_deposit_th" component={THVIPFirstDepositBonus} />
 
         <Route exact path="/p/:type?/:sub?/:operation?" component={Profile} />
-        <Route exact path="/p/:type?/:sub?/:operation?/" component={Profile} />
         <Route exact path="/promotions" component={Promotion} />
         <Route path="*" component={NoMatch} />
         </Switch>

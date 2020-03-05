@@ -327,8 +327,6 @@ NumberFormatCustom.propTypes = {
 };
 
 class BankTransfer extends Component {
-    _isMounted = false;
-
     constructor(props) {
         super(props);
 
@@ -337,7 +335,7 @@ class BankTransfer extends Component {
         this.state = {
             amount: '',
             currency: '',
-            bank: '',
+            bank: 'none',
             amountFocused: false,
             amountInvalid: true,
 
@@ -346,28 +344,16 @@ class BankTransfer extends Component {
     }
 
     componentDidMount() {
-        this._isMounted = true;
-
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) {
-                this.props.history.push('/')
-            } else {
-                if (this.props.user) {
-                    this.setState({
-                        currency: getSymbolFromCurrency(
-                            this.props.user.currency
-                        ),
-                        isFavorite:
-                            this.props.user.favoriteDepositMethod ===
-                            'zhlocalbank'
-                    });
-                }
-            }
-        })
-    }
-
-    componentWillUnmount() {
-        this._isMounted = false;
+        if (this.props.user) {
+            this.setState({
+                currency: getSymbolFromCurrency(
+                    this.props.user.currency
+                ),
+                isFavorite:
+                    this.props.user.favoriteDepositMethod ===
+                    'zhlocalbank'
+            });
+        }
     }
 
     amountChanged = e => {
@@ -393,97 +379,97 @@ class BankTransfer extends Component {
     };
 
     handleClick() {
-            let currentComponent = this;
+        let currentComponent = this;
 
-            var postData = {
-                "amount": this.state.amount,
-                "user_id": this.props.user.userId,
-                "currency": "0",
-                "language": "zh-Hans",
-                "method": "BANK_TRANSFER",
-                "bank": this.state.bank,
-            }
+        var postData = {
+            "amount": this.state.amount,
+            "user_id": this.props.user.userId,
+            "currency": "0",
+            "language": "zh-Hans",
+            "method": "BANK_TRANSFER",
+            "bank": this.state.bank,
+        }
 
-            var formBody = [];
-            for (var pd in postData) {
-                var encodedKey = encodeURIComponent(pd);
-                var encodedValue = encodeURIComponent(postData[pd]);
-                formBody.push(encodedKey + "=" + encodedValue);
-            }
-            formBody = formBody.join("&");
-            return fetch(API_URL + 'accounting/api/qaicash/submit_deposit', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                },
-                body: formBody
-            }).then(function (res) {
-                return res.json();
-            }).then(function (data) {
-                let redirectUrl = data.paymentPageSession.paymentPageUrl
-             
-                if (redirectUrl != null) {
-                    const mywin = window.open(redirectUrl, 'qaicash_BT');
-                    var timer = setInterval(function () {
-                        if (mywin.closed) {
-                            clearInterval(timer);
-                            var postData = {
-                                "trans_id": data.paymentPageSession.orderId
-                            }
-                            var formBody = [];
-                            for (var pd in postData) {
-                                var encodedKey = encodeURIComponent(pd);
-                                var encodedValue = encodeURIComponent(postData[pd]);
-                                formBody.push(encodedKey + "=" + encodedValue);
-                            }
-                            formBody = formBody.join("&");
+        var formBody = [];
+        for (var pd in postData) {
+            var encodedKey = encodeURIComponent(pd);
+            var encodedValue = encodeURIComponent(postData[pd]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        return fetch(API_URL + 'accounting/api/qaicash/submit_deposit', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: formBody
+        }).then(function (res) {
+            return res.json();
+        }).then(function (data) {
+            let redirectUrl = data.paymentPageSession.paymentPageUrl
 
-                            return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
-                                method: "POST",
-                                headers: {
-                                    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                                },
-                                body: formBody
-                            }).then(function (res) {
-                                return res.json();
-                            }).then(function (data) {
-                                if (data.errorCode) {
-                                    currentComponent.props.postLogout();
-                                    return;
-                                }
-
-                                if (data.status === 0) {
-                                    const body = JSON.stringify({
-                                        type: 'add',
-                                        username: currentComponent.state.data.username,
-                                        balance: currentComponent.state.amount,
-                                    });
-
-                                    axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
-                                        .then(res => {
-                                            if (res.data === 'Failed') {
-                                                currentComponent.props.callbackFromParent("error", "Transaction failed.");
-                                            } else if (res.data === "The balance is not enough") {
-                                                currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
-                                            } else {
-                                                currentComponent.props.authUserUpdate();
-                                                currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
-                                            }
-                                        });
-                                } else {
-                                    currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
-                                }
-                            });
+            if (redirectUrl != null) {
+                const mywin = window.open(redirectUrl, 'qaicash_BT');
+                var timer = setInterval(function () {
+                    if (mywin.closed) {
+                        clearInterval(timer);
+                        var postData = {
+                            "trans_id": data.paymentPageSession.orderId
                         }
-                    }, 1000);
-                } else {
-                    currentComponent.props.callbackFromParent("error", data.returnMessage);
-                 }
-            }).catch(function (err) {
-                currentComponent.props.callbackFromParent("error", "Something is wrong");
-                sendingLog(err);
-            });
-        
+                        var formBody = [];
+                        for (var pd in postData) {
+                            var encodedKey = encodeURIComponent(pd);
+                            var encodedValue = encodeURIComponent(postData[pd]);
+                            formBody.push(encodedKey + "=" + encodedValue);
+                        }
+                        formBody = formBody.join("&");
+
+                        return fetch(API_URL + 'accounting/api/qaicash/get_transaction_status', {
+                            method: "POST",
+                            headers: {
+                                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            },
+                            body: formBody
+                        }).then(function (res) {
+                            return res.json();
+                        }).then(function (data) {
+                            if (data.errorCode) {
+                                currentComponent.props.postLogout();
+                                return;
+                            }
+
+                            if (data.status === 0) {
+                                const body = JSON.stringify({
+                                    type: 'add',
+                                    username: currentComponent.state.data.username,
+                                    balance: currentComponent.state.amount,
+                                });
+
+                                axios.post(API_URL + `users/api/addorwithdrawbalance/`, body, config)
+                                    .then(res => {
+                                        if (res.data === 'Failed') {
+                                            currentComponent.props.callbackFromParent("error", "Transaction failed.");
+                                        } else if (res.data === "The balance is not enough") {
+                                            currentComponent.props.callbackFromParent("error", "Cannot deposit this amount.");
+                                        } else {
+                                            currentComponent.props.authUserUpdate();
+                                            currentComponent.props.callbackFromParent("success", currentComponent.state.amount);
+                                        }
+                                    });
+                            } else {
+                                currentComponent.props.callbackFromParent("error", "Transaction is not approved.");
+                            }
+                        });
+                    }
+                }, 1000);
+            } else {
+                currentComponent.props.callbackFromParent("error", data.returnMessage);
+            }
+        }).catch(function (err) {
+            currentComponent.props.callbackFromParent("error", "Something is wrong");
+            sendingLog(err);
+        });
+
     }
 
     getLabel(labelId) {

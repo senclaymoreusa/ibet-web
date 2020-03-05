@@ -291,9 +291,6 @@ export class Profile extends Component {
             desktopContent: '',
             mobileContent: '',
             anchorEl: null,
-            currency: 'CNY',
-            mainWallet: 0.0,
-            username: '',
             show: false,
 
             popperMoreCount: 0,
@@ -308,6 +305,7 @@ export class Profile extends Component {
     closeMenu() {
         this.setState({ anchorEl: null });
     }
+
     handleCategoryChange(category) {
         this.props.history.push('/p/' + category);
 
@@ -315,10 +313,9 @@ export class Profile extends Component {
     }
 
     componentDidMount() {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) this.props.history.push('/');
-            else this.setContent();
-        });
+        // this.props.authCheckState().then(res => {
+        //     if (res === AUTH_RESULT_FAIL) this.props.history.push('/');
+        // });
     }
 
     setContent() {
@@ -326,9 +323,7 @@ export class Profile extends Component {
         var parts = url.split('/');
 
         if (parts.length >= 2) {
-            
             this.setState({ mobileContent: parts[parts.length - 1] });
-
         }
     }
 
@@ -468,7 +463,7 @@ export class Profile extends Component {
                                 centered
                                 value={
                                     typeProp === 'fortune-center' ||
-                                    typeProp === 'transaction-records'
+                                        typeProp === 'transaction-records'
                                         ? typeProp
                                         : 'none'
                                 }
@@ -534,13 +529,13 @@ export class Profile extends Component {
                                                     <Tooltip
                                                         title={
                                                             user &&
-                                                            user.nameVerified
+                                                                user.nameVerified
                                                                 ? this.getLabel(
-                                                                      'name-verified'
-                                                                  )
+                                                                    'name-verified'
+                                                                )
                                                                 : this.getLabel(
-                                                                      'verify-name-asap'
-                                                                  )
+                                                                    'verify-name-asap'
+                                                                )
                                                         }
                                                     >
                                                         <IconButton
@@ -548,7 +543,7 @@ export class Profile extends Component {
                                                                 [classes.icon]: true,
                                                                 [classes.verifiedIcon]:
                                                                     user &&
-                                                                    user.nameVerified
+                                                                        user.nameVerified
                                                                         ? user.nameVerified
                                                                         : false
                                                             })}
@@ -573,13 +568,13 @@ export class Profile extends Component {
                                                     <Tooltip
                                                         title={
                                                             user &&
-                                                            user.phoneVerified
+                                                                user.phoneVerified
                                                                 ? this.getLabel(
-                                                                      'phone-verified'
-                                                                  )
+                                                                    'phone-verified'
+                                                                )
                                                                 : this.getLabel(
-                                                                      'verify-phone-asap'
-                                                                  )
+                                                                    'verify-phone-asap'
+                                                                )
                                                         }
                                                     >
                                                         <IconButton
@@ -587,7 +582,7 @@ export class Profile extends Component {
                                                                 [classes.icon]: true,
                                                                 [classes.verifiedIcon]:
                                                                     user &&
-                                                                    user.phoneVerified
+                                                                        user.phoneVerified
                                                                         ? user.phoneVerified
                                                                         : false
                                                             })}
@@ -612,13 +607,13 @@ export class Profile extends Component {
                                                     <Tooltip
                                                         title={
                                                             user &&
-                                                            user.emailVerified
+                                                                user.emailVerified
                                                                 ? this.getLabel(
-                                                                      'email-verified'
-                                                                  )
+                                                                    'email-verified'
+                                                                )
                                                                 : this.getLabel(
-                                                                      'verify-email-asap'
-                                                                  )
+                                                                    'verify-email-asap'
+                                                                )
                                                         }
                                                     >
                                                         <IconButton
@@ -626,7 +621,7 @@ export class Profile extends Component {
                                                                 [classes.icon]: true,
                                                                 [classes.verifiedIcon]:
                                                                     user &&
-                                                                    user.emailVerified
+                                                                        user.emailVerified
                                                                         ? user.emailVerified
                                                                         : false
                                                             })}
@@ -687,7 +682,7 @@ export class Profile extends Component {
                                 centered
                                 value={
                                     typeProp === 'account-management' ||
-                                    typeProp === 'sharing-plan'
+                                        typeProp === 'sharing-plan'
                                         ? typeProp
                                         : 'none'
                                 }
