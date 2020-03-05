@@ -313,9 +313,9 @@ export class Profile extends Component {
     }
 
     componentDidMount() {
-        this.props.authCheckState().then(res => {
-            if (res === AUTH_RESULT_FAIL) this.props.history.push('/');
-        });
+        // this.props.authCheckState().then(res => {
+        //     if (res === AUTH_RESULT_FAIL) this.props.history.push('/');
+        // });
     }
 
     setContent() {

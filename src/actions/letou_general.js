@@ -82,6 +82,18 @@ export const hide_letou_transfer = () => {
     };
 };
 
+export const show_letou_deposit_name_alert = () => {
+    return {
+        type: 'SHOW_LETOU_DEPOSIT_NAME_ALERT'
+    };
+};
+
+export const hide_letou_deposit_name_alert = () => {
+    return {
+        type: 'HIDE_LETOU_DEPOSIT_NAME_ALERT'
+    };
+};
+
 export const saveWalletColors = colors => {
     return {
         type: 'SET_WALLET_COLORS',

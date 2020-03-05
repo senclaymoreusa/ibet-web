@@ -14,17 +14,17 @@ import './css/global.css';
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
 function new_script(src) {
-    return new Promise(function(resolve, reject){
-      var script = document.createElement('script');
-      script.async = true;
-      script.src = src;
-      script.addEventListener('load', function () {
-        resolve();
-      });
-      script.addEventListener('error', function (e) {
-        reject(e);
-      });
-      document.body.appendChild(script);
+    return new Promise(function (resolve, reject) {
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = src;
+        script.addEventListener('load', function () {
+            resolve();
+        });
+        script.addEventListener('error', function (e) {
+            reject(e);
+        });
+        document.body.appendChild(script);
     })
 }
 class LetouApp extends Component {
@@ -36,14 +36,14 @@ class LetouApp extends Component {
             status: 'start'
         };
     }
-    
-    
+
+
     getLabel(labelId) {
         const { formatMessage } = this.props.intl;
         return formatMessage({ id: labelId });
     }
-    
-    iovationLoad(){
+
+    iovationLoad() {
         var bbData = window.IGLOO.getBlackbox();
         var language = '';
         if (bbData.finished) {
@@ -54,7 +54,7 @@ class LetouApp extends Component {
                     API_URL + 'users/api/login-device-info?bb=' + blackBoxString
                 )
                 .then(res => {
-                    try{
+                    try {
                         var location = res.data.details.realIp.ipLocation.countryCode;
                         const ip = res.data.details.realIp.address;
                         localStorage.setItem('ip', ip);
@@ -64,7 +64,7 @@ class LetouApp extends Component {
                             // console.log("error")
                             window.location.href = "/error/";
                         }
-                        
+
                         if (location === 'CN') {
                             language = 'zh';
                         } else if (location === 'TH') {
@@ -78,23 +78,24 @@ class LetouApp extends Component {
                     }
                     catch{
                         language = 'en';
+                        localStorage.setItem('countryCode', 'us');
                     }
                     this.props.setLanguage(language);
                 })
         }
     }
-    loadScript(){
+    loadScript() {
         let currentComponent = this;
         new_script("../../public/iovation.js")
             .then(() => {
-                currentComponent.setState({'status': 'done'});
+                currentComponent.setState({ 'status': 'done' });
                 //console.log(script);
-                currentComponent.iovationLoad(); 
-                
-            }).catch(function() {
-                    currentComponent.setState({'status': 'error'});
-                }
-                
+                currentComponent.iovationLoad();
+
+            }).catch(function () {
+                currentComponent.setState({ 'status': 'error' });
+            }
+
             );
 
     }
@@ -113,13 +114,13 @@ class LetouApp extends Component {
         return (
             <IntlProvider locale={lang} messages={messages[lang]}>
                 <ErrorBoundary>
-                <div>
-                    <Router>
-                        <BaseRouter />
-                    </Router>
-                </div>
+                    <div>
+                        <Router>
+                            <BaseRouter />
+                        </Router>
+                    </div>
                 </ErrorBoundary>
-            </IntlProvider>     
+            </IntlProvider>
         );
     }
 }

@@ -700,9 +700,15 @@ export const messages = {
         'featured-promotions': 'Letou Featured Promotions',
         'more-offers': 'More offers',
         'high-bonuses': 'High bonuses for various mini games',
-        'warning-label':'Warning',
-        'real-name-warning':'To ensure the security of your account, you must fill in your real name before performing this operation.',
-        
+        'warning-label': 'Warning',
+        'real-name-warning':
+            'To ensure the security of your account, you must fill in your real name before performing this operation.',
+        'edit-name': 'Edit Name',
+        'first-name':'First Name',
+        'last-name':'Last Name',
+        'save-label':'Save',
+        'name-saved-successful': 'Name saved successfully',
+        'saving-name-fail': 'Saving name failed',
     },
     zh: {
         'sports-label': '体育',

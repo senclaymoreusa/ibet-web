@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-    authCheckState, sendingLog
+    authCheckState, sendingLog, show_letou_deposit_name_alert, hide_letou_deposit_name_alert
 } from '../../../../../actions';
 import { injectIntl } from 'react-intl';
 import { withStyles } from '@material-ui/core/styles';
@@ -46,6 +46,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Modal from '@material-ui/core/Modal';
+import Paper from '@material-ui/core/Paper';
+import EditName from './edit_name';
 
 const API_URL = process.env.REACT_APP_DEVELOP_API_URL;
 
@@ -76,6 +79,12 @@ const styles = theme => ({
         },
         textTransform: 'capitalize'
     },
+    modal: {
+        display: 'flex',
+        padding: theme.spacing(1),
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     paymentButton: {
         width: 80,
         maxWidth: 80,
@@ -102,6 +111,14 @@ const styles = theme => ({
         flexDirection: 'row',
         alignItems: 'center'
     },
+    paper: {
+        position: 'absolute',
+        width: 360,
+        padding: 15,
+        '&:focus': {
+            outline: 'none'
+        }
+    },
     methodGrid: {
         borderBottom: '1px solid #d8d8d8',
         marginBottom: 30
@@ -111,6 +128,16 @@ const styles = theme => ({
         paddingRight: 0,
         width: '100%',
         borderBottom: '1px solid #d8d8d8'
+    },
+    understand: {
+        width: '100%',
+        textTransform: 'capitalize',
+        backgroundColor: '#ff9e00',
+        color: '#fff',
+        '&:hover': {
+            backgroundColor: '#ff9e00',
+            color: '#fff',
+        }
     },
     grow: {
         flexGrow: 1
@@ -239,9 +266,6 @@ export class DepositMain extends Component {
             contentValue: '',
             activePSP: null,
             showReadAlert: false,
-
-            realNameChecked: false,
-            showEmptyAlert: false
         };
 
         this.setPage = this.setPage.bind(this);
@@ -255,13 +279,15 @@ export class DepositMain extends Component {
             if (user.firstName && user.lastName) {
                 if (user.firstName.trim().length > 0 && user.lastName.trim().length > 0) {
                     this.getActivePSP();
-                }else {
-                    this.setState({ showEmptyAlert: true });
-                }
+                }else{
+                    this.props.show_letou_deposit_name_alert();
+                }                
             }
         }
+    }
 
-        this.setState({ realNameChecked: true });
+    componentDidUpdate(prevProps) {
+
     }
 
     getActivePSP() {
@@ -858,6 +884,8 @@ export class DepositMain extends Component {
             return <DepositPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} timer={this.state.timer} />;
         else if (contentValue === 'momopay')
             return <MomoPayPending callbackFromParent={this.setPage} pendingMessage={this.state.depositMessage} />;
+        else if (contentValue === 'editname')
+            return <EditName />;
 
         if (operationProp === 'alipay')
             return <AliPay callbackFromParent={this.setPage} />;
@@ -904,7 +932,6 @@ export class DepositMain extends Component {
     render() {
         const { classes } = this.props;
 
-        console.log('depositmetodu')
         return (
             <div className={classes.root}>
                 <div className={classes.rootMobile}>
@@ -942,8 +969,15 @@ export class DepositMain extends Component {
                         </Toolbar>
                     </AppBar>
                 </div>
-                {this.getAvailablePaymentMethods()}
-                {this.getPaymentMethodContent()}
+                {(this.props.user.firstName.trim().length > 0 && this.props.user.lastName.trim().length > 0)
+                    ?
+                    <div>
+                        {this.getAvailablePaymentMethods()}
+                        {this.getPaymentMethodContent()}
+                    </div>
+                    :
+                    <EditName />
+                }
                 <Dialog
                     open={this.state.showReadAlert}
                     onClose={() => {
@@ -972,33 +1006,36 @@ export class DepositMain extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <Dialog
-                    open={this.state.realNameChecked && this.state.showEmptyAlert}
-                    onClose={() => {
-                        this.setState({
-                            showEmptyAlert: false
-                        })
-                    }}
+                <Modal
+                    open={this.props.showEmptyAlert}
+                    className={classes.modal}
                 >
-                    <DialogTitle id="alert-real-name-title">{this.getLabel('warning-label')}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-real-name">
-                            {this.getLabel('real-name-warning')}
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button
-                            onClick={() => {
-                                this.setState({
-                                    showEmptyAlert: false
-                                })
-                            }}
-                            color="primary" autoFocus>
-                            {this.getLabel('i-understand')}
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            </div>
+                    <Paper className={classes.paper}>
+                        <Grid container>
+                            <Grid item xs={12} className={classes.methodColumn}>
+                                <span className={classes.mobileTitle}>
+                                    {this.getLabel('warning-label')}
+                                </span>
+                            </Grid>
+                            <Grid item xs={12} style={{ marginTop: 20, marginBottom: 20, textAlign: 'center' }}>
+                                {this.getLabel('real-name-warning')}
+
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button
+                                    variant="contained"
+                                    className={classes.understand}
+                                    onClick={() => {
+                                        this.props.hide_letou_deposit_name_alert();
+                                    }}
+                                >
+                                    {this.getLabel('i-understand')}
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Modal >
+            </div >
         );
     }
 }
@@ -1008,7 +1045,8 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         user: user,
-        operationProp: ownProps.match.params.operation
+        operationProp: ownProps.match.params.operation,
+        showEmptyAlert: state.general.show_letou_deposit_name_alert,
     };
 };
 
@@ -1016,7 +1054,7 @@ export default withStyles(styles)
     (withRouter(
         injectIntl(
             connect(
-                mapStateToProps, { authCheckState, sendingLog }
+                mapStateToProps, { authCheckState, sendingLog, show_letou_deposit_name_alert, hide_letou_deposit_name_alert }
             )(DepositMain)
         )
     )
