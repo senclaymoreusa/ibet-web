@@ -1046,6 +1046,9 @@ export class Footer extends React.Component {
                         <BottomNavigationAction
                             label={this.getLabel('deposit-label')}
                             icon={<MeetingRoom />}
+                            onClick={() => {
+                                this.props.history.push('/p/fortune-center/deposit');
+                            }}
                         />
                         <BottomNavigationAction
                             label={this.getLabel('inbox-label')}
