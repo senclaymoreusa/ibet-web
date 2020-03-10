@@ -1,0 +1,28 @@
+version: 0.1
+env:
+  variables:
+    REACT_APP_DEVELOP_API_URL: "https://ibet-django-apdev.claymoreasia.com/"
+    REACT_APP_LOCAL_API: "http://localhost:3000/"
+    REACT_APP_REST_API: "http://52.9.147.67:8080/"
+    REACT_APP_GDCASINO_STAGING_CODE: "IBPHtest"
+    REACT_APP_NODE_ENV: "development"
+    REACT_APP_PIQ_API_URL: "https://test-api.paymentiq.io/paymentiq/"
+    REACT_APP_PIQ_MID: "100185999"
+    REACT_APP_PIQ_PEM: "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlZbRHOiU7JjztdnwIqatf5Bo0g6qi6/5c9rYsATQGZ3j5sJ+qU2TXk969uEAFifvXTAnf0SGolzyE/Xl2fhHYwiEMdyf4qslYO+DUyhcS2gf/W3sgTxu2yiNY56sKIf8lErh3XnYO7iZ0Zhw/Mwc+9GikAqh+e8GwhjG4SO2zZTtTnftH9KGgIlorbuFWd0kkQrm/mx364YYvC1kXUqJ7AoDMiDa82205YsEXez6WE2N7M1aia5Mh3Ryl7b66hZOeS94xFly6LqvROSZe3LGvdFZxMk//4F9qjEiG5xGurfmfhuCJsRssj4WYrg0pe7hIZ2cNanUh4tZbLWzTbIdDwIDAQAB-----END PUBLIC KEY-----"
+    GENERATE_SOURCEMAP: "false"
+    SKIP_PREFLIGHT_CHECK: "true"
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
