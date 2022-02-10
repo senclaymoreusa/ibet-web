@@ -26,7 +26,7 @@
         "lodash": "^4.17.15",
         "md5": "^2.2.1",
         "moment": "^2.24.0",
-        "node-sass": "^4.13.1",
+        "node-sass": "^7.0.0",
         "paymentiq-cashier-bootstrapper": "^1.0.19",
         "prop-types": "^15.7.2",
         "qrcode.react": "^0.9.3",
